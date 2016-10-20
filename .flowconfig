@@ -1,0 +1,4 @@
+[ignore]
+
+# Ignore templates with `@flow` in header
+.*/node_modules/react-tap-event-plugin/.*
