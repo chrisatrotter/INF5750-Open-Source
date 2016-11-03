@@ -6,19 +6,20 @@ import TextField from 'material-ui/TextField';
 class FirstStep extends React.Component {
   state: {
     input: string,
+    countries: array,
   }
   constructor() {
     super();
     this.state = {
-      input: ""
+      input: "",
+      countries: []
     };
+    this.fetchCountries().then(response => this.listCountries(response.Data));
     this.getUserInput = this.getUserInput.bind(this);
   }
 
   getUserInput(event) {
-    this.setState({
-      input: event.target.value
-    });
+    this.setState({input: event.target.value});
   }
 
   onChange(event) {
@@ -31,28 +32,18 @@ class FirstStep extends React.Component {
                     .map(country => (<ListItem primaryText={country} />));
   }
 
-  fetchCountries() {
-    return fetch('http://api.dhsprogram.com/rest/dhs/countries.json?returnFields=CountryName,DHS_CountryCode')
-             .then(response => response.json())
+  async fetchCountries() {
+    return (fetch('http://api.dhsprogram.com/rest/dhs/countries.json?returnFields=CountryName,DHS_CountryCode')
+             .then(response => response.json()))
+  }
+
+  listCountries(data) {
+    this.setState({countries:data.map(country => country.CountryName)});
   }
 
   render()  {
-    var countries = [
-      "Afghanistan", "Albania", "Andorra",
-      "Belgium", "Belize", "Bermuda",
-      "Kenya",
-      "Nauru", "Norway",
-      "Morocco",
-      "Peru",
-      "Romania",
-      "Swaziland",
-      "Vanuatu", "Vatican City",
-      "Zimbabwe"];
-
     return (
       <div>
-        {console.log(this.fetchCountries().then(response => console.log(response.Data)))}
-
         <p> First Step </p>
 
         <TextField
@@ -63,7 +54,7 @@ class FirstStep extends React.Component {
         />
 
         <List>
-          {this.getCountries(countries, this.state.input)}
+          {this.getCountries(this.state.countries, this.state.input)}
         </List>
       </div>
     );
