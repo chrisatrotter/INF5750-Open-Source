@@ -1,4 +1,9 @@
 [ignore]
-
-# Ignore templates with `@flow` in header
+C:/Users/Arsa/Desktop/SkoleSaker/MASTER/INF5750/LACK/node_modules/fbjs/.*
+C:\Users\Arsa\Desktop\SkoleSaker\MASTER\INF5750\LACK\node_modules\react-tap-event-plugin\node_modules\fbjs\*
 .*/node_modules/react-tap-event-plugin/.*
+[include]
+
+[libs]
+
+[options]
