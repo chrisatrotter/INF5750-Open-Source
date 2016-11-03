@@ -9,8 +9,6 @@ import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
 
 import FlatButton from 'material-ui/FlatButton';
 
-const yearList = ["1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998"];
-
 const styles = {
 	block: {
 		maxWidth: 120,
@@ -43,10 +41,10 @@ const CheckboxExampleSimple = ({year, selectAll}) => (
 	</div>
 );
 
-const GridListExampleSimple = ({selectAll}) => (
+const GridListExampleSimple = ({selectAll, listOfYear}) => (
   <div style={styles.root}>
 		<GridList cellHeight={20} cols={3} style={styles.gridList} >
-      {yearList.map((year) => (
+      {listOfYear.map((year) => (
         <GridTile key={year}>
 					<CheckboxExampleSimple year={year} selectAll={selectAll} />
         </GridTile>
@@ -57,13 +55,26 @@ const GridListExampleSimple = ({selectAll}) => (
 
 class SecondStep extends Component {
 	state: {
-		selectAll: boolean
+		selectAll: boolean,
+		listOfYear: array
 	}
 	constructor() {
 		super();
 		this.state = {
-			selectAll: false
+			selectAll: false,
+			listOfYear: []
 		}
+		//const yearList = ["1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998"];
+		this.fetchYear().then(response => this.setListOfYear(response.Data))
+	}
+	setListOfYear(data) {
+		const s = new Set();
+		data.map(year => s.add(year.SurveyYear));
+		this.setState({listOfYear: (Array.from(s)).sort().reverse()});
+	}
+	async fetchYear() {
+		return (fetch('http://api.dhsprogram.com/rest/dhs/surveys/')
+						.then(response => response.json()))
 	}
 	render() {
 		return (
@@ -81,7 +92,10 @@ class SecondStep extends Component {
 						/>
 				</div>
 
-				< GridListExampleSimple selectAll={this.state.selectAll}/>
+				< GridListExampleSimple
+						selectAll={this.state.selectAll}
+						listOfYear={this.state.listOfYear}
+				/>
 			</div>
 		);
 	}

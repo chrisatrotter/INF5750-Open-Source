@@ -2,7 +2,7 @@ import React from 'react';
 
 const ThirdStep = React.createClass({
 	render: function() {
-		return <p> ThirdStep </p>;
+		return <p> Arsalan code </p>;
 	}
 });
 
