@@ -11,6 +11,7 @@ class CountryStep extends Component {
   props: {
     countries: Array<String>,
     fetchCountries: () => void,
+    showNextStep: (stepIndex: number) => void,
     stepIndex: number,
   }
   state: {
@@ -62,6 +63,7 @@ class CountryStep extends Component {
         <RaisedButton
           label="Next"
           primary={true}
+          onClick={ () => this.props.showNextStep(this.props.stepIndex) }
         />
         </div>
       </div>
@@ -71,11 +73,12 @@ class CountryStep extends Component {
 
 const ConnectedPage = connect(
   (state) => ({
-    stepIndex: state.stepper.stepIndex,
+    stepIndex: state.routing.stepIndex,
     countries: state.fetching.countries,
   }),
   (dispatch) => ({
     fetchCountries: () => dispatch({ type: 'COUNTRY_FETCH_REQUESTED' }),
+    showNextStep: (stepIndex: number) => dispatch({ type: 'PAGE_REQUESTED', name: 'SelectSurveys', stepIndex: stepIndex })
   }),
 )(CountryStep);
 

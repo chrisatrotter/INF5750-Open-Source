@@ -2,7 +2,7 @@
 
 export type Action =  { type: 'PAGE_REQUESTED', name: PageName, stepIndex: number }
                     | { type: 'NEXT_STEP_REQUESTED', stepIndex: number, stepTitle?: string }
-                    | { type: 'PREVIOUS_STEP_REQUESTED', stepIndex: number, stepTitle: string }
+                    | { type: 'PREVIOUS_STEP_REQUESTED', stepIndex: number }
                     | { type: 'INITAL_PAGE_REQUESTED' }
                     | { type: 'COUNTRY_FETCH_REQUESTED' }
                     | { type: 'COUNTRY_FETCH_FAILED', message: string }

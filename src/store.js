@@ -3,12 +3,12 @@ import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
 import devTools from 'remote-redux-devtools'
 import createLogger from 'redux-logger'
 import createSagaMiddleware from 'redux-saga'
-import stepper from './reducers/stepper'
+import routing from './reducers/routing'
 import fetching from './reducers/fetching'
 
 import { watchCountries } from './data/saga'
 
-const reducers = combineReducers({stepper, fetching})
+const reducers = combineReducers({routing, fetching})
 
 const sagaMiddleware = createSagaMiddleware()
 
