@@ -3,10 +3,9 @@ import type { Action } from '../actions';
 
 export type Stepper = {
   stepIndex: number,
-  stepTitle: string,
 }
 
-const initialStepper = { stepIndex: 0, stepTitle: '' };
+const initialStepper = { stepIndex: 0 };
 
 function stepper(state: Stepper = initialStepper, action: Action): Stepper {
   if (action.type === 'NEXT_STEP_REQUESTED') {
