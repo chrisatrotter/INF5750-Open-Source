@@ -7,6 +7,8 @@ import { Provider } from 'react-redux';
 import store from './store'
 import CountryStep from './components/CountryStep'
 import SurveyStep from './components/SurveyStep'
+import VariableStep from './components/VariableStep'
+
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
@@ -15,6 +17,7 @@ injectTapEventPlugin();
 const pages = {
   'SelectCountry': CountryStep,
   'SelectSurveys': SurveyStep,
+  'SelectData': VariableStep,
 }
 
 const Page = ({stepIndex, page}) => {
