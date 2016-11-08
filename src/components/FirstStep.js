@@ -1,4 +1,4 @@
-//@flow
+
 import React from 'react';
 import {List, ListItem} from 'material-ui/List';
 import TextField from 'material-ui/TextField';
@@ -29,7 +29,7 @@ class FirstStep extends React.Component {
   getCountries(countries, input) {
     return countries.filter(country => country.toLowerCase()
                                               .startsWith(input.toLowerCase()))
-                    .map(country => (<ListItem primaryText={country} />));
+                    .map(country => (<ListItem key={country} primaryText={country} />));
   }
 
   async fetchCountries() {

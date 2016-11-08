@@ -30,6 +30,7 @@ const styles = {
 
 const CheckboxExampleSimple = ({year, selectAll}) => (
 	<div style={styles.block}>
+		{console.log(selectAll)}
 		<Checkbox
 			checkedIcon={<Visibility />}
 			uncheckedIcon={<VisibilityOff />}
@@ -56,7 +57,7 @@ const GridListExampleSimple = ({selectAll, listOfYear}) => (
 class SecondStep extends Component {
 	state: {
 		selectAll: boolean,
-		listOfYear: array
+		listOfYear: Array<string>
 	}
 	constructor() {
 		super();
@@ -67,7 +68,7 @@ class SecondStep extends Component {
 		//const yearList = ["1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998"];
 		this.fetchYear().then(response => this.setListOfYear(response.Data))
 	}
-	setListOfYear(data) {
+	setListOfYear(data: any) {
 		const s = new Set();
 		data.map(year => s.add(year.SurveyYear));
 		this.setState({listOfYear: (Array.from(s)).sort().reverse()});
