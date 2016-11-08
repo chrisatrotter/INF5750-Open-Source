@@ -6,23 +6,35 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Provider } from 'react-redux';
 import store from './store'
 import CountryStep from './components/CountryStep'
+import SurveyStep from './components/SurveyStep'
+import VariableStep from './components/VariableStep'
+
+
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
 
-const StartPage = ({stepIndex}) => {
+const pages = {
+  'SelectCountry': CountryStep,
+  'SelectSurveys': SurveyStep,
+  'SelectData': VariableStep,
+}
+
+const Page = ({stepIndex, page}) => {
+  const DisplayPage = pages[page]
   return (
   <MuiThemeProvider>
-    <CountryStep stepIndex={stepIndex}/>
+    <DisplayPage stepIndex={stepIndex}/>
   </MuiThemeProvider>
 )}
 
 const ConnectedPage = connect(
   (state) => ({
-    stepIndex: state.stepper.stepIndex,
+    stepIndex: state.routing.stepIndex,
+    page: state.routing.pageStack[state.routing.pageStack.length - 1],
   }),
 
-)(StartPage);
+)(Page);
 
 ReactDOM.render(
   <Provider store={store}>

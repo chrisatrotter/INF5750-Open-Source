@@ -1,15 +1,17 @@
 //@flow
 
-import React from 'react';
-
-
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Checkbox from 'material-ui/Checkbox';
 import Dialog from 'material-ui/Dialog';
 import Divider from 'material-ui/Divider';
 import DropDownMenu from 'material-ui/DropDownMenu';
-import {List, ListItem} from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
+import { StepTabs } from './common'
+
 
 /*
 const child_heath = [
@@ -41,13 +43,24 @@ const styles = {
 	}
 };
 
-class ThirdStep extends React.Component{
-
-
-	state = {
-		open: false,
-		menuList: 1,
-		northChecked: false,
+class VariableStep extends Component{
+	props: {
+		stepIndex: number,
+		showNextStep: (stepIndex: number) => void,
+		showPreviousStep: (stepIndex: number) => void,
+	}
+	state: {
+		open: boolean,
+		menuList: number,
+		northChecked: boolean,
+	}
+	constructor() {
+		super();
+		this.state = {
+			open: false,
+			menuList: 1,
+			northChecked: false,
+		}
 	}
 
 	handleOpen = () => {
@@ -67,10 +80,7 @@ class ThirdStep extends React.Component{
 		this.setState({menuList:value});
 	}
 
-
 	render() {
-
-
 		const dropNorth = this.state.northChecked ?
 		<DropDownMenu value={this.state.menuList} onChange={this.handleDropMenu}>
 			<MenuItem value={1} primaryText="Northern" />
@@ -89,7 +99,8 @@ class ThirdStep extends React.Component{
 		];
 
 		return (
-			<div>
+			<div style={{width: '100%', maxWidth: 700, margin: 'auto'}}>
+				<StepTabs stepIndex={this.props.stepIndex} />
 				<List>
 					<ListItem
 						primaryText="Child health"
@@ -153,10 +164,31 @@ class ThirdStep extends React.Component{
 
 
 				<RaisedButton label="Import" primary={true} style={styles.buttons} />
-
+				<div style={{display:'flex', justifyContent: 'center'}}>
+				<FlatButton
+					label="Back"
+					style={{marginRight: 12}}
+					onClick={ () => this.props.showPreviousStep(this.props.stepIndex) }
+				/>
+				<RaisedButton
+					label="Next"
+					primary={true}
+					onClick={ () => this.props.showNextStep(this.props.stepIndex) }
+				/>
+				</div>
 			</div>
 		);
 	}
 }
 
-module.exports = ThirdStep;
+const ConnectedPage = connect(
+  (state) => ({
+    stepIndex: state.routing.stepIndex,
+  }),
+  (dispatch) => ({
+    showNextStep: (stepIndex: number) => dispatch({ type: 'PAGE_REQUESTED', name: 'SelectSurveys', stepIndex: stepIndex }),
+		showPreviousStep: (stepIndex: number) => dispatch({ type: 'PREVIOUS_PAGE_REQUESTED', stepIndex: stepIndex })
+  }),
+)(VariableStep);
+
+export default ConnectedPage;
