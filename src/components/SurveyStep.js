@@ -9,8 +9,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Visibility from 'material-ui/svg-icons/action/visibility';
 import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
 
-const yearList = ["1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998"];
-
 const styles = {
 	block: {
 		maxWidth: 120,
@@ -35,6 +33,8 @@ const styles = {
 class SurveyStep extends Component {
 	props: {
 		stepIndex: number,
+		years: any,
+		fetchyears: () => void,
 		showNextStep: (stepIndex: number) => void,
 		showPreviousStep: (stepIndex: number) => void,
 	}
@@ -47,7 +47,13 @@ class SurveyStep extends Component {
 			selectAll: false
 		}
 	}
+	componentWillMount() {
+		this.props.fetchyears()
+	}
 	render() {
+		if (!this.props.years) {
+      return (<div> <p>Loading...</p> </div>)
+    }
 		return (
 			<div style={{width: '100%', maxWidth: 700, margin: 'auto'}}>
 			<StepTabs stepIndex={this.props.stepIndex}/>
@@ -56,27 +62,30 @@ class SurveyStep extends Component {
 						label="Select all"
 						primary={true}
 						onClick={() => this.setState({selectAll: true})}
-						/>
+					/>
 					<FlatButton
 						label="Reset"
 						secondary={true}
 						onClick={() => this.setState({selectAll: false})}
-						/>
+					/>
 				</div>
 
-				<GridListExampleSimple selectAll={this.state.selectAll} />
+				< GridListExampleSimple
+						selectAll={this.state.selectAll}
+						years={this.props.years}
+				/>
 
 				<div style={{display:'flex', justifyContent: 'center'}}>
-				<FlatButton
-					label="Back"
-					style={{marginRight: 12}}
-					onClick={ () => this.props.showPreviousStep(this.props.stepIndex) }
-				/>
-				<RaisedButton
-					label="Next"
-					primary={true}
-					onClick={ () => this.props.showNextStep(this.props.stepIndex) }
-				/>
+					<FlatButton
+						label="Back"
+						style={{marginRight: 12}}
+						onClick={ () => this.props.showPreviousStep(this.props.stepIndex) }
+					/>
+					<RaisedButton
+						label="Next"
+						primary={true}
+						onClick={ () => this.props.showNextStep(this.props.stepIndex) }
+					/>
 				</div>
 			</div>
 		);
@@ -96,10 +105,16 @@ const CheckboxExampleSimple = ({year, selectAll}) => (
 	</div>
 );
 
-const GridListExampleSimple = ({selectAll}) => (
+function removeDuplicate(years: any) {
+	const s = new Set();
+	years.map(survey => s.add(survey.SurveyYear))
+	return Array.from(s).sort().reverse()
+}
+
+const GridListExampleSimple = ({selectAll, years}) => (
   <div style={styles.root}>
 		<GridList cellHeight={20} cols={3} style={styles.gridList} >
-      {yearList.map((year) => (
+      {removeDuplicate(years).map((year) => (
         <GridTile key={year}>
 					<CheckboxExampleSimple year={year} selectAll={selectAll} />
         </GridTile>
@@ -111,8 +126,10 @@ const GridListExampleSimple = ({selectAll}) => (
 const ConnectedPage = connect(
   (state) => ({
     stepIndex: state.routing.stepIndex,
+		years: state.fetching.years,
   }),
   (dispatch) => ({
+		fetchyears: () => dispatch({ type: 'YEAR_FETCH_REQUESTED' }),
     showNextStep: (stepIndex: number) => dispatch({ type: 'PAGE_REQUESTED', name: 'SelectData', stepIndex: stepIndex }),
 		showPreviousStep: (stepIndex: number) => dispatch({ type: 'PREVIOUS_PAGE_REQUESTED', stepIndex: stepIndex })
 

@@ -7,6 +7,9 @@ export type Action =  { type: 'PAGE_REQUESTED', name: PageName, stepIndex: numbe
                     | { type: 'COUNTRY_FETCH_REQUESTED' }
                     | { type: 'COUNTRY_FETCH_FAILED', message: string }
                     | { type: 'COUNTRY_FETCH_SUCCEEDED', countries: Array<String> }
+                    | { type: 'YEAR_FETCH_REQUESTED' }
+                    | { type: 'YEAR_FETCH_FAILED', message: string }
+                    | { type: 'YEAR_FETCH_SUCCEEDED', years: any }
 
 export type PageName = 'SelectCountry'
                      | 'SelectSurveys'
