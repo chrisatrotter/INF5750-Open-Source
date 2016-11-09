@@ -1,7 +1,7 @@
 //@flow
 import { takeEvery } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
-import { fetchCountries, fetchMetaData } from './fetching'
+import { fetchCountries, fetchMetaData, fetchYear } from './fetching'
 
 import type { Action } from '../actions'
 
@@ -15,7 +15,6 @@ function* saveCountrySaga(action: Action) {
    }
 }
 
-
 function* saveMetaDataSaga(action: Action) {
   try {
     const variables = yield call(fetchMetaData);
@@ -23,6 +22,15 @@ function* saveMetaDataSaga(action: Action) {
   } catch (e) {
     yield put({type: "META_DATA_FETCH_FAILED", message: e.message});
   }
+}
+
+function* saveYearSaga(action: Action) {
+   try {
+      const years = yield call(fetchYear);
+      yield put({type: "YEAR_FETCH_SUCCEEDED", years: years});
+   } catch (e) {
+      yield put({type: "YEAR_FETCH_FAILED", message: e.message});
+   }
 }
 
 /*
@@ -36,9 +44,14 @@ function* watchMetaData(): Generator<*,*,*> {
   yield* takeEvery("META_DATA_FETCH_REQUESTED", saveMetaDataSaga)
 }
 
-export function* rootSaga() {
+function* watchYear(): Generator<*,*,*> {
+  yield* takeEvery("YEAR_FETCH_REQUESTED", saveYearSaga)
+}
+
+export function* rootSaga(): Generator<*,*,*> {
   yield [
     watchCountries(),
     watchMetaData(),
+    watchYear()
   ]
 }

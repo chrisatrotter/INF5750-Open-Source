@@ -9,7 +9,10 @@ export type Action =  { type: 'PAGE_REQUESTED', name: PageName, stepIndex: numbe
                     | { type: 'COUNTRY_FETCH_SUCCEEDED', countries: Array<String> }
                     | { type: 'META_DATA_FETCH_REQUESTED' }
                     | { type: 'META_DATA_FETCH_FAILED', message: string}
-                    | { type: 'META_DATA_FETCH_SUCCEEDED', variables: Array<String>};
+                    | { type: 'META_DATA_FETCH_SUCCEEDED', variables: Array<String>}
+                    | { type: 'YEAR_FETCH_REQUESTED' }
+                    | { type: 'YEAR_FETCH_FAILED', message: string }
+                    | { type: 'YEAR_FETCH_SUCCEEDED', years: any }
 
 export type PageName = 'SelectCountry'
                      | 'SelectSurveys'

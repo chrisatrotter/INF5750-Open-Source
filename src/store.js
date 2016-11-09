@@ -8,8 +8,6 @@ import fetching from './reducers/fetching'
 
 import { rootSaga } from './data/saga'
 
-
-
 const reducers = combineReducers({routing, fetching})
 
 const sagaMiddleware = createSagaMiddleware()
