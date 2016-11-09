@@ -1,7 +1,7 @@
 //@flow
 import { takeEvery } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
-import { fetchCountries } from './fetching'
+import { fetchCountries, fetchMetaData } from './fetching'
 
 import type { Action } from '../actions'
 
@@ -15,9 +15,30 @@ function* saveCountrySaga(action: Action) {
    }
 }
 
+
+function* saveMetaDataSaga(action: Action) {
+  try {
+    const variables = yield call(fetchMetaData);
+    yield put({type: "META_DATA_FETCH_SUCCEEDED", variables: variables});
+  } catch (e) {
+    yield put({type: "META_DATA_FETCH_FAILED", message: e.message});
+  }
+}
+
 /*
 watcher saga will spawn a new fetchCountries task for every COUNTRY_FETCH_REQUESTED
 */
-export function* watchCountries(): Generator<*,*,*> {
+function* watchCountries(): Generator<*,*,*> {
   yield* takeEvery("COUNTRY_FETCH_REQUESTED", saveCountrySaga)
+}
+
+function* watchMetaData(): Generator<*,*,*> {
+  yield* takeEvery("META_DATA_FETCH_REQUESTED", saveMetaDataSaga)
+}
+
+export function* rootSaga() {
+  yield [
+    watchCountries(),
+    watchMetaData(),
+  ]
 }

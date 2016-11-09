@@ -7,6 +7,9 @@ export type Action =  { type: 'PAGE_REQUESTED', name: PageName, stepIndex: numbe
                     | { type: 'COUNTRY_FETCH_REQUESTED' }
                     | { type: 'COUNTRY_FETCH_FAILED', message: string }
                     | { type: 'COUNTRY_FETCH_SUCCEEDED', countries: Array<String> }
+                    | { type: 'META_DATA_FETCH_REQUESTED' }
+                    | { type: 'META_DATA_FETCH_FAILED', message: string}
+                    | { type: 'META_DATA_FETCH_SUCCEEDED', variables: Array<String>};
 
 export type PageName = 'SelectCountry'
                      | 'SelectSurveys'
