@@ -2,7 +2,8 @@
 import type { Action } from '../actions';
 
 export type Fetching = {
-  countries: Array<String>
+  countries: Array<String>,
+  variables: Array<String>
 }
 
 const initialFetching = { countries: [] };
@@ -12,6 +13,13 @@ function fetching(state: Fetching = initialFetching, action: Action): Fetching {
     return {
       ...state,
       countries: action.countries,
+    }
+  }
+
+   if (action.type === 'META_DATA_FETCH_SUCCEEDED') {
+    return {
+      ...state,
+      variables: action.variables,
     }
   }
   return state;

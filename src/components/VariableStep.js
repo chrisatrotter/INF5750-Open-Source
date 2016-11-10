@@ -45,6 +45,8 @@ const styles = {
 
 class VariableStep extends Component{
 	props: {
+		variables: Array<String>,
+		fetchMetaData: () => void,
 		stepIndex: number,
 		showNextStep: (stepIndex: number) => void,
 		showPreviousStep: (stepIndex: number) => void,
@@ -61,6 +63,10 @@ class VariableStep extends Component{
 			menuList: 1,
 			northChecked: false,
 		}
+	}
+
+	componentWillMount() {
+		this.props.fetchMetaData()
 	}
 
 	handleOpen = () => {
@@ -80,7 +86,14 @@ class VariableStep extends Component{
 		this.setState({menuList:value});
 	}
 
+	returnVarListMap = (variables: Array<String>) => {
+		return variables.map(variable => <ListItem key={variable} primaryText={variable}/>)
+	}
+
 	render() {
+		if (!this.props.variables) {
+      return (<div> <p>Loading...</p> </div>)
+    }
 		const dropNorth = this.state.northChecked ?
 		<DropDownMenu value={this.state.menuList} onChange={this.handleDropMenu}>
 			<MenuItem value={1} primaryText="Northern" />
@@ -98,6 +111,8 @@ class VariableStep extends Component{
 				/>,
 		];
 
+
+
 		return (
 			<div style={{width: '100%', maxWidth: 700, margin: 'auto'}}>
 				<StepTabs stepIndex={this.props.stepIndex} />
@@ -105,22 +120,7 @@ class VariableStep extends Component{
 					<ListItem
 						primaryText="Child health"
 						primaryTogglesNestedList={true}
-						nestedItems={[
-							child_heath().data.map(function(child) {
-								return (<ListItem
-									key={child.name}
-									primaryText={child.name}
-									leftCheckbox={<Checkbox
-										checked={child.selected}
-										onCheck={
-											function (){
-												child.selected = !child.selected;
-											}
-										}
-									/>}
-								/>)}
-							)
-						]}
+						nestedItems={this.props.variables.map(variable => <ListItem key={variable} primaryText={variable}/>)}
 					/>
 					<ListItem
 						primaryText="Immunisation"
@@ -184,8 +184,10 @@ class VariableStep extends Component{
 const ConnectedPage = connect(
   (state) => ({
     stepIndex: state.routing.stepIndex,
+		variables: state.fetching.variables,
   }),
   (dispatch) => ({
+		fetchMetaData: () => dispatch({ type: 'META_DATA_FETCH_REQUESTED'}),
     showNextStep: (stepIndex: number) => dispatch({ type: 'PAGE_REQUESTED', name: 'SelectSurveys', stepIndex: stepIndex }),
 		showPreviousStep: (stepIndex: number) => dispatch({ type: 'PREVIOUS_PAGE_REQUESTED', stepIndex: stepIndex })
   }),

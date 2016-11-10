@@ -6,7 +6,9 @@ import createSagaMiddleware from 'redux-saga'
 import routing from './reducers/routing'
 import fetching from './reducers/fetching'
 
-import { watchCountries } from './data/saga'
+import { rootSaga } from './data/saga'
+
+
 
 const reducers = combineReducers({routing, fetching})
 
@@ -19,4 +21,4 @@ const middleware = compose(
 
 const store = createStore(reducers, middleware)
 export default store
-sagaMiddleware.run(watchCountries)
+sagaMiddleware.run(rootSaga)
