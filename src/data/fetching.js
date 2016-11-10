@@ -11,6 +11,7 @@ export function fetchMetaData() {
         .then(response => response.json())
         .then(json => json.Data.map(survey => survey.Indicator)))
 }
+
 export function fetchYear() {
   return (fetch('http://api.dhsprogram.com/rest/dhs/surveys/')
           .then(response => response.json())

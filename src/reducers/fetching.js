@@ -16,12 +16,14 @@ function fetching(state: Fetching = initialFetching, action: Action): Fetching {
       countries: action.countries,
     }
   }
+
   if (action.type === 'META_DATA_FETCH_SUCCEEDED') {
     return {
       ...state,
       variables: action.variables,
     }
   }
+
   if (action.type === 'YEAR_FETCH_SUCCEEDED') {
     return {
       ...state,
