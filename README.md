@@ -10,6 +10,6 @@ React basert på create-react-app template: https://github.com/facebookincubator
 ```
 git clone https://github.uio.no/kienvu/LACK.git
 cd LACK
-npm install
-npm start
+yarn install
+yarn start
 ```
