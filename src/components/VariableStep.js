@@ -10,28 +10,10 @@ import { List, ListItem } from 'material-ui/List';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
-import { StepTabs } from './common'
+import { StepTabs } from './common';
+import CircularProgress from 'material-ui/CircularProgress';
 
 
-/*
-const child_heath = [
-	{
-		name:"Children stunted",
-		checked:true
-	},
-	{
-		name:"Children wasted",
-		checked:false
-	}
-];*/
-const child_heath = () =>  {
-	return {
-		data:[
-			{id:1, name: "Children stunted", selected:false },
-			{id:2, name: "Children wasted", selected:true}
-		]
-	};
-}
 
 const styles = {
 	checkbox: {
@@ -40,12 +22,20 @@ const styles = {
 	buttons: {
 		margin: 10,
 		marginTop: 15,
+	},
+	progress: {
+		display:'flex',
+		justifyContent:'center',
+		alignItems:'center',
 	}
 };
 
+var checkedObjects = [];
+
+
 class VariableStep extends Component{
 	props: {
-		variables: Array<String>,
+		variables: Array<Object>,
 		fetchMetaData: () => void,
 		stepIndex: number,
 		showNextStep: (stepIndex: number) => void,
@@ -55,6 +45,8 @@ class VariableStep extends Component{
 		open: boolean,
 		menuList: number,
 		northChecked: boolean,
+		checkedVariables: Array<Object>,
+		variableCat: Array<string, Number, Array<Number>>,
 	}
 	constructor() {
 		super();
@@ -62,7 +54,63 @@ class VariableStep extends Component{
 			open: false,
 			menuList: 1,
 			northChecked: false,
+			checkedVariables: [],
+			variableCat: [{
+				cateName: "",
+				cateId: 0,
+				cateSubs: [],
+			}],
 		}
+
+		this.getVariableCategories().then(resp => {
+			this.fillDataCats(resp.Data);
+		})
+
+	}
+
+	async fillDataCats(data) {
+		//const {variableCat} = this.state;
+		var variableCategory = [];
+
+		data.map(cat => {
+			var exists = false;
+
+			for(var i = 0; i < variableCategory.length; i++) {
+				if(cat.Level1 === variableCategory[i].cateName) {
+					exists = true;
+					variableCategory[i].cateSubs.push(cat.SDRID);
+					break;
+				}
+			}
+				//console.log(cat.Level1);
+			if(!exists){
+				variableCategory.push({
+					cateName: cat.Level1,
+					cateId: variableCategory.length,
+					cateSubs: [cat.SDRID],
+				})
+			}
+
+		})
+
+		this.setState({
+			open:this.state.open,
+			menuList: this.state.menuList,
+			northChecked: this.state.northChecked,
+			checkedVariables: this.state.checkedVariables,
+			variableCat: variableCategory,
+		});
+	}
+
+	getVariableCategories = () => {
+		return (
+			fetch('http://api.dhsprogram.com/rest/dhs/indicators?returnFields=SDRID,Level1')
+				.then(response => response.json())
+				.catch(function (err) {
+					console.log("Error: " + err);
+				}
+			)
+		);
 	}
 
 	componentWillMount() {
@@ -86,14 +134,32 @@ class VariableStep extends Component{
 		this.setState({menuList:value});
 	}
 
-	returnVarListMap = (variables: Array<String>) => {
-		return variables.map(variable => <ListItem key={variable} primaryText={variable}/>)
-	}
 
 	render() {
 		if (!this.props.variables) {
-      return (<div> <p>Loading...</p> </div>)
+			return <div>Loading... </div>;
+      /*return (
+				<div >
+					<StepTabs stepIndex={this.props.stepIndex} />
+					<div style={styles.progress}>
+						<CircularProgress />
+					</div>
+						<FlatButton
+							label="Back"
+							style={{marginRight: 12,justifyContent:'center'}}
+							onClick={ () => this.props.showPreviousStep(this.props.stepIndex) }
+						/>
+						<RaisedButton
+							style={{justifyContent:'center'}}
+							label="Next"
+							primary={true}
+							onClick={ () => this.props.showNextStep(this.props.stepIndex) }
+						/>
+				</div>
+
+		)*/
     }
+
 		const dropNorth = this.state.northChecked ?
 		<DropDownMenu value={this.state.menuList} onChange={this.handleDropMenu}>
 			<MenuItem value={1} primaryText="Northern" />
@@ -112,37 +178,60 @@ class VariableStep extends Component{
 		];
 
 
+		const checkPrint = (vara) => {
+			var thisprint = this.checkIfChecked(vara);
+			console.log("thisprinting: " + thisprint);
+			return thisprint;
+		}
+
+		const	fillingCategoryList = (varCat) => {
+				var tmpList = [];
+				varCat.cateSubs.map(cat => {
+					this.props.variables.map(vars => {
+						if(vars.SDRID === cat) {
+							tmpList.push(vars);
+						}
+					})
+				})
+				if(tmpList.length > 0) {
+					return tmpList;
+				} else {
+					return null;
+				}
+			}
+
+			const printingCategoryList = (varCat) => {
+
+			}
+
 
 		return (
 			<div style={{width: '100%', maxWidth: 700, margin: 'auto'}}>
 				<StepTabs stepIndex={this.props.stepIndex} />
 				<List>
-					<ListItem
-						primaryText="Child health"
-						primaryTogglesNestedList={true}
-						nestedItems={this.props.variables.map(variable => <ListItem key={variable} primaryText={variable}/>)}
-					/>
-					<ListItem
-						primaryText="Immunisation"
-						primaryTogglesNestedList={true}
-						nestedItems={[
-							<ListItem
-								key={"polio"}
-								primaryText="Polio"
-								leftCheckbox={<Checkbox />}
-							 />,
-							<ListItem
-								key={"immun"}
-								primaryText="Immun 2"
-								leftCheckbox={<Checkbox />} />,
-						]}
-						/>
-					<ListItem
-						primaryText="Maternal healt" />
-					<ListItem
-						primaryText="HIV/Aids" />
-					<ListItem
-						primaryText="Malaria" />
+					{
+						this.state.variableCat.map(varCat => {
+							const hello = fillingCategoryList(varCat);
+							if(hello) {
+								return <ListItem
+									key={varCat.cateId}
+									primaryText={varCat.cateName}
+									primaryTogglesNestedList={true}
+									nestedItems={
+										hello.map(vars => {
+											return <ListItem
+												key={vars.DataId}
+												primaryText={vars.Indicator}
+												leftCheckbox={<Checkbox/>}
+												/>
+										})
+									}/>
+							} else {
+								return null;
+							}
+						})
+					}
+
 				</List >
 
 				<Divider/>
