@@ -12,27 +12,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import { StepTabs } from './common'
 
-
-/*
-const child_heath = [
-	{
-		name:"Children stunted",
-		checked:true
-	},
-	{
-		name:"Children wasted",
-		checked:false
-	}
-];*/
-const child_heath = () =>  {
-	return {
-		data:[
-			{id:1, name: "Children stunted", selected:false },
-			{id:2, name: "Children wasted", selected:true}
-		]
-	};
-}
-
 const styles = {
 	checkbox: {
 		marginTop:30,
