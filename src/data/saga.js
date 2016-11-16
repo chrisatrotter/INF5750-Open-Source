@@ -52,6 +52,6 @@ export function* rootSaga(): Generator<*,*,*> {
   yield [
     watchCountries(),
     watchMetaData(),
-    watchYear()
+    watchYear(),
   ]
 }
