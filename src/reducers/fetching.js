@@ -1,6 +1,6 @@
 //@flow
 import type { Action } from '../actions';
-import type { Country } from '../components/CountryStep'
+import type { Country } from '../components/pages/CountryStep'
 
 export type Fetching = {
   countries: Array<Country>,

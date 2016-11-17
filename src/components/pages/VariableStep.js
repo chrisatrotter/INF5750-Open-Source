@@ -10,7 +10,6 @@ import { List, ListItem } from 'material-ui/List';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
-import { StepTabs } from './common'
 
 const styles = {
 	checkbox: {
@@ -91,8 +90,7 @@ class VariableStep extends Component{
 		];
 
 		return (
-			<div style={{width: '100%', maxWidth: 700, margin: 'auto'}}>
-				<StepTabs stepIndex={this.props.stepIndex} />
+			<div>
 				<List>
 					<ListItem
 						primaryText="Child health"

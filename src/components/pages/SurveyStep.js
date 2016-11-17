@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'material-ui/List';
-import { StepTabs } from './common'
 import Checkbox from 'material-ui/Checkbox';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -38,14 +37,12 @@ class SurveyStep extends Component {
       return (<div> <p>Loading...</p> </div>)
     }
 		return (
-			<div style={{width: '100%', maxWidth: 700, margin: 'auto'}}>
-				<StepTabs stepIndex={this.props.stepIndex}/>
-					<div style={{display: 'flex', justifyContent: 'space-between'}}>
-						<FlatButton label="Select year(s):" />
-						<FlatButton
-							label="Select all"
-							primary={true}
-							onClick={() => this.setState({selectAll: true})}
+			<div>
+				<div>
+					<FlatButton
+						label="Select all"
+						primary={true}
+						onClick={() => this.setState({selectAll: true})}
 						/>
 						<FlatButton
 							label="Reset"

@@ -5,7 +5,6 @@ import { List } from 'material-ui/List';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import { StepTabs } from './common'
 
 export type Country = {
   CountryName: String,
@@ -55,8 +54,7 @@ class CountryStep extends Component {
       return (<div> <p>Loading...</p> </div>)
     }
     return (
-      <div style={{width: '100%', maxWidth: 700, margin: 'auto'}}>
-        <StepTabs stepIndex={this.props.stepIndex}/>
+      <div>
         <div>
         <p>Choose country:</p>
         </div>
