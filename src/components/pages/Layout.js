@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import Header from "./../layout/Header";
-import NavigationBar from "./../layout/NavigationBar";
+
+import DisplayPage from './DisplayPage';
+/*import NavigationBar from "./../layout/NavigationBar";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import CountryStep from './CountryStep';
 import SurveyStep from './SurveyStep';
 import VariableStep from './VariableStep';
-import DisplayPage from './DisplayPage';
 import { connect } from "react-redux";
 
-/*
+
 const pages = {
   'SelectCountry': CountryStep,
   'SelectSurveys': SurveyStep,

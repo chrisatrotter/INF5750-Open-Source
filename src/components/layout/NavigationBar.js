@@ -1,6 +1,5 @@
 //@flow
 import React, { Component } from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Step, Stepper , StepButton } from 'material-ui/Stepper';
 
 // Pass down some props from the Layout to know what step it is at.

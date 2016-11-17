@@ -7,8 +7,19 @@ import CountryStep from './CountryStep';
 import SurveyStep from './SurveyStep';
 import VariableStep from './VariableStep';
 
-export default class DisplayPage extends Component {
+const styles = {
+  appearance: {
+    backgroundColor: '#FEFEFE',
+    width: '100%',
+    maxWidth: 700,
+    margin: 'auto',
+    paddingTop: 30,
+    paddingBottom: 10,
+  },
+};
 
+
+export default class DisplayPage extends Component {
   render() {
     return (
       <div style={styles.appearance}>
@@ -41,14 +52,3 @@ const ConnectedPage = connect(
     page: state.routing.pageStack[state.routing.pageStack.length - 1],
   }),
 )(Page);
-
-const styles = {
-  appearance: {
-    backgroundColor: '#FEFEFE',
-    width: '100%',
-    maxWidth: 700,
-    margin: 'auto',
-    paddingTop: 30,
-    paddingBottom: 10,
-  },
-};

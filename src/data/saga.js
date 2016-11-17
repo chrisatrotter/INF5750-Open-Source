@@ -1,5 +1,5 @@
 //@flow
-import { takeEvery, take } from 'redux-saga'
+import { takeEvery } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
 import { fetchCountries, fetchMetaData, fetchYear } from './fetching'
 

@@ -1,16 +1,15 @@
 //@flow
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { connect } from 'react-redux';
 import { Provider } from 'react-redux';
 import store from './store';
 import Layout from './components/pages/Layout';
 
-/*
+
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
-
+/*
 const pages = {
   'SelectCountry': CountryStep,
   'SelectSurveys': SurveyStep,

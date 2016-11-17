@@ -3,20 +3,6 @@ import React, { Component } from 'react';
 import Title from "./Header/Title";
 import SubTitle from "./Header/SubTitle";
 
-// Figure out what I need to do to use the Text, View components in REACT.d
-export default class Header extends Component {
-  render() {
-    return (
-      <div style={styles.appearance}>
-        <div style={styles.text}>
-          <Title titleStyle={styles.title}/>
-          <SubTitle subTitleStyle={styles.subtitle}/>
-          </div>
-      </div>
-    );
-  }
-}
-
 const styles = {
   appearance: {
     backgroundColor: '#000000',
@@ -43,3 +29,18 @@ const styles = {
     flex: 1,
   },
 };
+
+
+// Figure out what I need to do to use the Text, View components in REACT.d
+export default class Header extends Component {
+  render() {
+    return (
+      <div style={styles.appearance}>
+        <div style={styles.text}>
+          <Title titleStyle={styles.title}/>
+          <SubTitle subTitleStyle={styles.subtitle}/>
+          </div>
+      </div>
+    );
+  }
+}
