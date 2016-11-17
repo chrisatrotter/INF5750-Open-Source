@@ -17,7 +17,6 @@ class CountryStep extends Component {
     selectedCountry: string,
     fetchCountries: () => void,
     countrySelected: (countryName: string, countryCode: string) => void,
-    showNextStep: (stepIndex: number) => void,
     stepIndex: number,
   }
   state: {
@@ -36,6 +35,9 @@ class CountryStep extends Component {
   getUserInput(event) {
     this.setState({ input: event.target.value })
   }
+
+
+
   getCountries(countries: Array<Country>, input: string) {
     return countries.filter(country => country.CountryName.toLowerCase()
                                               .startsWith(this.state.input.toLowerCase()))
@@ -45,7 +47,7 @@ class CountryStep extends Component {
                                   backgroundColor={(this.props.selectedCountry &&
                                                     this.props.selectedCountry === country.CountryName.toString()) ?
                                                     '#B5D66B' : '#FFFFFF'}
-                                  onClick={() => this.props.countrySelected(country.CountryName.toString(), country.DHS_CountryCode.toString())}
+                                  onClick={() => this.props.countrySelected(country.CountryName.toString(), country.DHS_CountryCode.toString(), this.props.stepIndex)}
                                   labelStyle={{textTransform: 'capitalize'}}
                                   label={country.CountryName} />));
   }
@@ -68,15 +70,7 @@ class CountryStep extends Component {
         { this.getCountries(this.props.countries, this.state.input)}
         </List>
         <div style={{display:'flex', justifyContent: 'center'}}>
-        <FlatButton
-          label="Back"
-          style={{marginRight: 12}}
-        />
-        <RaisedButton
-          label="Next"
-          primary={true}
-          onClick={ () => this.props.showNextStep(this.props.stepIndex) }
-        />
+
         </div>
       </div>
     );
@@ -90,9 +84,11 @@ const ConnectedPage = connect(
     stepIndex: state.routing.stepIndex,
   }),
   (dispatch) => ({
-    countrySelected: (countryName: string, countryCode: string) => dispatch({ type: 'COUNTRY_SELECTED', countryName: countryName, countryCode: countryCode }),
+    countrySelected: (countryName: string, countryCode: string, stepIndex: number) => {
+      dispatch({ type: 'COUNTRY_SELECTED', countryName: countryName, countryCode: countryCode }),
+      dispatch({ type: 'PAGE_REQUESTED', name: 'SelectSurveys', stepIndex: stepIndex })
+    },
     fetchCountries: () => dispatch({ type: 'COUNTRY_FETCH_REQUESTED' }),
-    showNextStep: (stepIndex: number) => dispatch({ type: 'PAGE_REQUESTED', name: 'SelectSurveys', stepIndex: stepIndex })
   }),
 )(CountryStep);
 
