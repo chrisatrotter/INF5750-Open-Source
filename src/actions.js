@@ -1,6 +1,6 @@
 //@flow
 
-import type { Country } from './components/CountryStep'
+import type { Country } from './components/pages/CountryStep'
 
 export type Action =  { type: 'PAGE_REQUESTED', name: PageName, stepIndex: number }
                     | { type: 'NEXT_STEP_REQUESTED', stepIndex: number, stepTitle?: string }
