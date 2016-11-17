@@ -2,14 +2,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Provider } from 'react-redux';
-import store from './store'
-import CountryStep from './components/CountryStep'
-import SurveyStep from './components/SurveyStep'
-import VariableStep from './components/VariableStep'
+import store from './store';
+import Layout from './components/pages/Layout';
 
-
+/*
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
@@ -23,9 +20,9 @@ const pages = {
 const Page = ({stepIndex, page}) => {
   const DisplayPage = pages[page]
   return (
-  <MuiThemeProvider>
-    <DisplayPage stepIndex={stepIndex}/>
-  </MuiThemeProvider>
+    <MuiThemeProvider>
+        <DisplayPage stepIndex={stepIndex}/>
+    </MuiThemeProvider>
 )}
 
 const ConnectedPage = connect(
@@ -35,10 +32,20 @@ const ConnectedPage = connect(
   }),
 
 )(Page);
+*/
+
+const app = document.getElementById('root');
 
 ReactDOM.render(
   <Provider store={store}>
-    <ConnectedPage />
+    <Layout />
+  </Provider>,
+  app);
+
+/*
+ReactDOM.render(
+  <Provider store={store}>
+    <Layout />
   </Provider>,
   document.getElementById('root')
-);
+);*/
