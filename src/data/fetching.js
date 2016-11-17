@@ -17,3 +17,9 @@ export function fetchYear(countryCode: string) {
           .then(response => response.json())
           .then(json => json.Data.map(survey => survey)))
 }
+
+export function fetchIndicator() {
+  return (fetch('http://api.dhsprogram.com/rest/dhs/indicators.json?returnFields=Label,IndicatorId,Level1,SDRID')
+          .then(response => response.json())
+          .then(json => json.Data.map(indicator => indicator)))
+}

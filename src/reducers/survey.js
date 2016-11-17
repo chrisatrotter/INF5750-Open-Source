@@ -37,28 +37,6 @@ function survey(state: Survey = initialSurvey, action: Action): Survey {
     };
   }
 
-  if (action.type === 'PREVIOUS_PAGE_REQUESTED') {
-    return {
-      ...state,
-      years: initialSurvey.years
-    };
-  }
-
-  if (action.type === 'YEAR_SELECTED') {
-    return {
-      ...state,
-      years: [...state.years, action.year]
-    }
-  }
-
-  if (action.type === 'YEAR_DESELECTED') {
-    const {year} = action;
-    return {
-      ...state,
-      years: state.years.filter(storedYear => storedYear !== year)
-    }
-  }
-
   return state
 }
 

@@ -1,7 +1,7 @@
 //@flow
 import { takeEvery } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
-import { fetchCountries, fetchMetaData, fetchYear } from './fetching'
+import { fetchCountries, fetchIndicator, fetchMetaData, fetchYear } from './fetching'
 
 import type { Action } from '../actions'
 
@@ -33,9 +33,22 @@ function* saveYearSaga(action: Action) {
    }
 }
 
+function* saveIndicatorSaga(action: Action) {
+  try {
+     const indicators = yield call(fetchIndicator);
+     yield put({type: "INDICATOR_FETCH_SUCCEEDED", indicators: indicators});
+  } catch (e) {
+     yield put({type: "INDICATOR_FETCH_FAILED", message: e.message});
+  }
+}
+
 /*
 watcher saga will spawn a new fetchCountries task for every COUNTRY_FETCH_REQUESTED
 */
+function* watchIndicator(): Generator<*,*,*> {
+  yield* takeEvery("INDICATOR_FETCH_REQUESTED", saveIndicatorSaga)
+}
+
 function* watchCountries(): Generator<*,*,*> {
   yield* takeEvery("COUNTRY_FETCH_REQUESTED", saveCountrySaga)
 }
@@ -51,6 +64,7 @@ function* watchYear(): Generator<*,*,*> {
 export function* rootSaga(): Generator<*,*,*> {
   yield [
     watchCountries(),
+    watchIndicator(),
     watchMetaData(),
     watchYear(),
   ]

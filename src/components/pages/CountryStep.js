@@ -30,7 +30,6 @@ class CountryStep extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchCountries()
   }
   getUserInput(event) {
     this.setState({ input: event.target.value })

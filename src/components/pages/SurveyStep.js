@@ -7,6 +7,8 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Visibility from 'material-ui/svg-icons/action/visibility';
 import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
+import Paper from 'material-ui/Paper';
+
 
 class SurveyStep extends Component {
 	props: {
@@ -38,7 +40,7 @@ class SurveyStep extends Component {
     }
 		return (
 			<div>
-				<div>
+				<div style={{display: 'flex', justifyContent: 'flex-end'}}>
 					<FlatButton
 						label="Select all"
 						primary={true}
@@ -54,12 +56,15 @@ class SurveyStep extends Component {
 							hoverColor="green"
 						/>
 					</div>
+				<Paper zDepth={1}>
 				<List>
 				{this.props.years.map(year =>
 					(<ListItem key={year.SurveyYear}
 										 primaryText={<Checkbox checkedIcon={<Visibility />}
 				    																uncheckedIcon={<VisibilityOff />}
+																						iconStyle={{marginRight: 50}}
 																						label={year.SurveyYear}
+																						labelStyle={{marginLeft: 50}}
 																						labelPosition="left"
 																						onCheck={(event: any, isInputChecked: boolean) => isInputChecked ?
 																								this.props.yearSelected(year.SurveyYear) :
@@ -68,6 +73,7 @@ class SurveyStep extends Component {
 					 />)
 				 )}
 				</List>
+				</Paper>
 				<div style={{display: 'flex', justifyContent: 'center'}}>
 					<FlatButton
 						label="Back"
