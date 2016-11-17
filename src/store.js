@@ -5,10 +5,12 @@ import createLogger from 'redux-logger'
 import createSagaMiddleware from 'redux-saga'
 import routing from './reducers/routing'
 import fetching from './reducers/fetching'
+import survey from './reducers/survey'
+
 
 import { rootSaga } from './data/saga'
 
-const reducers = combineReducers({routing, fetching})
+const reducers = combineReducers({survey, routing, fetching})
 
 const sagaMiddleware = createSagaMiddleware()
 

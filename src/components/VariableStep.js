@@ -90,8 +90,6 @@ class VariableStep extends Component{
 				/>,
 		];
 
-
-
 		return (
 			<div style={{width: '100%', maxWidth: 700, margin: 'auto'}}>
 				<StepTabs stepIndex={this.props.stepIndex} />
