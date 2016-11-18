@@ -19,15 +19,22 @@ class CountryStep extends Component {
     countrySelected: (countryName: string, countryCode: string) => void,
     stepIndex: number,
   }
+
   state: {
     input: string,
   }
+
   constructor() {
     super();
     this.state = {
       input: ''
     };
   }
+
+  componentWillMount() {
+    this.props.fetchCountries()
+  }
+
   getUserInput(event) {
     this.setState({ input: event.target.value })
   }
@@ -42,7 +49,9 @@ class CountryStep extends Component {
                                   label={country.CountryName}
                                   labelStyle={{textTransform: 'capitalize'}}
                                   onClick={() => this.props.countrySelected(country.CountryName.toString(), country.DHS_CountryCode.toString(), this.props.stepIndex)}/>));
+
   }
+
   render()  {
     if (!this.props.countries) {
       return (<div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress size={60} thickness={5} /></div>)
@@ -83,3 +92,15 @@ const ConnectedPage = connect(
 )(CountryStep);
 
 export default ConnectedPage;
+
+const styles = {
+  listStyle: {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+  },
+
+  backbutton: {
+    marginRight: 12,
+  },
+};

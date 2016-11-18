@@ -26,6 +26,7 @@ class Layout extends Component {
     })
     return indicatorMap
   }
+
   render() {
     if (this.props.indicators) {
       const indicatorMap = this.storeIndicator(this.props.indicators)

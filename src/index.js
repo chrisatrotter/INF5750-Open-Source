@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+//import { Router, Route, IndexRoute, hashHistory } from "react-router";
 import store from './store';
 import Layout from './components/pages/Layout';
 
@@ -32,6 +33,7 @@ const ConnectedPage = connect(
 )(Page);
 */
 
+
 const app = document.getElementById('root');
 
 ReactDOM.render(
@@ -39,11 +41,3 @@ ReactDOM.render(
     <Layout />
   </Provider>,
   app);
-
-/*
-ReactDOM.render(
-  <Provider store={store}>
-    <Layout />
-  </Provider>,
-  document.getElementById('root')
-);*/
