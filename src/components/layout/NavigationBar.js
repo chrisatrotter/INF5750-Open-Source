@@ -6,7 +6,7 @@ import { Step, Stepper , StepButton } from 'material-ui/Stepper';
 export default class NavigationBar extends Component {
   render() {
     return (
-      <Stepper linear={false} activeStep={this.props.stepIndex}>
+      <Stepper linear={true} activeStep={this.props.stepIndex}>
         <Step>
           <StepButton>
             Select Country
