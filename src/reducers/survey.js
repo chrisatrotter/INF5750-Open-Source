@@ -4,30 +4,23 @@ import type { Action } from '../actions';
 export type Survey = {
   countryName: string,
   countryCode: string,
-  years: Array<number>,
-  indicatorMap: Object
+  indicatorMap: ?Object,
+  subCategory: any
 }
 
-const initialSurvey = { countryName: '', countryCode: '', years: [], indicatorMap: {} };
+const initialSurvey = { countryName: '', countryCode: '', indicatorMap: null, subCategory: null };
 
 function survey(state: Survey = initialSurvey, action: Action): Survey {
+  if (action.type === 'CATEGORY_SELECTED') {
+    return {
+      ...state,
+      subCategory: action.subCategory
+    }
+  }
   if (action.type === 'INDICATOR_MAP_CREATED') {
     return {
       ...state,
       indicatorMap: action.indicatorMap
-    }
-  }
-  if (action.type === 'YEAR_SELECTED') {
-    return {
-      ...state,
-      years: [...state.years, action.year]
-    }
-  }
-  if (action.type === 'YEAR_DESELECTED') {
-    const {year} = action;
-    return {
-      ...state,
-      years: state.years.filter(storedYear => storedYear !== year)
     }
   }
   if (action.type === 'COUNTRY_SELECTED') {
@@ -40,7 +33,9 @@ function survey(state: Survey = initialSurvey, action: Action): Survey {
   if (action.type === 'PREVIOUS_PAGE_REQUESTED') {
     return {
       ...state,
-      years: initialSurvey.years
+      countryName: action.stepIndex === 1 ? initialSurvey.countryName : state.countryName,
+      countryCode: action.stepIndex === 1 ? initialSurvey.countryCode : state.countryCode,
+      subCategory: action.stepIndex === 3 ? initialSurvey.subCategory : state.subCategory,
     };
   }
 

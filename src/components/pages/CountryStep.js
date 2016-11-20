@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { List } from 'material-ui/List';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
+import CircularProgress from 'material-ui/CircularProgress';
 
 export type Country = {
   CountryName: String,
@@ -32,24 +32,20 @@ class CountryStep extends Component {
     this.setState({ input: event.target.value })
   }
 
-
-
   getCountries(countries: Array<Country>, input: string) {
     return countries.filter(country => country.CountryName.toLowerCase()
                                               .startsWith(this.state.input.toLowerCase()))
                     .map(country => (
                       <FlatButton style={{ display: 'flex', justifyContent: 'center', width: '100%'}}
                                   key={country.DHS_CountryCode}
-                                  backgroundColor={(this.props.selectedCountry &&
-                                                    this.props.selectedCountry === country.CountryName.toString()) ?
-                                                    '#B5D66B' : '#FFFFFF'}
-                                  onClick={() => this.props.countrySelected(country.CountryName.toString(), country.DHS_CountryCode.toString(), this.props.stepIndex)}
+                                  hoverColor={'#B5D66B'}
+                                  label={country.CountryName}
                                   labelStyle={{textTransform: 'capitalize'}}
-                                  label={country.CountryName} />));
+                                  onClick={() => this.props.countrySelected(country.CountryName.toString(), country.DHS_CountryCode.toString(), this.props.stepIndex)}/>));
   }
   render()  {
     if (!this.props.countries) {
-      return (<div> <p>Loading...</p> </div>)
+      return (<div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress size={60} thickness={5} /></div>)
     }
     return (
       <div>
@@ -65,9 +61,6 @@ class CountryStep extends Component {
         <List>
         { this.getCountries(this.props.countries, this.state.input)}
         </List>
-        <div style={{display:'flex', justifyContent: 'center'}}>
-
-        </div>
       </div>
     );
   }
@@ -81,7 +74,8 @@ const ConnectedPage = connect(
   }),
   (dispatch) => ({
     countrySelected: (countryName: string, countryCode: string, stepIndex: number) => {
-      dispatch({ type: 'COUNTRY_SELECTED', countryName: countryName, countryCode: countryCode }),
+      dispatch({ type: 'COUNTRY_SELECTED', countryName: countryName, countryCode: countryCode })
+      dispatch({ type: 'YEAR_FETCH_REQUESTED', countryCode: countryCode })
       dispatch({ type: 'PAGE_REQUESTED', name: 'SelectSurveys', stepIndex: stepIndex })
     },
     fetchCountries: () => dispatch({ type: 'COUNTRY_FETCH_REQUESTED' }),

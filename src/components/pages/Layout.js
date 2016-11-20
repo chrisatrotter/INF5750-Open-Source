@@ -8,18 +8,27 @@ import type { Indicator } from '../../actions'
 class Layout extends Component {
   props: {
     indicators: Array<Indicator>,
-    fetchCountries: () => void,
     fetchIndicator: () => void,
+    fetchCountries: () => void,
     storeIndicator: (indicatorMap: Object) => void,
   }
   componentWillMount() {
     this.props.fetchCountries()
     this.props.fetchIndicator()
   }
+  storeIndicator(indicators: Array<Indicator>) {
+    const indicatorMap = {}
+    this.props.indicators.map(indicator => {
+      const inside = {}
+      inside["Definition"] = indicator.Definition
+      inside["Level1"] = indicator.Level1
+      indicatorMap[indicator.IndicatorId] = inside
+    })
+    return indicatorMap
+  }
   render() {
     if (this.props.indicators) {
-      const indicatorMap = {}
-      this.props.indicators.map(indicator => indicatorMap[indicator.IndicatorId] = indicator.Level1)
+      const indicatorMap = this.storeIndicator(this.props.indicators)
       this.props.storeIndicator(indicatorMap)
     }
     return (
@@ -38,7 +47,7 @@ const ConnectedPage = connect(
   (dispatch) => ({
     fetchCountries: () => dispatch({ type: 'COUNTRY_FETCH_REQUESTED' }),
     fetchIndicator: () => dispatch({ type: 'INDICATOR_FETCH_REQUESTED'}),
-    storeIndicator: (indicatorMap: Object) => dispatch({ type: 'INDICATOR_MAP_CREATED', indicatorMap: indicatorMap})
+    storeIndicator: (indicatorMap: Object) => dispatch({ type: 'INDICATOR_MAP_CREATED', indicatorMap: indicatorMap}),
    }),
 )(Layout);
 
