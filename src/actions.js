@@ -14,6 +14,7 @@ export type Action =  { type: 'PAGE_REQUESTED', name: PageName, stepIndex: numbe
                     | { type: 'NEXT_STEP_REQUESTED', stepIndex: number, stepTitle?: string }
                     | { type: 'PREVIOUS_STEP_REQUESTED', stepIndex: number }
                     | { type: 'INITAL_PAGE_REQUESTED' }
+                    | { type: 'SURVEY_PAGE_REQUESTED', stepIndex: number}
                     | { type: 'COUNTRY_FETCH_REQUESTED' }
                     | { type: 'COUNTRY_FETCH_FAILED', message: string }
                     | { type: 'COUNTRY_FETCH_SUCCEEDED', countries: Array<Country> }

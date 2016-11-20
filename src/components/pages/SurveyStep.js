@@ -7,6 +7,7 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Visibility from 'material-ui/svg-icons/action/visibility';
 import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
+import CircularProgress from 'material-ui/CircularProgress';
 
 class SurveyStep extends Component {
 	props: {
@@ -34,26 +35,26 @@ class SurveyStep extends Component {
 	}
 	render() {
 		if (!this.props.years) {
-      return (<div> <p>Loading...</p> </div>)
+      return (<div style={styles.loading}> <CircularProgress size={60} thickness={7} /> </div>)
     }
 		return (
 			<div>
-				<div style={styles.buttonbox}>
+				<div>
 					<FlatButton
 						label="Select all"
 						primary={true}
 						onClick={() => this.setState({selectAll: true})}
 						/>
-					<FlatButton
-						label="Reset"
-						secondary={true}
-						onClick={() => this.setState({selectAll: false})}
-					/>
-					<FlatButton
-						label={"Selected (" + this.props.selectedYears.length + ")"}
-						hoverColor="green"
-					/>
-				</div>
+						<FlatButton
+							label="Reset"
+							secondary={true}
+							onClick={() => this.setState({selectAll: false})}
+						/>
+						<FlatButton
+							label={"Selected (" + this.props.selectedYears.length + ")"}
+							hoverColor="green"
+						/>
+					</div>
 				<List>
 				{this.props.years.map(year =>
 					(<ListItem key={year.SurveyYear}
@@ -67,6 +68,7 @@ class SurveyStep extends Component {
 																	/>}
 					 />)
 				)}
+
 				</List>
 				<div style={{display: 'flex', justifyContent: 'center'}}>
 					<FlatButton
@@ -101,10 +103,12 @@ const ConnectedPage = connect(
   }),
 )(SurveyStep);
 
-const styles = {
-	buttonbox: {
-		display: 'flex',
-		justifyContent: 'flex-end'
-	}
-}
 export default ConnectedPage;
+
+const styles = {
+  loading: {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+  },
+};

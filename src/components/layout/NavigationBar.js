@@ -30,4 +30,14 @@ export default class NavigationBar extends Component {
       </Stepper>
     )
   }
+
+  countrypage = () => {
+    alert("Countrypage pop up");
+    // Set up the actions needed. INITAL_PAGE_REQUESTED
+  }
+
+  surveypage = () => {
+    alert("surveypage pop up");
+    // Set up the actions needed. SURVEY_PAGE_REQUESTED
+  }
 }

@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-//import { Router, Route, IndexRoute, hashHistory } from "react-router";
 import store from './store';
 import Layout from './components/pages/Layout';
+import SurveyStep from './components/pages/SurveyStep';
+import CountryStep from './components/pages/CountryStep';
+import VariableStep from './components/pages/VariableStep';
+import { Router, Route, IndexRoute, hashHistory } from "react-router";
 
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -35,9 +38,18 @@ const ConnectedPage = connect(
 
 
 const app = document.getElementById('root');
+const router = (
+  <Router history={hashHistory}>
+    <Route path="/" component={Layout}>
+      <IndexRoute component={<Displaypage}>
+    </Route>
+  </Router>
+)
 
 ReactDOM.render(
   <Provider store={store}>
-    <Layout />
+    <div>
+      {router}
+    </div>
   </Provider>,
   app);

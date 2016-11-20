@@ -6,6 +6,8 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
 
+
+
 export type Country = {
   CountryName: String,
   DHS_CountryCode: String,
@@ -39,6 +41,20 @@ class CountryStep extends Component {
     this.setState({ input: event.target.value })
   }
 
+  isSelected(country: string) {
+    return this.props.selectedCountry && this.props.selectedCountry === country;
+  }
+
+  ListFlatButton(country: string, countryCode: String) {
+    return <FlatButton style={styles.listStyle}
+                key={countryCode}
+                backgroundColor={this.isSelected(country) ? '#B5D66B' : '#FFFFFF'}
+                hoverColor={this.isSelected(country) ? '#95B64B' : '#CCCCCC'}
+                onClick={() => this.props.countrySelected(country, countryCode.toString())}
+                labelStyle={{textTransform: 'capitalize'}}
+                label={country} />
+  }
+
   getCountries(countries: Array<Country>, input: string) {
     return countries.filter(country => country.CountryName.toLowerCase()
                                               .startsWith(this.state.input.toLowerCase()))
@@ -53,11 +69,11 @@ class CountryStep extends Component {
   }
 
   render()  {
+
     if (!this.props.countries) {
       return (<div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress size={60} thickness={5} /></div>)
     }
     return (
-      <div>
         <div>
         <p>Choose country:</p>
         </div>

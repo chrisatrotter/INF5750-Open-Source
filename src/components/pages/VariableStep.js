@@ -6,7 +6,23 @@ import Checkbox from 'material-ui/Checkbox';
 import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
+import FlatButton from 'material-ui/FlatButton';
+import CircularProgress from 'material-ui/CircularProgress';
 
+const styles = {
+	checkbox: {
+		marginTop:30,
+	},
+	buttons: {
+		margin: 10,
+		marginTop: 15,
+	},
+	loading: {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+  },
+};
 
 class VariableStep extends Component{
 	props: {
@@ -15,6 +31,26 @@ class VariableStep extends Component{
 		showPreviousStep: (stepIndex: number) => void,
 	}
 	render() {
+		if (!this.props.variables) {
+      return (<div style={styles.loading}> <CircularProgress size={60} thickness={7} /> </div>)
+    }
+		const dropNorth = this.state.northChecked ?
+		<DropDownMenu value={this.state.menuList} onChange={this.handleDropMenu}>
+			<MenuItem value={1} primaryText="Northern" />
+			<MenuItem value={2} primaryText="Western" />
+			<MenuItem value={3} primaryText="Eastern" />
+			<MenuItem value={1} primaryText="Northern2" />
+			<MenuItem value={4} primaryText="Southern" />
+		</DropDownMenu> : null;
+
+		const actions = [
+			<RaisedButton
+				label="Import"
+				primary={true}
+				onClick={this.handleClose}
+				/>,
+		];
+
 		return (
 			<div>
 				<Table multiSelectable={true}>
