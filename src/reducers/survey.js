@@ -4,12 +4,19 @@ import type { Action } from '../actions';
 export type Survey = {
   countryName: string,
   countryCode: string,
-  years: Array<number>
+  years: Array<number>,
+  indicatorMap: Object
 }
 
-const initialSurvey = { countryName: '', countryCode: '', years: [] };
+const initialSurvey = { countryName: '', countryCode: '', years: [], indicatorMap: {} };
 
 function survey(state: Survey = initialSurvey, action: Action): Survey {
+  if (action.type === 'INDICATOR_MAP_CREATED') {
+    return {
+      ...state,
+      indicatorMap: action.indicatorMap
+    }
+  }
   if (action.type === 'YEAR_SELECTED') {
     return {
       ...state,

@@ -11,6 +11,8 @@ import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 
+import type { Indicator } from '../../actions'
+
 const styles = {
 	checkbox: {
 		marginTop:30,
@@ -21,10 +23,22 @@ const styles = {
 	}
 };
 
+export type dataCategory = {
+	Level1: [{
+		Label: string,
+		IndicatorId: string,
+		Value: number,
+	}]
+}
+
 class VariableStep extends Component{
 	props: {
-		variables: Array<String>,
-		fetchMetaData: () => void,
+		countries: any,
+		countryCode: string,
+		indicatorMap: Object,
+		surveyYears: Array<number>,
+		variables: Array<Object>,
+		fetchMetaData: (countryCode: string, surveyYears: string) => void,
 		stepIndex: number,
 		showNextStep: (stepIndex: number) => void,
 		showPreviousStep: (stepIndex: number) => void,
@@ -33,6 +47,7 @@ class VariableStep extends Component{
 		open: boolean,
 		menuList: number,
 		northChecked: boolean,
+		indicator: Object,
 	}
 	constructor() {
 		super();
@@ -40,11 +55,12 @@ class VariableStep extends Component{
 			open: false,
 			menuList: 1,
 			northChecked: false,
+			indicator: {},
 		}
 	}
 
 	componentWillMount() {
-		this.props.fetchMetaData()
+		this.props.fetchMetaData(this.props.countryCode, this.props.surveyYears.join(','))
 	}
 
 	handleOpen = () => {
@@ -67,20 +83,23 @@ class VariableStep extends Component{
 	returnVarListMap = (variables: Array<String>) => {
 		return variables.map(variable => <ListItem key={variable} primaryText={variable}/>)
 	}
+	generateIndicators = (x: any, indicatorMap: any) => {
+		/*return this.props.variables.map(array => array.map(function(data: any){
+			if (x[indicatorMap[data.IndicatorId]] === undefined) {
+				x[indicatorMap[data.IndicatorId]] = []
+			}
+			const inside = {}
+			inside["Label"] = data.Indicator
+			inside["IndicatorId"] = data.IndicatorId
+			inside["Value"] = data.Value
+			x[indicatorMap[data.IndicatorId]].push(inside)
+		}))*/
+	}
 
 	render() {
 		if (!this.props.variables) {
       return (<div> <p>Loading...</p> </div>)
     }
-		const dropNorth = this.state.northChecked ?
-		<DropDownMenu value={this.state.menuList} onChange={this.handleDropMenu}>
-			<MenuItem value={1} primaryText="Northern" />
-			<MenuItem value={2} primaryText="Western" />
-			<MenuItem value={3} primaryText="Eastern" />
-			<MenuItem value={1} primaryText="Northern2" />
-			<MenuItem value={4} primaryText="Southern" />
-		</DropDownMenu> : null;
-
 		const actions = [
 			<RaisedButton
 				label="Import"
@@ -88,36 +107,14 @@ class VariableStep extends Component{
 				onClick={this.handleClose}
 				/>,
 		];
-
 		return (
 			<div>
 				<List>
+
 					<ListItem
 						primaryText="Child health"
 						primaryTogglesNestedList={true}
-						nestedItems={this.props.variables.map(variable => <ListItem key={variable} primaryText={variable}/>)}
 					/>
-					<ListItem
-						primaryText="Immunisation"
-						primaryTogglesNestedList={true}
-						nestedItems={[
-							<ListItem
-								key={"polio"}
-								primaryText="Polio"
-								leftCheckbox={<Checkbox />}
-							 />,
-							<ListItem
-								key={"immun"}
-								primaryText="Immun 2"
-								leftCheckbox={<Checkbox />} />,
-						]}
-						/>
-					<ListItem
-						primaryText="Maternal healt" />
-					<ListItem
-						primaryText="HIV/Aids" />
-					<ListItem
-						primaryText="Malaria" />
 				</List >
 
 				<Divider/>
@@ -133,7 +130,6 @@ class VariableStep extends Component{
 					This is we we find informations about provinces yo
 					<div style={{flexDirection: 'row'}}>
 						<Checkbox label="Northern" style={styles.checkbox} onCheck={this.handleNorth}/>
-						{ dropNorth }
 					</div>
 				</Dialog>
 
@@ -158,11 +154,15 @@ class VariableStep extends Component{
 
 const ConnectedPage = connect(
   (state) => ({
+		countries: state.fetching.countries,
+		countryCode: state.survey.countryCode,
+		indicatorMap: state.survey.indicatorMap,
+		surveyYears: state.survey.years,
     stepIndex: state.routing.stepIndex,
 		variables: state.fetching.variables,
   }),
   (dispatch) => ({
-		fetchMetaData: () => dispatch({ type: 'META_DATA_FETCH_REQUESTED'}),
+		fetchMetaData: (countryCode: string, surveyYears: string) => dispatch({ type: 'META_DATA_FETCH_REQUESTED', countryCode: countryCode, surveyYears: surveyYears }),
     showNextStep: (stepIndex: number) => dispatch({ type: 'PAGE_REQUESTED', name: 'SelectSurveys', stepIndex: stepIndex }),
 		showPreviousStep: (stepIndex: number) => dispatch({ type: 'PREVIOUS_PAGE_REQUESTED', stepIndex: stepIndex })
   }),

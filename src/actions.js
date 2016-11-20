@@ -19,9 +19,9 @@ export type Action =  { type: 'PAGE_REQUESTED', name: PageName, stepIndex: numbe
                     | { type: 'INDICATOR_FETCH_REQUESTED' }
                     | { type: 'INDICATOR_FETCH_FAILED', message: string }
                     | { type: 'INDICATOR_FETCH_SUCCEEDED', indicators: Array<Indicator> }
-                    | { type: 'META_DATA_FETCH_REQUESTED' }
+                    | { type: 'META_DATA_FETCH_REQUESTED', countryCode: string, surveyYears: string }
                     | { type: 'META_DATA_FETCH_FAILED', message: string}
-                    | { type: 'META_DATA_FETCH_SUCCEEDED', variables: Array<String>}
+                    | { type: 'META_DATA_FETCH_SUCCEEDED', variables: Array<Object>}
                     | { type: 'YEAR_FETCH_REQUESTED', countryCode: string }
                     | { type: 'YEAR_FETCH_FAILED', message: string }
                     | { type: 'YEAR_FETCH_SUCCEEDED', years: Array<number> }

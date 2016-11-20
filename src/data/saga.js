@@ -17,8 +17,10 @@ function* saveCountrySaga(action: Action) {
 
 function* saveMetaDataSaga(action: Action) {
   try {
-    const variables = yield call(fetchMetaData);
-    yield put({type: "META_DATA_FETCH_SUCCEEDED", variables: variables});
+    if (action.countryCode && action.surveyYears) {
+      const variables = yield call(fetchMetaData, action.countryCode, action.surveyYears);
+      yield put({type: "META_DATA_FETCH_SUCCEEDED", variables: variables});
+    }
   } catch (e) {
     yield put({type: "META_DATA_FETCH_FAILED", message: e.message});
   }
@@ -26,8 +28,10 @@ function* saveMetaDataSaga(action: Action) {
 
 function* saveYearSaga(action: Action) {
    try {
-      const years = yield call(fetchYear, action.countryCode);
-      yield put({type: "YEAR_FETCH_SUCCEEDED", years: years});
+      if (action.countryCode) {
+        const years = yield call(fetchYear, action.countryCode);
+        yield put({type: "YEAR_FETCH_SUCCEEDED", years: years});
+      }
    } catch (e) {
       yield put({type: "YEAR_FETCH_FAILED", message: e.message});
    }

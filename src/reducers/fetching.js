@@ -5,7 +5,7 @@ import type { Indicator } from '../actions'
 
 export type Fetching = {
   countries: Array<Country>,
-  variables: Array<String>,
+  variables: Array<Object>,
   years: Array<number>,
   indicators: Array<Indicator>
 }
