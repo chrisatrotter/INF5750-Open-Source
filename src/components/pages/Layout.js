@@ -18,7 +18,7 @@ class Layout extends Component {
   }
   storeIndicator(indicators: Array<Indicator>) {
     const indicatorMap = {}
-    this.props.indicators.map(indicator => {
+    this.props.indicators.forEach(indicator => {
       const inside = {}
       inside["Definition"] = indicator.Definition
       inside["Level1"] = indicator.Level1
