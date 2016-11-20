@@ -5,6 +5,7 @@ import type { Country } from './components/pages/CountryStep'
 export type Indicator = {
   Level1: string,
   IndicatorId: string,
+  Definition: string,
   Label: string,
   SDRID: number,
 }

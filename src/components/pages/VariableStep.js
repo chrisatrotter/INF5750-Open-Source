@@ -48,6 +48,8 @@ class VariableStep extends Component{
 		menuList: number,
 		northChecked: boolean,
 		indicator: Object,
+		categories: Object,
+		selections: any,
 	}
 	constructor() {
 		super();
@@ -56,6 +58,8 @@ class VariableStep extends Component{
 			menuList: 1,
 			northChecked: false,
 			indicator: {},
+			categories: {},
+			selections: [],
 		}
 	}
 
@@ -83,39 +87,70 @@ class VariableStep extends Component{
 	returnVarListMap = (variables: Array<String>) => {
 		return variables.map(variable => <ListItem key={variable} primaryText={variable}/>)
 	}
-	generateIndicators = (x: any, indicatorMap: any) => {
-		/*return this.props.variables.map(array => array.map(function(data: any){
-			if (x[indicatorMap[data.IndicatorId]] === undefined) {
-				x[indicatorMap[data.IndicatorId]] = []
+
+	generateCategories(data: any, categories: Object, indicatorMap: Object) {
+		data.map(data => {
+			if (categories[indicatorMap[data.IndicatorId]] === undefined) {
+				categories[indicatorMap[data.IndicatorId]] = []
 			}
 			const inside = {}
 			inside["Label"] = data.Indicator
 			inside["IndicatorId"] = data.IndicatorId
+			inside["DataId"] = data.DataId
+			inside["SurveyId"] = data.SurveyId
 			inside["Value"] = data.Value
-			x[indicatorMap[data.IndicatorId]].push(inside)
-		}))*/
+			categories[indicatorMap[data.IndicatorId]].push(inside)
+			return inside
+		})
+	}
+
+	onChildToggle(id: string, selected: boolean) {
+		console.log("selected", selected)
+		let selections = this.state.selections;
+		console.log("selections", selections)
+		console.log("state.sel", this.state.selections)
+    selections[id] = selected;
+
+    this.setState({
+        selections: selections
+    });
+	}
+
+	buildChildren(id: string) {
+		return <Checkbox
+						key={id}
+						checked={this.state.selections[id]}
+						onCheck={(event: any, isInputChecked: boolean) => this.onChildToggle(id, isInputChecked)} />
+	}
+
+	generateNestedItems(category) {
+		return category.map(data => (<ListItem key={data.DataId}
+														primaryText={data.Label}/>))
 	}
 
 	render() {
-		if (!this.props.variables) {
+		if (this.props.variables.length === 0) {
       return (<div> <p>Loading...</p> </div>)
     }
-		const actions = [
-			<RaisedButton
-				label="Import"
-				primary={true}
-				onClick={this.handleClose}
-				/>,
-		];
+		this.generateCategories(this.props.variables, this.state.categories, this.props.indicatorMap)
+		console.log(this.state.categories)
 		return (
 			<div>
-				<List>
 
-					<ListItem
-						primaryText="Child health"
-						primaryTogglesNestedList={true}
-					/>
-				</List >
+				<List>
+					{Object.keys(this.state.categories).sort().map(category =>
+						(<ListItem key={category}
+											 primaryText={category}
+											 primaryTogglesNestedList={true}
+											 nestedItems={this.generateNestedItems(this.state.categories[category])}/>))}
+					{/*	(<ListItem keys={category}
+											 primaryText={category}
+											 primaryTogglesNestedList={true}
+											 nestedItems={this.state.categories[category]
+												 .map(data => (<ListItem key={data.DataId}
+													 											 primaryText={data.Label}
+													 											 leftCheckbox={this.buildChildren(data.DataId)}/>))}/>))*/}
+				</List>
 
 				<Divider/>
 
@@ -124,7 +159,11 @@ class VariableStep extends Component{
 				<RaisedButton label="Extra options" style={styles.buttons} onClick={this.handleOpen}/>
 				<Dialog
 					title="Dialog with extra options"
-					actions={actions}
+					actions={<RaisedButton
+						label="Import"
+						primary={true}
+						onClick={this.handleClose}
+						/>}
 					open={this.state.open}
 					onRequestClose={this.state.handleClose}>
 					This is we we find informations about provinces yo
@@ -141,15 +180,20 @@ class VariableStep extends Component{
 					style={{marginRight: 12}}
 					onClick={ () => this.props.showPreviousStep(this.props.stepIndex) }
 				/>
-				<RaisedButton
-					label="Next"
-					primary={true}
-					onClick={ () => this.props.showNextStep(this.props.stepIndex) }
-				/>
 				</div>
 			</div>
 		);
 	}
+}
+
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
 }
 
 const ConnectedPage = connect(

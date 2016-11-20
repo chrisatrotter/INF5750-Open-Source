@@ -13,7 +13,7 @@ export function fetchYear(countryCode: string) {
 }
 
 export function fetchIndicator() {
-  return (fetch('http://api.dhsprogram.com/rest/dhs/indicators.json?returnFields=Label,IndicatorId,Level1,SDRID')
+  return (fetch('http://api.dhsprogram.com/rest/dhs/indicators.json?returnFields=Label,IndicatorId,Level1,SDRID,Definition')
           .then(response => response.json())
           .then(json => json.Data.map(indicator => indicator)))
 }
@@ -25,14 +25,14 @@ function getTotalPages(url: string) {
 
 export function* fetchMetaData(countryCode: string, surveyYears: string): Generator<*,*,*> {
   const baseUrl = 'http://api.dhsprogram.com/rest/dhs/data/'
-  const url = baseUrl + countryCode + ',' + surveyYears + '?returnFields=CharacteristicLabel,Indicator,IndicatorId,Value'
+  const url = baseUrl + countryCode + ',' + surveyYears + '?returnFields=CharacteristicLabel,DataId,Indicator,IndicatorId,Value,SurveyId'
   const totalPages = yield getTotalPages(url)
   const apiPromises = []
   if (totalPages) {
     for (let i = 1; i <= totalPages; i++) {
       yield (fetch(url + '&page=' + i)
       .then(response => response.json())
-      .then(json => json.Data.map(x => apiPromises.push(x))))
+      .then(json => json.Data.map(data => apiPromises.push(data))))
     }
   }
   return apiPromises
