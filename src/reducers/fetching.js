@@ -5,12 +5,12 @@ import type { Indicator } from '../actions'
 
 export type Fetching = {
   countries: Array<Country>,
-  variables: Array<Object>,
-  years: Array<number>,
+  variables: ?Array<Object>,
+  years: ?Array<number>,
   indicators: Array<Indicator>
 }
 
-const initialFetching = { countries: [], variables: [], years: [], indicators: [] };
+const initialFetching = { countries: [], variables: null, years: null, indicators: [] };
 
 function fetching(state: Fetching = initialFetching, action: Action): Fetching {
   if (action.type === 'COUNTRY_FETCH_SUCCEEDED') {
@@ -39,6 +39,14 @@ function fetching(state: Fetching = initialFetching, action: Action): Fetching {
       ...state,
       indicators: action.indicators,
     }
+  }
+
+  if (action.type === 'PREVIOUS_PAGE_REQUESTED') {
+    return {
+      ...state,
+      years: action.stepIndex === 1 ? initialFetching.years : state.years,
+      variables: action.stepIndex === 2 ? initialFetching.variables : state.variables
+    };
   }
 
   return state;

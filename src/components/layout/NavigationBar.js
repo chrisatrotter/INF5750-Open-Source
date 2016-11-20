@@ -14,7 +14,12 @@ export default class NavigationBar extends Component {
         </Step>
         <Step>
           <StepButton>
-            Select year(s)
+            Select year
+          </StepButton>
+        </Step>
+        <Step>
+          <StepButton>
+            Select category
           </StepButton>
         </Step>
         <Step>
