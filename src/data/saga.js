@@ -1,7 +1,7 @@
 //@flow
-import { takeEvery, take } from 'redux-saga'
+import { takeEvery } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
-import { fetchCountries, fetchMetaData, fetchYear } from './fetching'
+import { fetchCountries, fetchIndicator, fetchMetaData, fetchYear } from './fetching'
 
 import type { Action } from '../actions'
 
@@ -17,8 +17,10 @@ function* saveCountrySaga(action: Action) {
 
 function* saveMetaDataSaga(action: Action) {
   try {
-    const variables = yield call(fetchMetaData);
-    yield put({type: "META_DATA_FETCH_SUCCEEDED", variables: variables});
+    if (action.countryCode && action.surveyYears) {
+      const variables = yield call(fetchMetaData, action.countryCode, action.surveyYears);
+      yield put({type: "META_DATA_FETCH_SUCCEEDED", variables: variables});
+    }
   } catch (e) {
     yield put({type: "META_DATA_FETCH_FAILED", message: e.message});
   }
@@ -26,16 +28,31 @@ function* saveMetaDataSaga(action: Action) {
 
 function* saveYearSaga(action: Action) {
    try {
-      const years = yield call(fetchYear, action.countryCode);
-      yield put({type: "YEAR_FETCH_SUCCEEDED", years: years});
+      if (action.countryCode) {
+        const years = yield call(fetchYear, action.countryCode);
+        yield put({type: "YEAR_FETCH_SUCCEEDED", years: years});
+      }
    } catch (e) {
       yield put({type: "YEAR_FETCH_FAILED", message: e.message});
    }
 }
 
+function* saveIndicatorSaga(action: Action) {
+  try {
+     const indicators = yield call(fetchIndicator);
+     yield put({type: "INDICATOR_FETCH_SUCCEEDED", indicators: indicators});
+  } catch (e) {
+     yield put({type: "INDICATOR_FETCH_FAILED", message: e.message});
+  }
+}
+
 /*
 watcher saga will spawn a new fetchCountries task for every COUNTRY_FETCH_REQUESTED
 */
+function* watchIndicator(): Generator<*,*,*> {
+  yield* takeEvery("INDICATOR_FETCH_REQUESTED", saveIndicatorSaga)
+}
+
 function* watchCountries(): Generator<*,*,*> {
   yield* takeEvery("COUNTRY_FETCH_REQUESTED", saveCountrySaga)
 }
@@ -51,6 +68,7 @@ function* watchYear(): Generator<*,*,*> {
 export function* rootSaga(): Generator<*,*,*> {
   yield [
     watchCountries(),
+    watchIndicator(),
     watchMetaData(),
     watchYear(),
   ]
