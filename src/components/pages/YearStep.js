@@ -71,21 +71,4 @@ const ConnectedPage = connect(
   }),
 )(YearStep);
 
-const styles = {
-  appearance: {
-    display: 'flex',
-    justifyContent: 'center',
-    width: '100%',
-  },
-
-	textStyle: {
-		fontFamily: 'Courier New',
-		fontWeight: 'bold',
-	},
-
-  backbutton: {
-    marginRight: 12,
-  },
-};
-
 export default ConnectedPage;

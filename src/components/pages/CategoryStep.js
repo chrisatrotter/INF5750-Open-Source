@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { List } from 'material-ui/List';
-import FlatButton from 'material-ui/FlatButton';
 import Loading from '../layout/Loading';
 import DisplayText from '../layout/DisplayText';
 	import ListButton from '../layout/ListButton';
@@ -104,17 +103,5 @@ const ConnectedPage = connect(
 		showPreviousStep: (stepIndex: number) => dispatch({ type: 'PREVIOUS_PAGE_REQUESTED', stepIndex: stepIndex })
   }),
 )(CategoryStep);
-
-const styles = {
-  appearance: {
-    display: 'flex',
-    justifyContent: 'center',
-    width: '100%',
-  },
-
-  backbutton: {
-    marginRight: 12,
-  },
-};
 
 export default ConnectedPage;

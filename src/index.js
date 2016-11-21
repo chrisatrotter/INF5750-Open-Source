@@ -6,7 +6,6 @@ import Layout from './components/pages/Layout';
 import SurveyStep from './components/pages/SurveyStep';
 import CountryStep from './components/pages/CountryStep';
 import VariableStep from './components/pages/VariableStep';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Router, Route, IndexRoute, browserHistory } from "react-router";
 import { syncHistoryWithStore } from 'react-router-redux'
 

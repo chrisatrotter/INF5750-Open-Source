@@ -6,24 +6,7 @@ import Checkbox from 'material-ui/Checkbox';
 import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
-import FlatButton from 'material-ui/FlatButton';
-import Loading from '../layout/Loading';
-import DisplayText from '../layout/DisplayText';
 
-const styles = {
-	checkbox: {
-		marginTop:30,
-	},
-	buttons: {
-		margin: 10,
-		marginTop: 15,
-	},
-	loading: {
-    display: 'flex',
-    justifyContent: 'center',
-    width: '100%',
-  },
-};
 
 class VariableStep extends Component{
 	props: {
