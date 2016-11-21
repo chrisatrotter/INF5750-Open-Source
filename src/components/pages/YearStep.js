@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { List } from 'material-ui/List';
 import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
-import CircularProgress from 'material-ui/CircularProgress';
+import Loading from '../layout/Loading';
+import DisplayText from '../layout/DisplayText';
 
 
 class YearStep extends Component {
@@ -28,25 +29,18 @@ class YearStep extends Component {
 	}
 	render() {
 		if (!this.props.years) {
-      return (
-				<div style={{display: 'flex', justifyContent: 'center'}}>
-					<CircularProgress size={60} thickness={5} />
-				</div>
-			)
+      return <Loading />
     }
 		if (this.props.years.length === 0) {
-			return (
-				<div style={{display: 'flex', justifyContent: 'center'}}>
-					<p>There exist no survey for {this.props.countryName}</p>
-				</div>
-			)
-		} else {
+			return <DisplayText text={"There exists no survey for" + this.props.countryName} />
+		}
+
 		return (
 			<div>
 				<Paper zDepth={1}>
 				<List>
 				{this.props.years.map(year =>
-					(<FlatButton style={{ display: 'flex', justifyContent: 'center', width: '100%'}}
+					(<FlatButton style={styles.appearance}
 											 key={year.SurveyYear}
 											 hoverColor={'#B5D66B'}
 											 label={year.SurveyYear}
@@ -57,7 +51,6 @@ class YearStep extends Component {
 			</div>
 		);
 	}
-}
 }
 
 const ConnectedPage = connect(
@@ -76,5 +69,22 @@ const ConnectedPage = connect(
 		},
   }),
 )(YearStep);
+
+const styles = {
+  appearance: {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+  },
+
+	textStyle: {
+		fontFamily: 'Courier New',
+		fontWeight: 'bold',
+	},
+
+  backbutton: {
+    marginRight: 12,
+  },
+};
 
 export default ConnectedPage;

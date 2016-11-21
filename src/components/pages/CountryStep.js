@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 import { List } from 'material-ui/List';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
-import CircularProgress from 'material-ui/CircularProgress';
-
-
+import RaisedButton from 'material-ui/RaisedButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Loading from '../layout/Loading';
 
 export type Country = {
   CountryName: String,
@@ -41,53 +41,49 @@ class CountryStep extends Component {
     this.setState({ input: event.target.value })
   }
 
-  isSelected(country: string) {
-    return this.props.selectedCountry && this.props.selectedCountry === country;
-  }
-
-  ListFlatButton(country: string, countryCode: String) {
+  flatButton(country: Country) {
     return <FlatButton style={styles.listStyle}
-                key={countryCode}
-                backgroundColor={this.isSelected(country) ? '#B5D66B' : '#FFFFFF'}
-                hoverColor={this.isSelected(country) ? '#95B64B' : '#CCCCCC'}
-                onClick={() => this.props.countrySelected(country, countryCode.toString())}
-                labelStyle={{textTransform: 'capitalize'}}
-                label={country} />
+                       key={country.DHS_CountryCode}
+                       hoverColor={'#B5D66B'}
+                       label={country.CountryName}
+                       labelStyle={{textTransform: 'capitalize'}}
+                       onClick={() => this.props.countrySelected(country.CountryName.toString(), country.DHS_CountryCode.toString(), this.props.stepIndex)}/>
   }
 
   getCountries(countries: Array<Country>, input: string) {
-    return countries.filter(country => country.CountryName.toLowerCase()
-                                              .startsWith(this.state.input.toLowerCase()))
-                    .map(country => (
-                      <FlatButton style={{ display: 'flex', justifyContent: 'center', width: '100%'}}
-                                  key={country.DHS_CountryCode}
-                                  hoverColor={'#B5D66B'}
-                                  label={country.CountryName}
-                                  labelStyle={{textTransform: 'capitalize'}}
-                                  onClick={() => this.props.countrySelected(country.CountryName.toString(), country.DHS_CountryCode.toString(), this.props.stepIndex)}/>));
+    return countries.filter(country => country.CountryName.toLowerCase().startsWith(this.state.input.toLowerCase()))
+                    .map(country => (this.flatButton(country)));
+  }
 
+  isDataLoaded() {
+    return this.props.countries;
+  }
+
+  loading() {
+    return <Loading />
+  }
+
+  countryPage() {
+    return <div>
+            <div>
+              <p>Choose country:</p>
+            </div>
+
+            <TextField
+              hintText="Country"
+              fullWidth={true}
+              value={this.state.input}
+              onChange={(event) => this.getUserInput(event)}
+            />
+
+            <List>
+              { this.getCountries(this.props.countries, this.state.input)}
+            </List>
+          </div>
   }
 
   render()  {
-
-    if (!this.props.countries) {
-      return (<div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress size={60} thickness={5} /></div>)
-    }
-    return (
-        <div>
-        <p>Choose country:</p>
-        </div>
-        <TextField
-          hintText="Country"
-          fullWidth={true}
-          value={this.state.input}
-          onChange={(event) => this.getUserInput(event)}
-        />
-        <List>
-        { this.getCountries(this.props.countries, this.state.input)}
-        </List>
-      </div>
-    );
+    return (this.isDataLoaded() ? this.countryPage() : this.loading())
   }
 }
 
@@ -114,9 +110,5 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     width: '100%',
-  },
-
-  backbutton: {
-    marginRight: 12,
   },
 };

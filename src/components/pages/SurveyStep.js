@@ -7,7 +7,7 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Visibility from 'material-ui/svg-icons/action/visibility';
 import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
-import CircularProgress from 'material-ui/CircularProgress';
+import Loading from '../layout/Loading';
 
 class SurveyStep extends Component {
 	props: {
@@ -33,9 +33,24 @@ class SurveyStep extends Component {
 	componentWillMount() {
 		this.props.fetchYears(this.props.countryCode)
 	}
+
+	listItem(year : any) {
+		return <ListItem key={year.SurveyYear} primaryText={this.checkBox(year)}/>
+	}
+
+	checkBox(year : any) {
+		return <Checkbox checkedIcon={<Visibility />}
+										 uncheckedIcon={<VisibilityOff />}
+										 label={year.SurveyYear}
+										 labelPosition="left"
+										 onCheck={(event: any, isInputChecked: boolean) => isInputChecked ?
+															 this.props.yearSelected(year.SurveyYear) :
+															 this.props.yearDeselected(year.SurveyYear)}/>
+	}
+
 	render() {
 		if (!this.props.years) {
-      return (<div style={styles.loading}> <CircularProgress size={60} thickness={7} /> </div>)
+      return <Loading />
     }
 		return (
 			<div>
@@ -56,19 +71,7 @@ class SurveyStep extends Component {
 						/>
 					</div>
 				<List>
-				{this.props.years.map(year =>
-					(<ListItem key={year.SurveyYear}
-										 primaryText={<Checkbox checkedIcon={<Visibility />}
-				    																uncheckedIcon={<VisibilityOff />}
-																						label={year.SurveyYear}
-																						labelPosition="left"
-																						onCheck={(event: any, isInputChecked: boolean) => isInputChecked ?
-																								this.props.yearSelected(year.SurveyYear) :
-																								this.props.yearDeselected(year.SurveyYear)}
-																	/>}
-					 />)
-				)}
-
+				{this.props.years.map(year => ListItem(year))}
 				</List>
 				<div style={{display: 'flex', justifyContent: 'center'}}>
 					<FlatButton
@@ -104,11 +107,3 @@ const ConnectedPage = connect(
 )(SurveyStep);
 
 export default ConnectedPage;
-
-const styles = {
-  loading: {
-    display: 'flex',
-    justifyContent: 'center',
-    width: '100%',
-  },
-};

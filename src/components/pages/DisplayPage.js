@@ -42,7 +42,7 @@ const BackButton = ({showPreviousStep, stepIndex}: {
   showPreviousStep: (stepIndex: number) => void,
   stepIndex: number,
 }) => (
-  <div style={{display: 'flex', justifyContent: 'center'}}>
+  <div style={styles.backButton}>
     <RaisedButton
       label="Back"
       primary={true}
@@ -62,7 +62,6 @@ const ConnectedPage = connect(
   })
 )(Page);
 
-
 const styles = {
   appearance: {
     backgroundColor: '#FEFEFE',
@@ -74,4 +73,9 @@ const styles = {
     paddingRight: 30,
     paddingLeft: 30,
   },
+  backButton: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: 12,
+  }
 };

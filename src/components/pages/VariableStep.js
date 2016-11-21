@@ -7,7 +7,8 @@ import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import FlatButton from 'material-ui/FlatButton';
-import CircularProgress from 'material-ui/CircularProgress';
+import Loading from '../layout/Loading';
+import DisplayText from '../layout/DisplayText';
 
 const styles = {
 	checkbox: {
@@ -32,7 +33,11 @@ class VariableStep extends Component{
 	}
 	render() {
 		if (!this.props.variables) {
-      return (<div style={styles.loading}> <CircularProgress size={60} thickness={7} /> </div>)
+      return (
+				<div>
+					<Loading />
+					<DisplayText text={"Large amount of data are being fetched"} />
+				</div>)
     }
 		const dropNorth = this.state.northChecked ?
 		<DropDownMenu value={this.state.menuList} onChange={this.handleDropMenu}>

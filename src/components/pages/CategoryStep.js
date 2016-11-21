@@ -4,7 +4,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { List } from 'material-ui/List';
 import FlatButton from 'material-ui/FlatButton';
-import CircularProgress from 'material-ui/CircularProgress';
+import Loading from '../layout/Loading';
+import DisplayText from '../layout/DisplayText';
 
 import type { Indicator } from '../../actions'
 
@@ -51,41 +52,37 @@ class CategoryStep extends Component{
 		})
 	}
 
+	flatButton(category: string) {
+			return <FlatButton style={styles.appearance}
+									 			 key={category}
+									 		 	 hoverColor={'#B5D66B'}
+									 		 	 label={category}
+									 			 labelStyle={{textTransform: 'capitalize'}}
+									 			 onClick={() => this.props.categorySelected(this.state.categories[category], this.props.stepIndex)}/>
+		}
+
 	render() {
 		if (!this.props.variables || this.props.indicators.length === 0) {
       return (
 				<div>
-					<div style={{display: 'flex', justifyContent: 'center'}}>
-						<CircularProgress size={60} thickness={5} />
-					</div>
-					<div style={{display: 'flex', justifyContent: 'center'}}>
-						<p>Large amount of data are being fetched</p>
-					</div>
+					<Loading />
+					<DisplayText text={"Large amount of data are being fetched"} />
 				</div>
 			)
     }
 		if (this.props.variables.length === 0) {
-			return (
-				<div style={{display: 'flex', justifyContent: 'center'}}>
-					<p>There exist no data for {this.props.countryName}</p>
-				</div>
-			)
-		} else {
-		 this.generateCategories(this.props.variables, this.state.categories, this.props.indicatorMap)
-		 return (
-		 	<div>
+			return <DisplayText text={"There exist no data for " + this.props.countryName} />
+		}
+
+		this.generateCategories(this.props.variables, this.state.categories, this.props.indicatorMap)
+		return (
+			<div>
 		 		<List>
-		 			{Object.keys(this.state.categories).sort().map(category =>
-             (<FlatButton style={{ display: 'flex', justifyContent: 'center', width: '100%'}}
-                          key={category}
-                          hoverColor={'#B5D66B'}
-                          label={category}
-                          labelStyle={{textTransform: 'capitalize'}}
-                          onClick={() => this.props.categorySelected(this.state.categories[category], this.props.stepIndex)}/>))}
+		 			{Object.keys(this.state.categories).sort().map(category => (this.flatButton(category)))}
 		 		</List>
 		 	</div>
 		 );
-	  }
+
   }
 }
 
@@ -109,5 +106,17 @@ const ConnectedPage = connect(
 		showPreviousStep: (stepIndex: number) => dispatch({ type: 'PREVIOUS_PAGE_REQUESTED', stepIndex: stepIndex })
   }),
 )(CategoryStep);
+
+const styles = {
+  appearance: {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+  },
+
+  backbutton: {
+    marginRight: 12,
+  },
+};
 
 export default ConnectedPage;
