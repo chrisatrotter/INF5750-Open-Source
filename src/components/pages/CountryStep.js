@@ -5,8 +5,8 @@ import { List } from 'material-ui/List';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Loading from '../layout/Loading';
+import ListButton from '../layout/ListButton';
 
 export type Country = {
   CountryName: String,
@@ -42,17 +42,16 @@ class CountryStep extends Component {
   }
 
   flatButton(country: Country) {
-    return <FlatButton style={styles.listStyle}
-                       key={country.DHS_CountryCode}
-                       hoverColor={'#B5D66B'}
+    return <ListButton key={country.DHS_CountryCode}
                        label={country.CountryName}
-                       labelStyle={{textTransform: 'capitalize'}}
-                       onClick={() => this.props.countrySelected(country.CountryName.toString(), country.DHS_CountryCode.toString(), this.props.stepIndex)}/>
+                       onClick={() => this.props.countrySelected(country.CountryName.toString(),
+                                                                 country.DHS_CountryCode.toString(),
+                                                                 this.props.stepIndex)} />
   }
 
   getCountries(countries: Array<Country>, input: string) {
     return countries.filter(country => country.CountryName.toLowerCase().startsWith(this.state.input.toLowerCase()))
-                    .map(country => (this.flatButton(country)));
+                    .map(country => this.flatButton(country));
   }
 
   isDataLoaded() {

@@ -6,6 +6,7 @@ import { List } from 'material-ui/List';
 import FlatButton from 'material-ui/FlatButton';
 import Loading from '../layout/Loading';
 import DisplayText from '../layout/DisplayText';
+	import ListButton from '../layout/ListButton';
 
 import type { Indicator } from '../../actions'
 
@@ -52,14 +53,11 @@ class CategoryStep extends Component{
 		})
 	}
 
-	flatButton(category: string) {
-			return <FlatButton style={styles.appearance}
-									 			 key={category}
-									 		 	 hoverColor={'#B5D66B'}
-									 		 	 label={category}
-									 			 labelStyle={{textTransform: 'capitalize'}}
-									 			 onClick={() => this.props.categorySelected(this.state.categories[category], this.props.stepIndex)}/>
-		}
+	flatButton(category : any) {
+		return <ListButton key={category}
+											 label={category}
+											 onClick={() => this.props.categorySelected(this.state.categories[category], this.props.stepIndex)} />
+	}
 
 	render() {
 		if (!this.props.variables || this.props.indicators.length === 0) {

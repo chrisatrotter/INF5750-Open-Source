@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { List } from 'material-ui/List';
 import Paper from 'material-ui/Paper';
-import FlatButton from 'material-ui/FlatButton';
 import Loading from '../layout/Loading';
 import DisplayText from '../layout/DisplayText';
+import ListButton from '../layout/ListButton';
 
 
 class YearStep extends Component {
@@ -27,25 +27,26 @@ class YearStep extends Component {
 			selectAll: false,
 		}
 	}
+
+	flatButton(year : any) {
+		return <ListButton key={year.SurveyYear}
+											 label={year.SurveyYear}
+											 onClick={() => this.props.yearSelected(year.SurveyYear, this.props.countryCode, this.props.stepIndex)} />
+	}
+
 	render() {
 		if (!this.props.years) {
       return <Loading />
     }
 		if (this.props.years.length === 0) {
-			return <DisplayText text={"There exists no survey for" + this.props.countryName} />
+			return <DisplayText text={"There exists no survey for " + this.props.countryName} />
 		}
 
 		return (
 			<div>
 				<Paper zDepth={1}>
 				<List>
-				{this.props.years.map(year =>
-					(<FlatButton style={styles.appearance}
-											 key={year.SurveyYear}
-											 hoverColor={'#B5D66B'}
-											 label={year.SurveyYear}
-											 labelStyle={{textTransform: 'capitalize'}}
-											 onClick={() => this.props.yearSelected(year.SurveyYear, this.props.countryCode, this.props.stepIndex)}/>))}
+				{this.props.years.map(year => this.flatButton(year))}
 				</List>
 				</Paper>
 			</div>
