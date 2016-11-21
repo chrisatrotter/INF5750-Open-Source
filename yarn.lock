@@ -4715,6 +4715,10 @@ react-router:
     loose-envify "^1.2.0"
     warning "^3.0.0"
 
+react-router-redux:
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/react-router-redux/-/react-router-redux-4.0.7.tgz#9b1fde4e70106c50f47214e12bdd888cfb96e2a6"
+
 react-scripts@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/react-scripts/-/react-scripts-0.6.1.tgz#526cc472ae0c0de6bc4fdcbb198af2a62c6d4671"
