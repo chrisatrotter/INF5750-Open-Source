@@ -14,14 +14,16 @@
     "expect": "^1.20.2",
     "flow-bin": "^0.33.0",
     "mocha": "^3.1.2",
+    "react-addons-test-utils": "^15.4.0",
     "react-scripts": "0.6.1",
     "remote-redux-devtools": "^0.3.3",
     "should": "^9.0.2"
   },
   "dependencies": {
+    "babel-core": "^6.18.2",
     "material-ui": "^0.16.1",
     "react": "^15.3.2",
-    "react-dom": "^15.3.2",
+    "react-dom": "^15.4.0",
     "react-redux": "^4.4.5",
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.6.0",
@@ -32,6 +34,7 @@
     "ci-flow": "flow check --json 2>ci/flow.stderr.log | tee ci/flow.json.log > /dev/null",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "start": "react-scripts start",
+    "mocha": "mocha --compilers js:babel-core/register",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
