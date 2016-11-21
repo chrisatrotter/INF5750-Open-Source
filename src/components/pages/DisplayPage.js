@@ -8,18 +8,7 @@ import CountryStep from './CountryStep';
 import YearStep from './YearStep';
 import VariableStep from './VariableStep';
 import RaisedButton from 'material-ui/RaisedButton';
-
-const styles = {
-  appearance: {
-    backgroundColor: '#FEFEFE',
-    width: '100%',
-    maxWidth: 700,
-    margin: 'auto',
-    paddingTop: 30,
-    paddingBottom: 10,
-  },
-};
-
+import styles from '../../styles/pagestyle';
 
 export default class DisplayPage extends Component {
   render() {
@@ -54,7 +43,7 @@ const BackButton = ({showPreviousStep, stepIndex}: {
   showPreviousStep: (stepIndex: number) => void,
   stepIndex: number,
 }) => (
-  <div style={{display: 'flex', justifyContent: 'center'}}>
+  <div style={styles.backButton}>
     <RaisedButton
       label="Back"
       primary={true}

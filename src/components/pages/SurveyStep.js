@@ -7,6 +7,7 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Visibility from 'material-ui/svg-icons/action/visibility';
 import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
+import Loading from '../layout/Loading';
 
 class SurveyStep extends Component {
 	props: {
@@ -32,41 +33,45 @@ class SurveyStep extends Component {
 	componentWillMount() {
 		this.props.fetchYears(this.props.countryCode)
 	}
+
+	listItem(year : any) {
+		return <ListItem key={year.SurveyYear} primaryText={this.checkBox(year)}/>
+	}
+
+	checkBox(year : any) {
+		return <Checkbox checkedIcon={<Visibility />}
+										 uncheckedIcon={<VisibilityOff />}
+										 label={year.SurveyYear}
+										 labelPosition="left"
+										 onCheck={(event: any, isInputChecked: boolean) => isInputChecked ?
+															 this.props.yearSelected(year.SurveyYear) :
+															 this.props.yearDeselected(year.SurveyYear)}/>
+	}
+
 	render() {
 		if (!this.props.years) {
-      return (<div> <p>Loading...</p> </div>)
+      return <Loading />
     }
 		return (
 			<div>
-				<div style={styles.buttonbox}>
+				<div>
 					<FlatButton
 						label="Select all"
 						primary={true}
 						onClick={() => this.setState({selectAll: true})}
 						/>
-					<FlatButton
-						label="Reset"
-						secondary={true}
-						onClick={() => this.setState({selectAll: false})}
-					/>
-					<FlatButton
-						label={"Selected (" + this.props.selectedYears.length + ")"}
-						hoverColor="green"
-					/>
-				</div>
+						<FlatButton
+							label="Reset"
+							secondary={true}
+							onClick={() => this.setState({selectAll: false})}
+						/>
+						<FlatButton
+							label={"Selected (" + this.props.selectedYears.length + ")"}
+							hoverColor="green"
+						/>
+					</div>
 				<List>
-				{this.props.years.map(year =>
-					(<ListItem key={year.SurveyYear}
-										 primaryText={<Checkbox checkedIcon={<Visibility />}
-				    																uncheckedIcon={<VisibilityOff />}
-																						label={year.SurveyYear}
-																						labelPosition="left"
-																						onCheck={(event: any, isInputChecked: boolean) => isInputChecked ?
-																								this.props.yearSelected(year.SurveyYear) :
-																								this.props.yearDeselected(year.SurveyYear)}
-																	/>}
-					 />)
-				)}
+				{this.props.years.map(year => ListItem(year))}
 				</List>
 				<div style={{display: 'flex', justifyContent: 'center'}}>
 					<FlatButton
@@ -101,10 +106,4 @@ const ConnectedPage = connect(
   }),
 )(SurveyStep);
 
-const styles = {
-	buttonbox: {
-		display: 'flex',
-		justifyContent: 'flex-end'
-	}
-}
 export default ConnectedPage;

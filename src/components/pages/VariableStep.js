@@ -15,6 +15,7 @@ class VariableStep extends Component{
 		showPreviousStep: (stepIndex: number) => void,
 	}
 	render() {
+
 		return (
 			<div>
 				<Table multiSelectable={true}>
