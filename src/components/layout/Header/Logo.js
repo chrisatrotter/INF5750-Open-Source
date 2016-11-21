@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 export default class Logo extends Component {
   render() {
     return (
-      <img src={require('../../../../public/logo.png')} style={this.props.logoStyle} />
+      <img src={require('../../../../public/logo2.png')} style={this.props.logoStyle} />
     );
   }
 }

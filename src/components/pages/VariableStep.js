@@ -32,29 +32,6 @@ class VariableStep extends Component{
 		showPreviousStep: (stepIndex: number) => void,
 	}
 	render() {
-		if (!this.props.variables) {
-      return (
-				<div>
-					<Loading />
-					<DisplayText text={"Large amount of data are being fetched"} />
-				</div>)
-    }
-		const dropNorth = this.state.northChecked ?
-		<DropDownMenu value={this.state.menuList} onChange={this.handleDropMenu}>
-			<MenuItem value={1} primaryText="Northern" />
-			<MenuItem value={2} primaryText="Western" />
-			<MenuItem value={3} primaryText="Eastern" />
-			<MenuItem value={1} primaryText="Northern2" />
-			<MenuItem value={4} primaryText="Southern" />
-		</DropDownMenu> : null;
-
-		const actions = [
-			<RaisedButton
-				label="Import"
-				primary={true}
-				onClick={this.handleClose}
-				/>,
-		];
 
 		return (
 			<div>

@@ -22,12 +22,12 @@ export default class Header extends Component {
 const styles = {
   appearance: {
     backgroundColor: '#000000',
-    paddingTop: 30,
-    paddingBottom: 10,
+    paddingTop: 15,
+    paddingBottom: 15,
   },
 
   logo: {
-    width:120,
+    width:60,
     height:60,
     marginTop: 7,
     marginRight:12,
@@ -41,6 +41,7 @@ const styles = {
     width: '100%',
     maxWidth: 700,
     margin: 'auto',
+    fontFamily: 'sans-serif'
   },
 
   title: {

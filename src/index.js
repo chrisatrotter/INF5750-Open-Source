@@ -8,66 +8,18 @@ import CountryStep from './components/pages/CountryStep';
 import VariableStep from './components/pages/VariableStep';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Router, Route, IndexRoute, browserHistory } from "react-router";
+import { syncHistoryWithStore } from 'react-router-redux'
 
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
-/*
-const pages = {
-  'SelectCountry': CountryStep,
-  'SelectSurveys': SurveyStep,
-  'SelectData': VariableStep,
-}
-
-const Page = ({stepIndex, page}) => {
-  const DisplayPage = pages[page]
-  return (
-    <MuiThemeProvider>
-        <DisplayPage stepIndex={stepIndex}/>
-    </MuiThemeProvider>
-)}
-
-const ConnectedPage = connect(
-  (state) => ({
-    stepIndex: state.routing.stepIndex,
-    page: state.routing.pageStack[state.routing.pageStack.length - 1],
-  }),
-
-)(Page);
-*/
-
 
 const app = document.getElementById('root');
-
-  /*
-  const pages = {
-    'SelectCountry': CountryStep,
-    'SelectSurveys': SurveyStep,
-    'SelectData': VariableStep,
-  }
-
-  const Page = ({stepIndex, page}) => {
-    const DisplayPage = pages[page]
-    return (
-      <div>
-        <MuiThemeProvider>
-          <DisplayPage stepIndex={stepIndex}/>
-        </MuiThemeProvider>
-      </div>
-  )}
-
-  const ConnectedPage = connect(
-    (state) => ({
-      stepIndex: state.routing.stepIndex,
-      page: state.routing.pageStack[state.routing.pageStack.length - 1],
-    }),
-
-  )(Page);
-  */
+export const history = syncHistoryWithStore(browserHistory, store)
 
   const router = (
-    <Router history={browserHistory}>
+    <Router history={history}>
       <Route path="/" component={Layout}>
         <IndexRoute component={CountryStep} />
         <Route path="survey" component={SurveyStep} />

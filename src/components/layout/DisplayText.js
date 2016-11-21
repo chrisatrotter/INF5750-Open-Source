@@ -19,7 +19,7 @@ const styles = {
     width: '100%',
   },
   text: {
-    fontFamily: 'Courier New',
+    fontFamily: 'sans-serif',
 		fontWeight: 'bold',
 		marginTop: 12,
   }
