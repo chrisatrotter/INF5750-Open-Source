@@ -1,14 +1,7 @@
 //@flow
 import React, { Component } from 'react';
 import FlatButton from 'material-ui/FlatButton';
-
-const styles = {
-  appearance: {
-    display: 'flex',
-    justifyContent: 'center',
-    width: '100%',
-  },
-};
+import styles from '../../styles/componentstyle';
 
 // Pass down some props from the Layout to know what step it is at.
 export default class ListButton extends Component {
