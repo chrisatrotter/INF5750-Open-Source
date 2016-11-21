@@ -40,7 +40,7 @@ class CountryStep extends Component {
   }
 
   flatButton(country: Country) {
-    return <ListButton keys={country.DHS_CountryCode}
+    return <ListButton key={country.DHS_CountryCode}
                        label={country.CountryName}
                        onClick={() => this.props.countrySelected(country.CountryName.toString(),
                                                                  country.DHS_CountryCode.toString(),

@@ -8,7 +8,6 @@ export default class ListButton extends Component {
   render() {
     return (
       <FlatButton style={styles.appearance}
-  											 key={this.props.keys}
   								 		 	 hoverColor={'#B5D66B'}
   								 		 	 label={this.props.label}
   								 		 	 labelStyle={{textTransform: 'capitalize'}}
