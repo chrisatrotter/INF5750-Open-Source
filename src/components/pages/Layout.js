@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Header from "./../layout/Header";
 import DisplayPage from './DisplayPage';
 import type { Indicator } from '../../actions'
+import { saveMetaData } from '../../data/fetching'
 
 class Layout extends Component {
   props: {
@@ -16,6 +17,7 @@ class Layout extends Component {
   componentWillMount() {
     this.props.fetchCountries()
     this.props.fetchIndicator()
+    saveMetaData()
   }
 
   storeIndicator(indicators: Array<Indicator>) {
