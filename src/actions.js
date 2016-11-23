@@ -28,7 +28,12 @@ export type Action =  { type: 'PAGE_REQUESTED', name: PageName, stepIndex: numbe
                     | { type: 'YEAR_FETCH_FAILED', message: string }
                     | { type: 'YEAR_FETCH_SUCCEEDED', years: Array<number> }
                     | { type: 'COUNTRY_SELECTED', countryName: string, countryCode: string }
-                    | { type: 'CATEGORY_SELECTED', subCategory: Object }
+                    | { type: 'CATEGORY_SELECTED', dataCategory: string, subCategory: Object }
+                    | { type: 'DATA_SELECTED', dataId: number }
+                    | { type: 'DATA_DESELECTED', dataId: number }
+                    | { type: 'YEAR_SELECTED', year: number }
+
+
 
 export type PageName = 'SelectCountry'
                      | 'SelectSurveys'

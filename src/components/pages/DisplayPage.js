@@ -1,7 +1,6 @@
 //@flow
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import NavigationBar from "./../layout/NavigationBar";
 import CategoryStep from './CategoryStep';
 import CountryStep from './CountryStep';
@@ -30,28 +29,19 @@ const pages = {
 const Page = ({showPreviousStep, stepIndex, page}) => {
   const DisplayPage = pages[page]
   return (
-      <MuiThemeProvider>
         <div>
           <NavigationBar stepIndex={stepIndex}/>
           <DisplayPage stepIndex={stepIndex}/>
-          {stepIndex !== 0 && <BackButton showPreviousStep={showPreviousStep} stepIndex={stepIndex}/>}
+          {stepIndex !== 0 &&
+            <div style={styles.backButton}>
+              <RaisedButton
+                label="Back"
+                primary={true}
+                onClick={() => showPreviousStep(stepIndex)}
+              />
+            </div>}
         </div>
-      </MuiThemeProvider>
 )}
-
-const BackButton = ({showPreviousStep, stepIndex}: {
-  showPreviousStep: (stepIndex: number) => void,
-  stepIndex: number,
-}) => (
-  <div style={styles.backButton}>
-    <RaisedButton
-      label="Back"
-      primary={true}
-      style={{marginRight: 12}}
-      onClick={() => showPreviousStep(stepIndex)}
-    />
-  </div>
-)
 
 const ConnectedPage = connect(
   (state) => ({

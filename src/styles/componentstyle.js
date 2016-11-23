@@ -6,7 +6,6 @@ const styles = {
   },
   text: {
     fontFamily: 'sans-serif',
-		fontWeight: 'bold',
 		marginTop: 12,
   },
   loading: {

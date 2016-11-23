@@ -62,10 +62,8 @@ class CountryStep extends Component {
 
   countryPage() {
     return <div>
-            <div>
-              <p>Choose country:</p>
+            <div style={{display: 'flex', justifyContent: 'center', fontFamily: 'sans-serif'}}>
             </div>
-
             <TextField
               hintText="Country"
               fullWidth={true}
@@ -80,7 +78,7 @@ class CountryStep extends Component {
   }
 
   render()  {
-    return (this.isDataLoaded() ? this.countryPage() : this.loading())
+    return (this.props.countries ? this.countryPage() : this.loading())
   }
 }
 

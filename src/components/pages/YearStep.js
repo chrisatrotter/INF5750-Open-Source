@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { List } from 'material-ui/List';
-import Paper from 'material-ui/Paper';
 import Loading from '../layout/Loading';
 import DisplayText from '../layout/DisplayText';
+import Divider from 'material-ui/Divider';
 import ListButton from '../layout/ListButton';
 
 
@@ -28,12 +28,6 @@ class YearStep extends Component {
 		}
 	}
 
-	flatButton(year : any) {
-		return <ListButton key={year.SurveyYear}
-											 label={year.SurveyYear}
-											 onClick={() => this.props.yearSelected(year.SurveyYear, this.props.countryCode, this.props.stepIndex)} />
-	}
-
 	render() {
 		if (!this.props.years) {
       return <Loading />
@@ -44,11 +38,16 @@ class YearStep extends Component {
 
 		return (
 			<div>
-				<Paper zDepth={1}>
+				<div style={{display: 'flex', justifyContent: 'center', fontFamily: 'sans-serif'}}>
+					<p>Select survey year from {this.props.countryName}</p>
+				</div>
+				<Divider/>
 				<List>
-				{this.props.years.map(year => this.flatButton(year))}
+				{this.props.years.map(year =>
+						<ListButton key={year.SurveyYear}
+												label={year.SurveyYear}
+												onClick={() => this.props.yearSelected(year.SurveyYear, this.props.countryCode, this.props.stepIndex)} />)}
 				</List>
-				</Paper>
 			</div>
 		);
 	}
@@ -65,6 +64,7 @@ const ConnectedPage = connect(
   (dispatch) => ({
 		showPreviousStep: (stepIndex: number) => dispatch({ type: 'PREVIOUS_PAGE_REQUESTED', stepIndex: stepIndex }),
 		yearSelected: (year: number, countryCode: string, stepIndex: number) => {
+			dispatch({ type: "YEAR_SELECTED", year: year })
 			dispatch({ type: 'META_DATA_FETCH_REQUESTED', countryCode: countryCode, surveyYears: year })
 			dispatch({ type: 'PAGE_REQUESTED', name: 'SelectCategory', stepIndex: stepIndex })
 		},

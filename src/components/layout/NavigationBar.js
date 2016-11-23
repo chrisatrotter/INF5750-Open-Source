@@ -1,9 +1,13 @@
 //@flow
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Step, Stepper , StepButton } from 'material-ui/Stepper';
 
 // Pass down some props from the Layout to know what step it is at.
-export default class NavigationBar extends Component {
+class NavigationBar extends Component {
+  props: {
+    stepIndex: number,
+  }
   render() {
     return (
       <Stepper linear={true} activeStep={this.props.stepIndex}>
@@ -41,3 +45,11 @@ export default class NavigationBar extends Component {
     // Set up the actions needed. SURVEY_PAGE_REQUESTED
   }
 }
+
+const ConnectedPage = connect(
+  (state) => ({
+    stepIndex: state.routing.stepIndex,
+  }),
+)(NavigationBar);
+
+export default ConnectedPage;

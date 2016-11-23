@@ -3,9 +3,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { List } from 'material-ui/List';
+import ListButton from '../layout/ListButton';
 import Loading from '../layout/Loading';
 import DisplayText from '../layout/DisplayText';
-	import ListButton from '../layout/ListButton';
+import Divider from 'material-ui/Divider';
 
 import type { Indicator } from '../../actions'
 
@@ -19,8 +20,8 @@ class CategoryStep extends Component{
     stepIndex: number,
     surveyYears: Array<number>,
     variables: Array<Object>,
+		year: number,
     categorySelected: (category: any, stepIndex: number) => void,
-		showNextStep: (stepIndex: number) => void,
 		showPreviousStep: (stepIndex: number) => void,
 	}
 	state: {
@@ -74,8 +75,15 @@ class CategoryStep extends Component{
 		this.generateCategories(this.props.variables, this.state.categories, this.props.indicatorMap)
 		return (
 			<div>
+				<div style={{display: 'flex', justifyContent: 'center', fontFamily: 'sans-serif'}}>
+					<p>Select category from {this.props.countryName} - {this.props.year}</p>
+				</div>
+				<Divider/>
 		 		<List>
-		 			{Object.keys(this.state.categories).sort().map(category => (this.flatButton(category)))}
+		 			{Object.keys(this.state.categories).sort().map(category =>
+						<ListButton key={category}
+												label={category}
+												onClick={() => this.props.categorySelected(category, this.state.categories[category], this.props.stepIndex)} />)}
 		 		</List>
 		 	</div>
 		 );
@@ -93,13 +101,13 @@ const ConnectedPage = connect(
 		surveyYears: state.survey.years,
     stepIndex: state.routing.stepIndex,
 		variables: state.fetching.variables,
+		year: state.survey.year,
   }),
   (dispatch) => ({
-    categorySelected: (subCategory: any, stepIndex: number) => {
-      dispatch({ type: 'CATEGORY_SELECTED', subCategory: subCategory })
+    categorySelected: (dataCategory: number, subCategory: any, stepIndex: number) => {
+      dispatch({ type: 'CATEGORY_SELECTED', dataCategory: dataCategory, subCategory: subCategory })
       dispatch({ type: 'PAGE_REQUESTED', name: 'SelectData', stepIndex: stepIndex })
     },
-    showNextStep: (stepIndex: number) => dispatch({ type: 'PAGE_REQUESTED', name: 'SelectSurveys', stepIndex: stepIndex }),
 		showPreviousStep: (stepIndex: number) => dispatch({ type: 'PREVIOUS_PAGE_REQUESTED', stepIndex: stepIndex })
   }),
 )(CategoryStep);
