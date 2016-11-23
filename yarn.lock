@@ -1522,6 +1522,10 @@ cycle@1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/cycle/-/cycle-1.0.3.tgz#21e80b2be8580f98b468f379430662b046c34ad2"
 
+d2-ui@^25.4.17:
+  version "25.4.17"
+  resolved "https://registry.yarnpkg.com/d2-ui/-/d2-ui-25.4.17.tgz#c5257a5b55f08acaf5e6674e114a77293fcff170"
+
 d2@^25.2.1:
   version "25.2.1"
   resolved "https://registry.yarnpkg.com/d2/-/d2-25.2.1.tgz#3c4530c1209c5b169848a81411e0895efd2582a4"

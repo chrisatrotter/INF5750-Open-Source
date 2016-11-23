@@ -22,6 +22,7 @@
   "dependencies": {
     "babel-core": "^6.18.2",
     "d2": "^25.2.1",
+    "d2-ui": "^25.4.17",
     "material-ui": "^0.16.1",
     "react": "^15.3.2",
     "react-dom": "^15.4.0",
