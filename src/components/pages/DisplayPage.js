@@ -12,7 +12,7 @@ import styles from '../../styles/pagestyle';
 export default class DisplayPage extends Component {
   render() {
     return (
-      <div style={styles.appearance}>
+      <div>
         <ConnectedPage />
       </div>
     )
@@ -30,16 +30,18 @@ const Page = ({showPreviousStep, stepIndex, page}) => {
   const DisplayPage = pages[page]
   return (
         <div>
-          <NavigationBar stepIndex={stepIndex}/>
-          <DisplayPage stepIndex={stepIndex}/>
-          {stepIndex !== 0 &&
-            <div style={styles.backButton}>
-              <RaisedButton
-                label="Back"
-                primary={true}
-                onClick={() => showPreviousStep(stepIndex)}
-              />
-            </div>}
+        
+          <div style={styles.appearance} >
+            <DisplayPage stepIndex={stepIndex}/>
+            {stepIndex !== 0 &&
+              <div style={styles.backButton}>
+                <RaisedButton
+                  label="Back"
+                  primary={true}
+                  onClick={() => showPreviousStep(stepIndex)}
+                  />
+                </div>}
+          </div>
         </div>
 )}
 

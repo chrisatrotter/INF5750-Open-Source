@@ -1,13 +1,16 @@
 const styles = {
   appearance: {
     backgroundColor: '#000000',
+    minWidth:320,
     paddingTop: 15,
     paddingBottom: 15,
   },
 
   logo: {
-    width:60,
-    height:60,
+    maxWidth:60,
+    maxHeight:60,
+    minWidth:5,
+    minHeight:5,
     marginTop: 7,
     marginRight:12,
   },
@@ -17,8 +20,8 @@ const styles = {
   },
 
   text: {
-    width: '100%',
     maxWidth: 700,
+    minWidth: 20,
     margin: 'auto',
     fontFamily: 'sans-serif'
   },
