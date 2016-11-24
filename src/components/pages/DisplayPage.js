@@ -30,8 +30,9 @@ const Page = ({showPreviousStep, stepIndex, page}) => {
   const DisplayPage = pages[page]
   return (
         <div>
-        
+
           <div style={styles.appearance} >
+            <NavigationBar stepIndex={stepIndex} />
             <DisplayPage stepIndex={stepIndex}/>
             {stepIndex !== 0 &&
               <div style={styles.backButton}>
