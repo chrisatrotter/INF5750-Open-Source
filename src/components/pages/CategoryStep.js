@@ -1,5 +1,4 @@
 //@flow
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { List } from 'material-ui/List';
@@ -7,6 +6,7 @@ import ListButton from '../layout/ListButton';
 import Loading from '../layout/Loading';
 import DisplayText from '../layout/DisplayText';
 import Divider from 'material-ui/Divider';
+import styles from '../../styles/pagestyle';
 
 import type { Indicator } from '../../actions'
 
@@ -24,10 +24,12 @@ class CategoryStep extends Component{
     categorySelected: (category: any, stepIndex: number) => void,
 		showPreviousStep: (stepIndex: number) => void,
 	}
+
 	state: {
 		indicator: Object,
 		categories: Object,
 	}
+
 	constructor() {
 		super();
 		this.state = {
@@ -35,8 +37,8 @@ class CategoryStep extends Component{
 			categories: {},
 		}
 	}
-	generateCategories(data: any, categories: Object, indicatorMap: Object) {
 
+	generateCategories(data: any, categories: Object, indicatorMap: Object) {
 		data.map(data => {
 			if (categories[indicatorMap[data.IndicatorId].Level1] === undefined) {
 				categories[indicatorMap[data.IndicatorId].Level1] = []
@@ -53,12 +55,6 @@ class CategoryStep extends Component{
 		})
 	}
 
-	flatButton(category : any) {
-		return <ListButton key={category}
-											 label={category}
-											 onClick={() => this.props.categorySelected(this.state.categories[category], this.props.stepIndex)} />
-	}
-
 	render() {
 		if (!this.props.variables || this.props.indicators.length === 0) {
       return (
@@ -68,6 +64,7 @@ class CategoryStep extends Component{
 				</div>
 			)
     }
+
 		if (this.props.variables.length === 0) {
 			return <DisplayText text={"There exist no data for " + this.props.countryName} />
 		}
@@ -75,7 +72,7 @@ class CategoryStep extends Component{
 		this.generateCategories(this.props.variables, this.state.categories, this.props.indicatorMap)
 		return (
 			<div>
-				<div style={{display: 'flex', justifyContent: 'center', fontFamily: 'sans-serif'}}>
+				<div style={styles.text}>
 					<p>Select category from {this.props.countryName} - {this.props.year}</p>
 				</div>
 				<Divider/>
@@ -87,29 +84,32 @@ class CategoryStep extends Component{
 		 		</List>
 		 	</div>
 		 );
-
   }
 }
 
+const mapStateToProps = (state) => ({
+	countries: state.fetching.countries,
+	countryCode: state.survey.countryCode,
+	countryName: state.survey.countryName,
+	indicators: state.fetching.indicators,
+	indicatorMap: state.survey.indicatorMap,
+	surveyYears: state.survey.years,
+	stepIndex: state.routing.stepIndex,
+	variables: state.fetching.variables,
+	year: state.survey.year
+})
+
+const mapDispatchToProps = (dispatch) => ({
+	categorySelected: (dataCategory: number, subCategory: any, stepIndex: number) => {
+		dispatch({ type: 'CATEGORY_SELECTED', dataCategory: dataCategory, subCategory: subCategory })
+		dispatch({ type: 'PAGE_REQUESTED', name: 'SelectData', stepIndex: stepIndex })
+	},
+	showPreviousStep: (stepIndex: number) => dispatch({ type: 'PREVIOUS_PAGE_REQUESTED', stepIndex: stepIndex })
+})
+
 const ConnectedPage = connect(
-  (state) => ({
-		countries: state.fetching.countries,
-		countryCode: state.survey.countryCode,
-		countryName: state.survey.countryName,
-    indicators: state.fetching.indicators,
-		indicatorMap: state.survey.indicatorMap,
-		surveyYears: state.survey.years,
-    stepIndex: state.routing.stepIndex,
-		variables: state.fetching.variables,
-		year: state.survey.year,
-  }),
-  (dispatch) => ({
-    categorySelected: (dataCategory: number, subCategory: any, stepIndex: number) => {
-      dispatch({ type: 'CATEGORY_SELECTED', dataCategory: dataCategory, subCategory: subCategory })
-      dispatch({ type: 'PAGE_REQUESTED', name: 'SelectData', stepIndex: stepIndex })
-    },
-		showPreviousStep: (stepIndex: number) => dispatch({ type: 'PREVIOUS_PAGE_REQUESTED', stepIndex: stepIndex })
-  }),
+  mapStateToProps,
+  mapDispatchToProps
 )(CategoryStep);
 
 export default ConnectedPage;

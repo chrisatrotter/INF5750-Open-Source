@@ -8,6 +8,13 @@ const styles = {
     paddingBottom: 10,
 
   },
+
+  text: {
+    display: 'flex',
+    justifyContent: 'center',
+    fontFamily: 'sans-serif'
+  },
+
   backButton: {
     display: 'flex',
     justifyContent: 'center',
