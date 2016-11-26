@@ -1,5 +1,4 @@
 //@flow
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -16,8 +15,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
-
-
 
 const app = document.getElementById('root');
 export const history = syncHistoryWithStore(browserHistory, store)
@@ -38,4 +35,4 @@ ReactDOM.render(
       {router}
     </MuiThemeProvider>
   </Provider>,
-  app);
+app);

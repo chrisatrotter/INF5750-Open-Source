@@ -7,7 +7,8 @@ export type Indicator = {
   IndicatorId: string,
   Definition: string,
   Label: string,
-  SDRID: number,
+  ShortName: string,
+  MeasurementType: string,
 }
 
 export type Action =  { type: 'PAGE_REQUESTED', name: PageName, stepIndex: number }
@@ -32,6 +33,12 @@ export type Action =  { type: 'PAGE_REQUESTED', name: PageName, stepIndex: numbe
                     | { type: 'DATA_SELECTED', dataId: number }
                     | { type: 'DATA_DESELECTED', dataId: number }
                     | { type: 'YEAR_SELECTED', year: number }
+                    | { type: 'POST_COUNTRIES_REQUESTED', countries: any}
+                    | { type: 'POST_COUNTRIES_SUCCEEDED', response: any }
+                    | { type: 'POST_COUNTRIES_FAILED', message: string }
+                    | { type: 'DATA_IMPORT_REQUESTED', dataElements: any, importData: any }
+                    | { type: 'DATA_IMPORT_SUCCEEDED', response: any }
+                    | { type: 'DATA_IMPORT_FAILED', message: string }
 
 
 

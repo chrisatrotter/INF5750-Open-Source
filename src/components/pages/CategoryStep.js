@@ -45,10 +45,12 @@ class CategoryStep extends Component{
 			}
 			const inside = {}
 			inside["Label"] = data.Indicator
+			inside["ShortName"] = indicatorMap[data.IndicatorId].ShortName
       inside["Definition"] = indicatorMap[data.IndicatorId].Definition
 			inside["IndicatorId"] = data.IndicatorId
 			inside["DataId"] = data.DataId
 			inside["SurveyId"] = data.SurveyId
+			inside["MeasurementType"] = indicatorMap[data.IndicatorId].MeasurementType
 			inside["Value"] = data.Value
 			categories[indicatorMap[data.IndicatorId].Level1].push(inside)
 			return inside

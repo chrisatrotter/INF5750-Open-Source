@@ -45,7 +45,7 @@ class YearStep extends Component {
 				</div>
 				<Divider/>
 				<List>
-				{this.props.years.map(year =>
+				{this.props.years.map((year, index) =>
 						<ListButton key={year.SurveyYear}
 												label={year.SurveyYear}
 												onClick={() => this.props.yearSelected(year.SurveyYear, this.props.countryCode, this.props.stepIndex)} />)}

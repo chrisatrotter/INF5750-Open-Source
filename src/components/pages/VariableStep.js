@@ -9,8 +9,9 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Subheader from 'material-ui/Subheader';
-import TextField from 'material-ui/TextField';
 import styles from '../../styles/pagestyle';
+import TextField from 'material-ui/TextField';
+import { generateJSONDataElements, generateJSONImportData } from '../../data/posting'
 
 
 export class VariableStep extends Component{
@@ -21,8 +22,9 @@ export class VariableStep extends Component{
 		stepIndex: number,
 		subCategory: Array<Object>,
 		year: number,
-		selectData: (dataId: number) => void,
 		deselectData: (dataId: number) => void,
+		submitData: (dataElements: any, importData: any) => void,
+		selectData: (dataId: number) => void,
 		showPreviousStep: (stepIndex: number) => void,
 	}
 
@@ -40,15 +42,13 @@ export class VariableStep extends Component{
 			inputVariable: '',
 		}
 	}
-
-  handleOpen (){
+  handleOpen() {
     this.setState({open: true});
   };
-  handleClose () {
+  handleClose() {
     this.setState({open: false});
   };
-
-	getUserInputVariable (event){
+	getUserInputVariable(event: any) {
 		this.setState({inputVariable: event.target.value})
 	}
 
@@ -95,6 +95,9 @@ export class VariableStep extends Component{
 												countryName={this.props.countryName}
 												dataSelected={this.props.dataSelected}
 												handleClose={() => this.handleClose()}
+												importData={() =>
+													this.props.submitData(generateJSONDataElements(this.props.subCategory, this.props.dataSelected),
+																								generateJSONImportData(this.props.countryName, this.props.subCategory, this.props.dataSelected))}
 												subCategory={this.props.subCategory}
 												year={this.props.year}/>}
 			</div>
@@ -106,7 +109,7 @@ function createTitle(countryName: string, year: number) {
 	return "Data selected from " + countryName + " - " + year
 }
 
-const ImportDialog = ({open, handleClose, dataSelected, subCategory, countryName, year}) => {
+const ImportDialog = ({open, handleClose, importData, dataSelected, subCategory, countryName, year}) => {
 	return (<Dialog
 		title={createTitle(countryName, year)}
 		actions={[
@@ -119,7 +122,7 @@ const ImportDialog = ({open, handleClose, dataSelected, subCategory, countryName
         label="Submit"
         primary={true}
         keyboardFocused={true}
-        onClick={() => handleClose()}
+        onClick={() => importData()}
       />,
     ]}
 		modal={false}
