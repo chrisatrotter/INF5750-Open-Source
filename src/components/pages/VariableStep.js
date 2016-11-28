@@ -9,6 +9,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Subheader from 'material-ui/Subheader';
+import BackButton from '../layout/BackButton';
 import styles from '../../styles/pagestyle';
 import TextField from 'material-ui/TextField';
 import { generateJSONDataElements, generateJSONImportData } from '../../data/posting'
@@ -28,10 +29,12 @@ export class VariableStep extends Component{
 		submitData: (dataElements: DataElements, importData: ImportData) => void,
 		selectData: (dataId: number) => void,
 		showPreviousStep: (stepIndex: number) => void,
+		backButtonClick: () => void,
 	}
 
 	state: {
 		open: boolean,
+		receiptReceived: boolean,
 		inputVariable: string,
 	}
 
@@ -39,21 +42,49 @@ export class VariableStep extends Component{
 		super();
 		this.state = {
 			open: false,
+			receiptReceived: false,
 			inputVariable: '',
 		}
 	}
   handleOpen() {
     this.setState({open: true});
   };
-  handleClose() {
-    this.setState({open: false});
-  };
-	getUserInputVariable(event: any) {
-		this.setState({inputVariable: event.target.value})
+
+	handleCanceled() {
+		this.setState({open: false});
 	}
 
-	render() {
+  handleClose() {
+    this.setState({open: false, receiptReceived: true});
+  };
 
+	handleReceiptClose() {
+		this.setState({receiptReceived: false});
+	}
+
+	getUserInputVariable(event: any) {
+		this.setState({ inputVariable: event.target.value })
+	}
+
+	filterVariables(subCategory: Array<Object>, input: string) {
+		return subCategory.filter(data => data.Label.toLowerCase().startsWith(input.toLowerCase()))
+											.map((data, index) =>
+												<div key={index}>
+													<ListItem key={data.DataId}
+																		style={{fontFamily: 'sans-serif'}}
+																		primaryText={data.Label}
+																		secondaryText={data.Definition}
+																		secondaryTextLines={2}
+																		leftCheckbox={<Checkbox key={data.DataId}
+																														style={{marginTop: 12}}
+																														checked={this.props.dataSelected.includes(data.DataId)}
+																														onCheck={(event: Object, isInputChecked: boolean) =>
+																														isInputChecked ? this.props.selectData(data.DataId) : this.props.deselectData(data.DataId)}/>}/>
+													<Divider/>
+												</div>)
+		}
+
+	render() {
 		const stepHeader = "Select data of " + this.props.dataCategory + " from " + this.props.countryName + " - " + this.props.year;
 		return (
 			<div>
@@ -68,41 +99,49 @@ export class VariableStep extends Component{
 				</div>
 				<Divider/>
 					<List>
-						{this.props.subCategory && this.props.subCategory
-							.filter(data => data.Label.toLowerCase().startsWith(this.state.inputVariable.toLowerCase()))
-							.map((data, index) =>
-							<div key={index}>
-								<ListItem key={data.DataId}
-												 	style={{fontFamily: 'sans-serif'}}
-													primaryText={data.Label}
-													secondaryText={data.Definition}
-													secondaryTextLines={2}
-													leftCheckbox={<Checkbox key={data.DataId}
-																									style={{marginTop: 12}}
-																									onCheck={(event: Object, isInputChecked: boolean) =>
-																									isInputChecked ? this.props.selectData(data.DataId) : this.props.deselectData(data.DataId)}/>}/>
-								<Divider/>
-							</div>)}
+						{this.filterVariables(this.props.subCategory, this.state.inputVariable)}
 					</List>
 					<div style={{display: 'flex', justifyContent: 'center'}}>
-					<RaisedButton secondary={true} disabled={this.props.dataSelected.length === 0} label="Import" onClick={() => this.handleOpen()} />
-				</div>
-				<div style={{display: 'flex', justifyContent: 'center', marginRight: 12}}>
-					<Subheader style={{display: 'flex', justifyContent: 'center'}}>or</Subheader>
+					<BackButton stepIndex={this.props.stepIndex} onClick={this.props.backButtonClick} />
+					<RaisedButton style={{marginLeft:12}} secondary={true} disabled={this.props.dataSelected.length === 0} label="Import" onClick={() => this.handleOpen()} />
 				</div>
 				{this.state.open &&
 					<ImportDialog open={this.state.open}
 												countryName={this.props.countryName}
 												dataSelected={this.props.dataSelected}
-												handleClose={() => this.handleClose()}
+												handleClose={() => this.handleCanceled()}
 												importData={() =>
 													this.props.submitData(generateJSONDataElements(this.props.subCategory, this.props.dataSelected),
 																								generateJSONImportData(this.props.countryName, this.props.subCategory, this.props.dataSelected))}
 												subCategory={this.props.subCategory}
 												year={this.props.year}/>}
+
+				{this.state.receiptReceived &&
+					<ReceiptDialog open={this.state.receiptReceived}
+												imported={5}
+												countryName={this.props.countryName}
+												handleClose={() => this.handleReceiptClose()}
+												subCategory={this.props.subCategory}
+												year={this.props.year}/>}
 			</div>
 		);
 	}
+}
+
+
+const ReceiptDialog = ({open, imported, handleClose, subCategory, countryName, year}) => {
+	return (<Dialog
+		title={createTitle(countryName, year)}
+		actions={
+      <FlatButton label="Ok"
+        					primary={true}
+        					onClick={() => handleClose()}/>}
+		modal={false}
+		open={open}
+		onRequestClose={handleClose}
+		autoScrollBodyContent={true} >
+	<p> Imported: {imported} </p>
+	</Dialog>)
 }
 
 function createTitle(countryName: string, year: number) {
