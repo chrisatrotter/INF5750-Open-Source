@@ -30,6 +30,7 @@ export class VariableStep extends Component{
 
 	state: {
 		open: boolean,
+		receiptReceived: boolean,
 		selectedRows: any,
 		inputVariable: string,
 	}
@@ -46,9 +47,18 @@ export class VariableStep extends Component{
   handleOpen (){
     this.setState({open: true});
   };
+
+	handleCanceled() {
+		this.setState({open: false});
+	}
+
   handleClose () {
-    this.setState({open: false});
+    this.setState({open: false, receiptReceived: true});
   };
+
+	handleReceiptClose() {
+		this.setState({receiptReceived: false});
+	}
 
 	getUserInputVariable (event){
 		this.setState({inputVariable: event.target.value})
@@ -65,7 +75,7 @@ export class VariableStep extends Component{
 																		secondaryTextLines={2}
 																		leftCheckbox={<Checkbox key={data.DataId}
 																														style={{marginTop: 12}}
-																														checked={this.props.dataSelected.includes(data.DataId)}																															
+																														checked={this.props.dataSelected.includes(data.DataId)}
 																														onCheck={(event: Object, isInputChecked: boolean) =>
 																														isInputChecked ? this.props.selectData(data.DataId) : this.props.deselectData(data.DataId)}/>}/>
 													<Divider/>
@@ -98,6 +108,15 @@ export class VariableStep extends Component{
 												countryName={this.props.countryName}
 												dataSelected={this.props.dataSelected}
 												handleClose={() => this.handleClose()}
+												handleCanceled={() => this.handleCanceled()}
+												subCategory={this.props.subCategory}
+												year={this.props.year}/>}
+
+				{this.state.receiptReceived &&
+					<ReceiptDialog open={this.state.receiptReceived}
+												imported={5}
+												countryName={this.props.countryName}
+												handleClose={() => this.handleReceiptClose()}
 												subCategory={this.props.subCategory}
 												year={this.props.year}/>}
 			</div>
@@ -105,18 +124,34 @@ export class VariableStep extends Component{
 	}
 }
 
+
+const ReceiptDialog = ({open, imported, handleClose, subCategory, countryName, year}) => {
+	return (<Dialog
+		title={createTitle(countryName, year)}
+		actions={
+      <FlatButton label="Ok"
+        					primary={true}
+        					onClick={() => handleClose()}/>}
+		modal={false}
+		open={open}
+		onRequestClose={handleClose}
+		autoScrollBodyContent={true} >
+	<p> Imported: {imported} </p>
+	</Dialog>)
+}
+
 function createTitle(countryName: string, year: number) {
 	return "Data selected from " + countryName + " - " + year
 }
 
-const ImportDialog = ({open, handleClose, dataSelected, subCategory, countryName, year}) => {
+const ImportDialog = ({open, handleClose, handleCanceled, dataSelected, subCategory, countryName, year}) => {
 	return (<Dialog
 		title={createTitle(countryName, year)}
 		actions={[
       <FlatButton
         label="Cancel"
         primary={true}
-        onClick={() => handleClose()}
+        onClick={() => handleCanceled()}
       />,
       <FlatButton
         label="Submit"
