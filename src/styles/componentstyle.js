@@ -14,6 +14,11 @@ const styles = {
     marginTop: 12,
     marginBottom: 12,
   },
+  backButton: {
+    display: 'flex',
+    justifyContent: 'center',
+    fontFamily: 'sans-serif'
+  }
 };
 
 export default styles

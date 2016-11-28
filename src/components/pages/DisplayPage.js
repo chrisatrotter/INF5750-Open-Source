@@ -32,15 +32,7 @@ const Page = ({showPreviousStep, stepIndex, page}) => {
         <div>
           <div style={styles.appearance} >
           <NavigationBar stepIndex={stepIndex}/>
-            <DisplayPage stepIndex={stepIndex}/>
-            {stepIndex !== 0 &&
-              <div style={styles.backButton}>
-                <RaisedButton
-                  label="Back"
-                  primary={true}
-                  onClick={() => showPreviousStep(stepIndex)}
-                  />
-                </div>}
+            <DisplayPage stepIndex={stepIndex} backButtonClick={() => showPreviousStep(stepIndex)}/>
           </div>
         </div>
 )}

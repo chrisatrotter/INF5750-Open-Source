@@ -6,6 +6,7 @@ import ListButton from '../layout/ListButton';
 import Loading from '../layout/Loading';
 import DisplayText from '../layout/DisplayText';
 import Divider from 'material-ui/Divider';
+import BackButton from '../layout/BackButton';
 import styles from '../../styles/pagestyle';
 
 import type { Indicator } from '../../actions'
@@ -23,6 +24,7 @@ class CategoryStep extends Component{
 		year: number,
     categorySelected: (category: any, stepIndex: number) => void,
 		showPreviousStep: (stepIndex: number) => void,
+		backButtonClick: () => void,
 	}
 
 	state: {
@@ -82,6 +84,7 @@ class CategoryStep extends Component{
 												label={category}
 												onClick={() => this.props.categorySelected(category, this.state.categories[category], this.props.stepIndex)} />)}
 		 		</List>
+				<BackButton stepIndex={this.props.stepIndex} onClick={this.props.backButtonClick} />
 		 	</div>
 		 );
   }
