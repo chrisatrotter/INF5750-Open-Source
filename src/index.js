@@ -1,5 +1,4 @@
 //@flow
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -17,25 +16,23 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
 
-
-
 const app = document.getElementById('root');
 export const history = syncHistoryWithStore(browserHistory, store)
 
-  const router = (
-    <Router history={history}>
-      <Route path="/" component={Layout}>
-        <IndexRoute component={CountryStep} />
-        <Route path="survey" component={YearStep} />
-        <Route path="variable" component={VariableStep} />
-      </Route>
-    </Router>
-  )
+const router = (
+  <Router history={history}>
+    <Route path="/" component={Layout}>
+      <IndexRoute component={CountryStep} />
+      <Route path="survey" component={YearStep} />
+      <Route path="variable" component={VariableStep} />
+    </Route>
+  </Router>
+)
 
-  ReactDOM.render(
-    <Provider store={store}>
-      <MuiThemeProvider>
-        {router}
-      </MuiThemeProvider>
-    </Provider>,
-    app);
+ReactDOM.render(
+  <Provider store={store}>
+    <MuiThemeProvider>
+      {router}
+    </MuiThemeProvider>
+  </Provider>,
+app);

@@ -8,11 +8,11 @@ import DisplayText from '../layout/DisplayText';
 import Divider from 'material-ui/Divider';
 import styles from '../../styles/pagestyle';
 
-import type { Indicator } from '../../actions'
+import type { Countries, Indicator, SubCategory } from '../../types'
 
 class CategoryStep extends Component{
 	props: {
-		countries: any,
+		countries: Countries,
 		countryCode: string,
 		countryName: string,
     indicators: Array<Indicator>,
@@ -21,7 +21,7 @@ class CategoryStep extends Component{
     surveyYears: Array<number>,
     variables: Array<Object>,
 		year: number,
-    categorySelected: (category: any, stepIndex: number) => void,
+    categorySelected: (dataCategory: string, subCategory: Array<SubCategory>, stepIndex: number) => void,
 		showPreviousStep: (stepIndex: number) => void,
 	}
 
@@ -38,23 +38,6 @@ class CategoryStep extends Component{
 		}
 	}
 
-	generateCategories(data: any, categories: Object, indicatorMap: Object) {
-		data.map(data => {
-			if (categories[indicatorMap[data.IndicatorId].Level1] === undefined) {
-				categories[indicatorMap[data.IndicatorId].Level1] = []
-			}
-			const inside = {}
-			inside["Label"] = data.Indicator
-      inside["Definition"] = indicatorMap[data.IndicatorId].Definition
-			inside["IndicatorId"] = data.IndicatorId
-			inside["DataId"] = data.DataId
-			inside["SurveyId"] = data.SurveyId
-			inside["Value"] = data.Value
-			categories[indicatorMap[data.IndicatorId].Level1].push(inside)
-			return inside
-		})
-	}
-
 	render() {
 		if (!this.props.variables || this.props.indicators.length === 0) {
       return (
@@ -69,7 +52,7 @@ class CategoryStep extends Component{
 			return <DisplayText text={"There exist no data for " + this.props.countryName} />
 		}
 
-		this.generateCategories(this.props.variables, this.state.categories, this.props.indicatorMap)
+		generateCategories(this.props.variables, this.state.categories, this.props.indicatorMap)
 		return (
 			<div>
 				<div style={styles.text}>
@@ -85,6 +68,25 @@ class CategoryStep extends Component{
 		 	</div>
 		 );
   }
+}
+
+function generateCategories(data: Array<Object>, categories: Object, indicatorMap: Object) {
+	data.map(data => {
+		if (categories[indicatorMap[data.IndicatorId].Level1] === undefined) {
+			categories[indicatorMap[data.IndicatorId].Level1] = []
+		}
+		const inside = {}
+		inside["Label"] = data.Indicator
+		inside["ShortName"] = indicatorMap[data.IndicatorId].ShortName
+    inside["Definition"] = indicatorMap[data.IndicatorId].Definition
+		inside["IndicatorId"] = data.IndicatorId
+		inside["DataId"] = data.DataId
+		inside["SurveyId"] = data.SurveyId
+		inside["MeasurementType"] = indicatorMap[data.IndicatorId].MeasurementType
+		inside["Value"] = data.Value
+		categories[indicatorMap[data.IndicatorId].Level1].push(inside)
+		return inside
+	})
 }
 
 const mapStateToProps = (state) => ({

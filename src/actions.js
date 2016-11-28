@@ -1,14 +1,15 @@
 //@flow
 
-import type { Country } from './components/pages/CountryStep'
+import type {
+  Country,
+  DataElements,
+  Indicator,
+  ImportData,
+  OrgUnit,
+  PageName,
+  SubCategory,
+} from './types'
 
-export type Indicator = {
-  Level1: string,
-  IndicatorId: string,
-  Definition: string,
-  Label: string,
-  SDRID: number,
-}
 
 export type Action =  { type: 'PAGE_REQUESTED', name: PageName, stepIndex: number }
                     | { type: 'NEXT_STEP_REQUESTED', stepIndex: number, stepTitle?: string }
@@ -28,14 +29,13 @@ export type Action =  { type: 'PAGE_REQUESTED', name: PageName, stepIndex: numbe
                     | { type: 'YEAR_FETCH_FAILED', message: string }
                     | { type: 'YEAR_FETCH_SUCCEEDED', years: Array<number> }
                     | { type: 'COUNTRY_SELECTED', countryName: string, countryCode: string }
-                    | { type: 'CATEGORY_SELECTED', dataCategory: string, subCategory: Object }
+                    | { type: 'CATEGORY_SELECTED', dataCategory: string, subCategory: Array<SubCategory> }
                     | { type: 'DATA_SELECTED', dataId: number }
                     | { type: 'DATA_DESELECTED', dataId: number }
                     | { type: 'YEAR_SELECTED', year: number }
-
-
-
-export type PageName = 'SelectCountry'
-                     | 'SelectSurveys'
-                     | 'SelectData'
-;
+                    | { type: 'POST_COUNTRIES_REQUESTED', countries: OrgUnit}
+                    | { type: 'POST_COUNTRIES_SUCCEEDED', response: Object }
+                    | { type: 'POST_COUNTRIES_FAILED', message: string }
+                    | { type: 'DATA_IMPORT_REQUESTED', dataElements: DataElements, importData: ImportData }
+                    | { type: 'DATA_IMPORT_SUCCEEDED', response: Object }
+                    | { type: 'DATA_IMPORT_FAILED', message: string }
