@@ -9,7 +9,6 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Subheader from 'material-ui/Subheader';
-import TextField from 'material-ui/TextField';
 import BackButton from '../layout/BackButton';
 import styles from '../../styles/pagestyle';
 import TextField from 'material-ui/TextField';
