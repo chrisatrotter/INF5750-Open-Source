@@ -11,7 +11,7 @@ export type Country = {
   DHS_CountryCode: String,
 }
 
-class CountryStep extends Component {
+export class CountryStep extends Component {
   props: {
     countries: Array<Country>,
     selectedCountry: string,
