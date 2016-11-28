@@ -2,6 +2,7 @@
 import { takeEvery } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
 import { fetchCountries, fetchIndicator, fetchMetaData, fetchYear } from './fetching'
+import { postCountriesAsOrgUnits, postMetaData } from './posting'
 
 import type { Action } from '../actions'
 
@@ -15,6 +16,17 @@ function* saveCountrySaga(action: Action) {
    }
 }
 
+function* postCountriesSaga(action: Action) {
+  try {
+    if (action.countries) {
+      const response = yield call(postCountriesAsOrgUnits, action.countries);
+      yield put({type: "POST_COUNTRIES_SUCCEEDED", response: response});
+    }
+  } catch (e) {
+     yield put({type: "POST_COUNTRIES_FAILED", message: e.message});
+  }
+}
+
 function* saveMetaDataSaga(action: Action) {
   try {
     if (action.countryCode && action.surveyYears) {
@@ -23,6 +35,17 @@ function* saveMetaDataSaga(action: Action) {
     }
   } catch (e) {
     yield put({type: "META_DATA_FETCH_FAILED", message: e.message});
+  }
+}
+
+function* importDataSaga(action: Action) {
+  try {
+    if (action.dataElements && action.importData) {
+      const response = yield call(postMetaData, action.dataElements, action.importData);
+      yield put({type: "DATA_IMPORT_SUCCEEDED", response: response});
+    }
+  } catch (e) {
+     yield put({type: "DATA_IMPORT_FAILED", message: e.message});
   }
 }
 
@@ -57,6 +80,14 @@ function* watchCountries(): Generator<*,*,*> {
   yield* takeEvery("COUNTRY_FETCH_REQUESTED", saveCountrySaga)
 }
 
+function* watchDataImport(): Generator<*,*,*> {
+  yield* takeEvery("DATA_IMPORT_REQUESTED", importDataSaga)
+}
+
+function* watchPostCountries(): Generator<*,*,*> {
+  yield* takeEvery("POST_COUNTRIES_REQUESTED", postCountriesSaga)
+}
+
 function* watchMetaData(): Generator<*,*,*> {
   yield* takeEvery("META_DATA_FETCH_REQUESTED", saveMetaDataSaga)
 }
@@ -71,5 +102,7 @@ export function* rootSaga(): Generator<*,*,*> {
     watchIndicator(),
     watchMetaData(),
     watchYear(),
+    watchPostCountries(),
+    watchDataImport(),
   ]
 }

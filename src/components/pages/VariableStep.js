@@ -9,26 +9,29 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Subheader from 'material-ui/Subheader';
-import TextField from 'material-ui/TextField';
 import styles from '../../styles/pagestyle';
+import TextField from 'material-ui/TextField';
+import { generateJSONDataElements, generateJSONImportData } from '../../data/posting'
 
+import type { DataElements, ImportData } from '../../types'
 
 export class VariableStep extends Component{
 	props: {
 		countryName: string,
+		countryCode: string,
 		dataCategory: string,
 		dataSelected: Array<number>,
 		stepIndex: number,
 		subCategory: Array<Object>,
 		year: number,
-		selectData: (dataId: number) => void,
 		deselectData: (dataId: number) => void,
+		submitData: (dataElements: DataElements, importData: ImportData) => void,
+		selectData: (dataId: number) => void,
 		showPreviousStep: (stepIndex: number) => void,
 	}
 
 	state: {
 		open: boolean,
-		selectedRows: any,
 		inputVariable: string,
 	}
 
@@ -36,19 +39,16 @@ export class VariableStep extends Component{
 		super();
 		this.state = {
 			open: false,
-			selectedRows: [],
 			inputVariable: '',
 		}
 	}
-
-  handleOpen (){
+  handleOpen() {
     this.setState({open: true});
   };
-  handleClose () {
+  handleClose() {
     this.setState({open: false});
   };
-
-	getUserInputVariable (event){
+	getUserInputVariable(event: any) {
 		this.setState({inputVariable: event.target.value})
 	}
 
@@ -95,6 +95,9 @@ export class VariableStep extends Component{
 												countryName={this.props.countryName}
 												dataSelected={this.props.dataSelected}
 												handleClose={() => this.handleClose()}
+												importData={() =>
+													this.props.submitData(generateJSONDataElements(this.props.subCategory, this.props.dataSelected),
+																								generateJSONImportData(this.props.countryName, this.props.subCategory, this.props.dataSelected))}
 												subCategory={this.props.subCategory}
 												year={this.props.year}/>}
 			</div>
@@ -106,7 +109,7 @@ function createTitle(countryName: string, year: number) {
 	return "Data selected from " + countryName + " - " + year
 }
 
-const ImportDialog = ({open, handleClose, dataSelected, subCategory, countryName, year}) => {
+const ImportDialog = ({open, handleClose, importData, dataSelected, subCategory, countryName, year}) => {
 	return (<Dialog
 		title={createTitle(countryName, year)}
 		actions={[
@@ -115,11 +118,10 @@ const ImportDialog = ({open, handleClose, dataSelected, subCategory, countryName
         primary={true}
         onClick={() => handleClose()}
       />,
-      <FlatButton
+      <RaisedButton
         label="Submit"
-        primary={true}
-        keyboardFocused={true}
-        onClick={() => handleClose()}
+        secondary={true}
+        onClick={() => importData()}
       />,
     ]}
 		modal={false}
@@ -147,7 +149,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 	deselectData: (dataId: number) => dispatch({ type: 'DATA_DESELECTED', dataId: dataId }),
 	selectData: (dataId: number) => dispatch({ type: 'DATA_SELECTED', dataId: dataId }),
-	showPreviousStep: (stepIndex: number) => dispatch({ type: 'PREVIOUS_PAGE_REQUESTED', stepIndex: stepIndex })
+	showPreviousStep: (stepIndex: number) => dispatch({ type: 'PREVIOUS_PAGE_REQUESTED', stepIndex: stepIndex }),
+	submitData: (dataElements: DataElements, importData: ImportData) => dispatch({ type: 'DATA_IMPORT_REQUESTED', dataElements: dataElements, importData: importData })
  })
 
 const ConnectedPage = connect(

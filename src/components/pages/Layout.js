@@ -3,7 +3,8 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import Header from "./../layout/Header";
 import DisplayPage from './DisplayPage';
-import type { Indicator } from '../../actions'
+
+import type { Indicator } from '../../types'
 
 class Layout extends Component {
   props: {
@@ -12,26 +13,13 @@ class Layout extends Component {
     fetchCountries: () => void,
     storeIndicator: (indicatorMap: Object) => void,
   }
-
   componentWillMount() {
     this.props.fetchCountries()
     this.props.fetchIndicator()
   }
-
-  storeIndicator(indicators: Array<Indicator>) {
-    const indicatorMap = {}
-    this.props.indicators.forEach(indicator => {
-      const inside = {}
-      inside["Definition"] = indicator.Definition
-      inside["Level1"] = indicator.Level1
-      indicatorMap[indicator.IndicatorId] = inside
-    })
-    return indicatorMap
-  }
-
   render() {
     if (this.props.indicators) {
-      const indicatorMap = this.storeIndicator(this.props.indicators)
+      const indicatorMap = storeIndicator(this.props.indicators)
       this.props.storeIndicator(indicatorMap)
     }
     return (
@@ -41,6 +29,19 @@ class Layout extends Component {
       </div>
     )
   }
+}
+
+function storeIndicator(indicators: Array<Indicator>) {
+  const indicatorMap = {}
+  indicators.forEach(indicator => {
+    const inside = {}
+    inside["Level1"] = indicator.Level1
+    inside["ShortName"] = indicator.ShortName
+    inside["Definition"] = indicator.Definition
+    inside["MeasurementType"] = indicator.MeasurementType
+    indicatorMap[indicator.IndicatorId] = inside
+  })
+  return indicatorMap
 }
 
 const mapStateToProps = (state) => ({

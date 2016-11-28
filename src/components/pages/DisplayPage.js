@@ -9,6 +9,7 @@ import VariableStep from './VariableStep';
 import RaisedButton from 'material-ui/RaisedButton';
 import styles from '../../styles/pagestyle';
 
+
 export default class DisplayPage extends Component {
   render() {
     return (
