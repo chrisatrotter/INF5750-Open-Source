@@ -7,16 +7,13 @@ import Loading from '../layout/Loading';
 import ListButton from '../layout/ListButton';
 import { generateJSONCountries } from '../../data/posting'
 
-export type Country = {
-  CountryName: String,
-  DHS_CountryCode: String,
-}
+import type { Country, OrgUnit } from '../../types'
 
 export class CountryStep extends Component {
   props: {
     countries: Array<Country>,
     selectedCountry: string,
-    postCountriesAsOrgUnits: (countries: any) => void,
+    postCountriesAsOrgUnits: (countries: OrgUnit) => void,
     fetchCountries: () => void,
     countrySelected: (countryName: string, countryCode: string) => void,
     stepIndex: number,
@@ -82,7 +79,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch({ type: 'YEAR_FETCH_REQUESTED', countryCode: countryCode })
     dispatch({ type: 'PAGE_REQUESTED', name: 'SelectSurveys', stepIndex: stepIndex })
   },
-  fetchCountries: () => dispatch({ type: 'COUNTRY_FETCH_REQUESTED' })
+  fetchCountries: () => dispatch({ type: 'COUNTRY_FETCH_REQUESTED' }),
+  postCountriesAsOrgUnits: (countries: OrgUnit) => dispatch({ type: 'POST_COUNTRIES_REQUESTED', countries: countries })
 })
 
 const ConnectedPage = connect(

@@ -7,6 +7,7 @@ import DisplayText from '../layout/DisplayText';
 import Divider from 'material-ui/Divider';
 import ListButton from '../layout/ListButton';
 
+import type { Year } from '../../types'
 
 class YearStep extends Component {
 	props: {
@@ -14,7 +15,7 @@ class YearStep extends Component {
 		countryName: string,
 		selectedYears: Array<number>,
 		stepIndex: number,
-		years: any,
+		years: Array<Year>,
 		showPreviousStep: (stepIndex: number) => void,
 		yearSelected: (year: number) => void,
 	}

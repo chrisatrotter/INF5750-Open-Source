@@ -13,24 +13,25 @@ import styles from '../../styles/pagestyle';
 import TextField from 'material-ui/TextField';
 import { generateJSONDataElements, generateJSONImportData } from '../../data/posting'
 
+import type { DataElements, ImportData } from '../../types'
 
 export class VariableStep extends Component{
 	props: {
 		countryName: string,
+		countryCode: string,
 		dataCategory: string,
 		dataSelected: Array<number>,
 		stepIndex: number,
 		subCategory: Array<Object>,
 		year: number,
 		deselectData: (dataId: number) => void,
-		submitData: (dataElements: any, importData: any) => void,
+		submitData: (dataElements: DataElements, importData: ImportData) => void,
 		selectData: (dataId: number) => void,
 		showPreviousStep: (stepIndex: number) => void,
 	}
 
 	state: {
 		open: boolean,
-		selectedRows: any,
 		inputVariable: string,
 	}
 
@@ -38,7 +39,6 @@ export class VariableStep extends Component{
 		super();
 		this.state = {
 			open: false,
-			selectedRows: [],
 			inputVariable: '',
 		}
 	}
@@ -118,10 +118,9 @@ const ImportDialog = ({open, handleClose, importData, dataSelected, subCategory,
         primary={true}
         onClick={() => handleClose()}
       />,
-      <FlatButton
+      <RaisedButton
         label="Submit"
-        primary={true}
-        keyboardFocused={true}
+        secondary={true}
         onClick={() => importData()}
       />,
     ]}
@@ -150,7 +149,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 	deselectData: (dataId: number) => dispatch({ type: 'DATA_DESELECTED', dataId: dataId }),
 	selectData: (dataId: number) => dispatch({ type: 'DATA_SELECTED', dataId: dataId }),
-	showPreviousStep: (stepIndex: number) => dispatch({ type: 'PREVIOUS_PAGE_REQUESTED', stepIndex: stepIndex })
+	showPreviousStep: (stepIndex: number) => dispatch({ type: 'PREVIOUS_PAGE_REQUESTED', stepIndex: stepIndex }),
+	submitData: (dataElements: DataElements, importData: ImportData) => dispatch({ type: 'DATA_IMPORT_REQUESTED', dataElements: dataElements, importData: importData })
  })
 
 const ConnectedPage = connect(

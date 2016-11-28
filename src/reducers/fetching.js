@@ -1,7 +1,6 @@
 //@flow
 import type { Action } from '../actions';
-import type { Country } from '../components/pages/CountryStep'
-import type { Indicator } from '../actions'
+import type { Country, Indicator } from '../types'
 
 export type Fetching = {
   countries: Array<Country>,
@@ -10,7 +9,12 @@ export type Fetching = {
   indicators: Array<Indicator>
 }
 
-const initialFetching = { countries: [], variables: null, years: null, indicators: [] };
+const initialFetching = {
+  countries: [],
+  variables: null,
+  years: null,
+  indicators: []
+ };
 
 function fetching(state: Fetching = initialFetching, action: Action): Fetching {
   if (action.type === 'COUNTRY_FETCH_SUCCEEDED') {

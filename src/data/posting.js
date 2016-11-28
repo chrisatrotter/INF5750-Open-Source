@@ -1,15 +1,18 @@
 //@flow
-import type { Country } from '../components/pages/CountryStep'
+import type { Country, DataElements, ImportData, OrgUnit } from '../types'
 import { find } from 'lodash'
 
 const basicAuth = `Basic ${btoa('admin:district')}`;
 const endpoint = 'https://play.dhis2.org/test'
-const localhost = 'http://192.168.0.102:8082'
+const localhost = 'http://193.157.250.13:8082'
 const existingOrgUnitWorldId = 'giKHD1cg3DQ'
-const metadataField = '/api/metadata?strategy=CREATE_AND_UPDATE'
+const localhostOrgUnitId = 'p73Pb84RyR8'
+const metadataField = '/api/metadata?importStrategy=CREATE_AND_UPDATE'
+const dataValueSet = '/api/dataValueSets?dataElementIdScheme=name&orgUnitIdScheme=name&dryRun=true&importStrategy=CREATE_AND_UPDATE'
+//https://play.dhis2.org/test/api/categoryCombos/p0KPaWEg3cf.json
+const defaultCategoryCombos = 'p0KPaWEg3cf'
 
-
-export function postCountriesAsOrgUnits(orgUnitCountries: any) {
+export function postCountriesAsOrgUnits(orgUnitCountries: OrgUnit) {
   return fetch(endpoint + metadataField, {
     method: 'POST',
     headers: {
@@ -22,6 +25,29 @@ export function postCountriesAsOrgUnits(orgUnitCountries: any) {
   .catch(error => console.error(error))
 }
 
+export function* postMetaData(data: DataElements, importData: ImportData): Generator<*,*,*>  {
+  yield fetch(endpoint + metadataField,  {
+            method: 'POST',
+            headers: {
+                  Authorization: basicAuth,
+                  'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .catch(error => console.error(error))
+
+  return fetch(endpoint + dataValueSet,  {
+            method: 'POST',
+            headers: {
+                  Authorization: basicAuth,
+                  'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(importData)
+        })
+        .then(response => response.json())
+        .catch(error => console.error(error))
+}
 
 export function generateJSONCountries(countries: Array<Country>) {
   const jsonCountry = {
@@ -44,33 +70,6 @@ export function generateJSONCountries(countries: Array<Country>) {
   return jsonCountry
 }
 
-export function* postMetaData(dataElements: any, importData: any): Generator<*,*,*>  {
-  yield fetch(endpoint + metadataField,  {
-            method: 'POST',
-            headers: {
-                  Authorization: basicAuth,
-                  'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(dataElements)
-        })
-        .then(response => response.json())
-        .catch(error => console.error(error))
-
-  return fetch(endpoint + '/api/dataValueSets?dataElementIdScheme=name&orgUnitIdScheme=name',  {
-            method: 'POST',
-            headers: {
-                  Authorization: basicAuth,
-                  'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(importData)
-        })
-        .then(response => response.json())
-        .catch(error => console.error(error))
-}
-
-//https://play.dhis2.org/test/api/categoryCombos/p0KPaWEg3cf.json
-const defaultCategoryCombos = 'p0KPaWEg3cf'
-
 export function generateJSONDataElements(subCategory: Array<Object>, dataSelected: Array<number>) {
   const jsonDataValues = {
     "dataElements": []
@@ -82,7 +81,6 @@ export function generateJSONDataElements(subCategory: Array<Object>, dataSelecte
       "shortName": matchedDataObject.IndicatorId,
       "code": matchedDataObject.IndicatorId,
       "valueType": convertValueType(matchedDataObject.MeasurementType.toUpperCase()),
-      "definition": matchedDataObject.Definition,
       "domainType": "AGGREGATE",
       "aggregationType": "SUM",
       "categoryCombo": {
@@ -90,6 +88,26 @@ export function generateJSONDataElements(subCategory: Array<Object>, dataSelecte
       },
     }
     jsonDataValues.dataElements.push(jsonDataElement)
+  })
+  return jsonDataValues
+}
+
+export function generateJSONImportData(countryName: string, subCategory: Array<Object>, dataSelected: Array<number>) {
+  const date = new Date()
+  const today = date.getFullYear().toString() + date.getMonth().toString()
+  const jsonDataValues = {
+    "dataValues": []
+  }
+  dataSelected.map(dataId => {
+    const matchedDataObject = find(subCategory, subData => subData.DataId === dataId)
+    const jsonDataElement = {
+      "dataElement": matchedDataObject.Label,
+      "period": today,
+      "orgUnit": countryName,
+      "value": matchedDataObject.Value,
+      "comment": matchedDataObject.Definition,
+    }
+    jsonDataValues.dataValues.push(jsonDataElement)
   })
   return jsonDataValues
 }
@@ -107,23 +125,4 @@ function convertValueType(measurementType: string) {
     default:
       return "NUMBER"
   }
-}
-
-export function generateJSONImportData(countryName: string, subCategory: Array<Object>, dataSelected: Array<number>) {
-  const date = new Date()
-  const today = date.getFullYear().toString() + date.getMonth().toString()
-  const jsonDataValues = {
-    "dataValues": []
-  }
-  dataSelected.map(dataId => {
-    const matchedDataObject = find(subCategory, subData => subData.DataId === dataId)
-    const jsonDataElement = {
-      "dataElement": matchedDataObject.Label,
-      "period": today,
-      "orgUnit": countryName,
-      "value": matchedDataObject.Value,
-    }
-    jsonDataValues.dataValues.push(jsonDataElement)
-  })
-  return jsonDataValues
 }
