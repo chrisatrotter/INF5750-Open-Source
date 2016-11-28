@@ -35,6 +35,7 @@ export class VariableStep extends Component{
 
 	state: {
 		open: boolean,
+		receiptReceived: boolean,
 		inputVariable: string,
 	}
 
@@ -42,17 +43,28 @@ export class VariableStep extends Component{
 		super();
 		this.state = {
 			open: false,
+			receiptReceived: false,
 			inputVariable: '',
 		}
 	}
   handleOpen() {
     this.setState({open: true});
   };
+
+	handleCanceled() {
+		this.setState({open: false});
+	}
+
   handleClose() {
-    this.setState({open: false});
+    this.setState({open: false, receiptReceived: true});
   };
+
+	handleReceiptClose() {
+		this.setState({receiptReceived: false});
+	}
+
 	getUserInputVariable(event: any) {
-		this.setState({inputVariable: event.target.value})
+		this.setState({ inputVariable: event.target.value })
 	}
 
 	filterVariables(subCategory: Array<Object>, input: string) {
@@ -98,15 +110,39 @@ export class VariableStep extends Component{
 					<ImportDialog open={this.state.open}
 												countryName={this.props.countryName}
 												dataSelected={this.props.dataSelected}
-												handleClose={() => this.handleClose()}
+												handleClose={() => this.handleCanceled()}
 												importData={() =>
 													this.props.submitData(generateJSONDataElements(this.props.subCategory, this.props.dataSelected),
 																								generateJSONImportData(this.props.countryName, this.props.subCategory, this.props.dataSelected))}
 												subCategory={this.props.subCategory}
 												year={this.props.year}/>}
+
+				{this.state.receiptReceived &&
+					<ReceiptDialog open={this.state.receiptReceived}
+												imported={5}
+												countryName={this.props.countryName}
+												handleClose={() => this.handleReceiptClose()}
+												subCategory={this.props.subCategory}
+												year={this.props.year}/>}
 			</div>
 		);
 	}
+}
+
+
+const ReceiptDialog = ({open, imported, handleClose, subCategory, countryName, year}) => {
+	return (<Dialog
+		title={createTitle(countryName, year)}
+		actions={
+      <FlatButton label="Ok"
+        					primary={true}
+        					onClick={() => handleClose()}/>}
+		modal={false}
+		open={open}
+		onRequestClose={handleClose}
+		autoScrollBodyContent={true} >
+	<p> Imported: {imported} </p>
+	</Dialog>)
 }
 
 function createTitle(countryName: string, year: number) {
