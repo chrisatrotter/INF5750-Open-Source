@@ -5,9 +5,15 @@ const styles = {
     minWidth: 300,
     margin: 'auto',
     paddingTop: 30,
-    paddingBottom: 10,
-
+    paddingBottom: 10
   },
+
+  text: {
+    display: 'flex',
+    justifyContent: 'center',
+    fontFamily: 'sans-serif'
+  },
+
   backButton: {
     display: 'flex',
     justifyContent: 'center',

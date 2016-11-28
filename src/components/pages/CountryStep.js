@@ -39,63 +39,55 @@ export class CountryStep extends Component {
     this.setState({ input: event.target.value })
   }
 
-  flatButton(country: Country) {
-    return <ListButton key={country.DHS_CountryCode}
-                       label={country.CountryName}
-                       onClick={() => this.props.countrySelected(country.CountryName.toString(),
-                                                                 country.DHS_CountryCode.toString(),
-                                                                 this.props.stepIndex)} />
-  }
-
   getCountries(countries: Array<Country>, input: string) {
     return countries.filter(country => country.CountryName.toLowerCase().startsWith(this.state.input.toLowerCase()))
-                    .map(country => this.flatButton(country));
-  }
-
-  isDataLoaded() {
-    return this.props.countries;
-  }
-
-  loading() {
-    return <Loading />
-  }
-
-  countryPage() {
-    return <div>
-            <div style={{display: 'flex', justifyContent: 'center', fontFamily: 'sans-serif'}}>
-            </div>
-            <TextField
-              hintText="Country"
-              fullWidth={true}
-              value={this.state.input}
-              onChange={(event) => this.getUserInput(event)}
-            />
-
-            <List>
-              { this.getCountries(this.props.countries, this.state.input)}
-            </List>
-          </div>
+                    .map(country =>
+                      <ListButton key={country.DHS_CountryCode}
+                                  label={country.CountryName}
+                                  onClick={() =>
+                                    this.props.countrySelected(country.CountryName.toString(),
+                                                                       country.DHS_CountryCode.toString(),
+                                                                       this.props.stepIndex)} />);
   }
 
   render()  {
-    return (this.props.countries ? this.countryPage() : this.loading())
+    if(!this.props.countries) {
+      return <Loading />
+    }
+
+    return (
+      <div>
+        <TextField hintText="Country"
+                   fullWidth={true}
+                   value={this.state.input}
+                   onChange={(event) => this.getUserInput(event)}/>
+
+        <List>
+          { this.getCountries(this.props.countries, this.state.input)}
+        </List>
+      </div>
+    )
   }
 }
 
+const mapStateToProps = (state) => ({
+  countries: state.fetching.countries,
+  selectedCountry: state.survey.countryName,
+  stepIndex: state.routing.stepIndex
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  countrySelected: (countryName: string, countryCode: string, stepIndex: number) => {
+    dispatch({ type: 'COUNTRY_SELECTED', countryName: countryName, countryCode: countryCode })
+    dispatch({ type: 'YEAR_FETCH_REQUESTED', countryCode: countryCode })
+    dispatch({ type: 'PAGE_REQUESTED', name: 'SelectSurveys', stepIndex: stepIndex })
+  },
+  fetchCountries: () => dispatch({ type: 'COUNTRY_FETCH_REQUESTED' })
+})
+
 const ConnectedPage = connect(
-  (state) => ({
-    countries: state.fetching.countries,
-    selectedCountry: state.survey.countryName,
-    stepIndex: state.routing.stepIndex,
-  }),
-  (dispatch) => ({
-    countrySelected: (countryName: string, countryCode: string, stepIndex: number) => {
-      dispatch({ type: 'COUNTRY_SELECTED', countryName: countryName, countryCode: countryCode })
-      dispatch({ type: 'YEAR_FETCH_REQUESTED', countryCode: countryCode })
-      dispatch({ type: 'PAGE_REQUESTED', name: 'SelectSurveys', stepIndex: stepIndex })
-    },
-    fetchCountries: () => dispatch({ type: 'COUNTRY_FETCH_REQUESTED' }),
-  }),
+  mapStateToProps,
+  mapDispatchToProps
 )(CountryStep);
 
 export default ConnectedPage;

@@ -18,9 +18,11 @@ class YearStep extends Component {
 		showPreviousStep: (stepIndex: number) => void,
 		yearSelected: (year: number) => void,
 	}
+
 	state: {
 		selectAll: boolean,
 	}
+
 	constructor() {
 		super();
 		this.state = {
@@ -53,22 +55,26 @@ class YearStep extends Component {
 	}
 }
 
+const mapStateToProps = (state) => ({
+	countryCode: state.survey.countryCode,
+	countryName: state.survey.countryName,
+	selectedYears: state.survey.years,
+	stepIndex: state.routing.stepIndex,
+	years: state.fetching.years
+})
+
+const mapDispatchToProps = (dispatch) => ({
+	showPreviousStep: (stepIndex: number) => dispatch({ type: 'PREVIOUS_PAGE_REQUESTED', stepIndex: stepIndex }),
+	yearSelected: (year: number, countryCode: string, stepIndex: number) => {
+		dispatch({ type: "YEAR_SELECTED", year: year })
+		dispatch({ type: 'META_DATA_FETCH_REQUESTED', countryCode: countryCode, surveyYears: year })
+		dispatch({ type: 'PAGE_REQUESTED', name: 'SelectCategory', stepIndex: stepIndex })
+	}
+})
+
 const ConnectedPage = connect(
-  (state) => ({
-		countryCode: state.survey.countryCode,
-		countryName: state.survey.countryName,
-		selectedYears: state.survey.years,
-		stepIndex: state.routing.stepIndex,
-		years: state.fetching.years,
-  }),
-  (dispatch) => ({
-		showPreviousStep: (stepIndex: number) => dispatch({ type: 'PREVIOUS_PAGE_REQUESTED', stepIndex: stepIndex }),
-		yearSelected: (year: number, countryCode: string, stepIndex: number) => {
-			dispatch({ type: "YEAR_SELECTED", year: year })
-			dispatch({ type: 'META_DATA_FETCH_REQUESTED', countryCode: countryCode, surveyYears: year })
-			dispatch({ type: 'PAGE_REQUESTED', name: 'SelectCategory', stepIndex: stepIndex })
-		},
-  }),
+  mapStateToProps,
+  mapDispatchToProps
 )(YearStep);
 
 export default ConnectedPage;

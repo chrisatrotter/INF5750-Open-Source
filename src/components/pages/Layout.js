@@ -12,10 +12,12 @@ class Layout extends Component {
     fetchCountries: () => void,
     storeIndicator: (indicatorMap: Object) => void,
   }
+
   componentWillMount() {
     this.props.fetchCountries()
     this.props.fetchIndicator()
   }
+
   storeIndicator(indicators: Array<Indicator>) {
     const indicatorMap = {}
     this.props.indicators.forEach(indicator => {
@@ -41,15 +43,19 @@ class Layout extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+	indicators: state.fetching.indicators
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchCountries: () => dispatch({ type: 'COUNTRY_FETCH_REQUESTED' }),
+  fetchIndicator: () => dispatch({ type: 'INDICATOR_FETCH_REQUESTED'}),
+  storeIndicator: (indicatorMap: Object) => dispatch({ type: 'INDICATOR_MAP_CREATED', indicatorMap: indicatorMap})
+})
+
 const ConnectedPage = connect(
-  (state) => ({
-    indicators: state.fetching.indicators
-  }),
-  (dispatch) => ({
-    fetchCountries: () => dispatch({ type: 'COUNTRY_FETCH_REQUESTED' }),
-    fetchIndicator: () => dispatch({ type: 'INDICATOR_FETCH_REQUESTED'}),
-    storeIndicator: (indicatorMap: Object) => dispatch({ type: 'INDICATOR_MAP_CREATED', indicatorMap: indicatorMap}),
-   }),
+  mapStateToProps,
+  mapDispatchToProps
 )(Layout);
 
 export default ConnectedPage;

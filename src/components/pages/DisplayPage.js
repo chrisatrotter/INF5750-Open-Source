@@ -30,9 +30,8 @@ const Page = ({showPreviousStep, stepIndex, page}) => {
   const DisplayPage = pages[page]
   return (
         <div>
-
           <div style={styles.appearance} >
-            <NavigationBar stepIndex={stepIndex} />
+          <NavigationBar stepIndex={stepIndex}/>
             <DisplayPage stepIndex={stepIndex}/>
             {stepIndex !== 0 &&
               <div style={styles.backButton}>
@@ -46,12 +45,16 @@ const Page = ({showPreviousStep, stepIndex, page}) => {
         </div>
 )}
 
+const mapStateToProps = (state) => ({
+  stepIndex: state.routing.stepIndex,
+  page: state.routing.pageStack[state.routing.pageStack.length - 1]
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  showPreviousStep: (stepIndex: number) => dispatch({ type: 'PREVIOUS_PAGE_REQUESTED', stepIndex: stepIndex })
+ })
+
 const ConnectedPage = connect(
-  (state) => ({
-    stepIndex: state.routing.stepIndex,
-    page: state.routing.pageStack[state.routing.pageStack.length - 1],
-  }),
-  (dispatch) => ({
-    showPreviousStep: (stepIndex: number) => dispatch({ type: 'PREVIOUS_PAGE_REQUESTED', stepIndex: stepIndex }),
-  })
+  mapStateToProps,
+  mapDispatchToProps
 )(Page);
