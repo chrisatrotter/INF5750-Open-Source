@@ -10,6 +10,8 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Subheader from 'material-ui/Subheader';
 import TextField from 'material-ui/TextField';
+import styles from '../../styles/pagestyle';
+
 
 export class VariableStep extends Component{
 	props: {
@@ -23,11 +25,13 @@ export class VariableStep extends Component{
 		deselectData: (dataId: number) => void,
 		showPreviousStep: (stepIndex: number) => void,
 	}
+
 	state: {
 		open: boolean,
 		selectedRows: any,
 		inputVariable: string,
 	}
+
 	constructor() {
 		super();
 		this.state = {
@@ -36,6 +40,7 @@ export class VariableStep extends Component{
 			inputVariable: '',
 		}
 	}
+
   handleOpen (){
     this.setState({open: true});
   };
@@ -58,6 +63,9 @@ export class VariableStep extends Component{
 					value={this.state.inputVariable}
 					onChange={(event) => this.getUserInputVariable(event)}
 				/>
+				<div style={styles.text}>
+					<p>Select data of {this.props.dataCategory} from {this.props.countryName} - {this.props.year}</p>
+				</div>
 				<Divider/>
 					<List>
 						{this.props.subCategory && this.props.subCategory
@@ -72,7 +80,7 @@ export class VariableStep extends Component{
 													leftCheckbox={<Checkbox key={data.DataId}
 																									style={{marginTop: 12}}
 																									onCheck={(event: Object, isInputChecked: boolean) =>
-																										isInputChecked ? this.props.selectData(data.DataId) : this.props.deselectData(data.DataId)}/>}/>
+																									isInputChecked ? this.props.selectData(data.DataId) : this.props.deselectData(data.DataId)}/>}/>
 								<Divider/>
 							</div>)}
 					</List>
@@ -127,20 +135,24 @@ const ImportDialog = ({open, handleClose, dataSelected, subCategory, countryName
 	</Dialog>
 )}
 
+const mapStateToProps = (state) => ({
+	countryName: state.survey.countryName,
+	dataCategory: state.survey.dataCategory,
+	dataSelected: state.survey.data,
+	subCategory: state.survey.subCategory,
+	stepIndex: state.routing.stepIndex,
+	year: state.survey.year
+})
+
+const mapDispatchToProps = (dispatch) => ({
+	deselectData: (dataId: number) => dispatch({ type: 'DATA_DESELECTED', dataId: dataId }),
+	selectData: (dataId: number) => dispatch({ type: 'DATA_SELECTED', dataId: dataId }),
+	showPreviousStep: (stepIndex: number) => dispatch({ type: 'PREVIOUS_PAGE_REQUESTED', stepIndex: stepIndex })
+ })
+
 const ConnectedPage = connect(
-  (state) => ({
-		countryName: state.survey.countryName,
-		dataCategory: state.survey.dataCategory,
-		dataSelected: state.survey.data,
-		subCategory: state.survey.subCategory,
-    stepIndex: state.routing.stepIndex,
-		year: state.survey.year,
-  }),
-  (dispatch) => ({
-    deselectData: (dataId: number) => dispatch({ type: 'DATA_DESELECTED', dataId: dataId }),
-		selectData: (dataId: number) => dispatch({ type: 'DATA_SELECTED', dataId: dataId }),
-    showPreviousStep: (stepIndex: number) => dispatch({ type: 'PREVIOUS_PAGE_REQUESTED', stepIndex: stepIndex }),
-  }),
+  mapStateToProps,
+  mapDispatchToProps
 )(VariableStep);
 
 export default ConnectedPage;
