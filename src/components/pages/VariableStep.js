@@ -9,9 +9,9 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Subheader from 'material-ui/Subheader';
+import TextField from 'material-ui/TextField';
 
-
-class VariableStep extends Component{
+export class VariableStep extends Component{
 	props: {
 		countryName: string,
 		dataCategory: string,
@@ -26,29 +26,43 @@ class VariableStep extends Component{
 	state: {
 		open: boolean,
 		selectedRows: any,
+		inputVariable: string,
 	}
 	constructor() {
 		super();
 		this.state = {
 			open: false,
 			selectedRows: [],
+			inputVariable: '',
 		}
 	}
-  handleOpen = () => {
+  handleOpen (){
     this.setState({open: true});
   };
-  handleClose = () => {
+  handleClose () {
     this.setState({open: false});
   };
+
+	getUserInputVariable (event){
+		this.setState({inputVariable: event.target.value})
+	}
+
 	render() {
+
+		const stepHeader = "Select data of " + this.props.dataCategory + " from " + this.props.countryName + " - " + this.props.year;
 		return (
 			<div>
-				<div style={{display: 'flex', justifyContent: 'center', fontFamily: 'sans-serif'}}>
-					<p>Select data of {this.props.dataCategory} from {this.props.countryName} - {this.props.year}</p>
-				</div>
+				<TextField
+					hintText={stepHeader}
+					fullWidth={true}
+					value={this.state.inputVariable}
+					onChange={(event) => this.getUserInputVariable(event)}
+				/>
 				<Divider/>
 					<List>
-						{this.props.subCategory && this.props.subCategory.map((data, index) =>
+						{this.props.subCategory && this.props.subCategory
+							.filter(data => data.Label.toLowerCase().startsWith(this.state.inputVariable.toLowerCase()))
+							.map((data, index) =>
 							<div key={index}>
 								<ListItem key={data.DataId}
 												 	style={{fontFamily: 'sans-serif'}}
