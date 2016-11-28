@@ -10,7 +10,7 @@ class NavigationBar extends Component {
   }
   render() {
     return (
-      <Stepper linear={true} activeStep={this.props.stepIndex}>
+      <Stepper linear={true} style={{flexWrap:'wrap'}} activeStep={this.props.stepIndex}>
         <Step>
           <StepButton>
             Select Country
