@@ -6,6 +6,7 @@ import Loading from '../layout/Loading';
 import DisplayText from '../layout/DisplayText';
 import Divider from 'material-ui/Divider';
 import ListButton from '../layout/ListButton';
+import BackButton from '../layout/BackButton';
 
 import type { Year } from '../../types'
 
@@ -18,6 +19,7 @@ class YearStep extends Component {
 		years: Array<Year>,
 		showPreviousStep: (stepIndex: number) => void,
 		yearSelected: (year: number) => void,
+		backButtonClick: () => void,
 	}
 
 	state: {
@@ -36,14 +38,16 @@ class YearStep extends Component {
       return <Loading />
     }
 		if (this.props.years.length === 0) {
-			return <DisplayText text={"There exists no survey for " + this.props.countryName} />
+			return (
+				<div>
+					<DisplayText text={"There exists no survey for " + this.props.countryName} />
+					<BackButton stepIndex={this.props.stepIndex} onClick={this.props.backButtonClick} />
+				</div>)
 		}
 
 		return (
 			<div>
-				<div style={{display: 'flex', justifyContent: 'center', fontFamily: 'sans-serif'}}>
-					<p>Select survey year from {this.props.countryName}</p>
-				</div>
+				<DisplayText text={"Select survey year from " + this.props.countryName} />
 				<Divider/>
 				<List>
 				{this.props.years.map((year, index) =>
@@ -51,6 +55,7 @@ class YearStep extends Component {
 												label={year.SurveyYear}
 												onClick={() => this.props.yearSelected(year.SurveyYear, this.props.countryCode, this.props.stepIndex)} />)}
 				</List>
+				<BackButton stepIndex={this.props.stepIndex} onClick={this.props.backButtonClick} />
 			</div>
 		);
 	}

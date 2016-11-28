@@ -9,6 +9,8 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Subheader from 'material-ui/Subheader';
+import TextField from 'material-ui/TextField';
+import BackButton from '../layout/BackButton';
 import styles from '../../styles/pagestyle';
 import TextField from 'material-ui/TextField';
 import { generateJSONDataElements, generateJSONImportData } from '../../data/posting'
@@ -28,6 +30,7 @@ export class VariableStep extends Component{
 		submitData: (dataElements: DataElements, importData: ImportData) => void,
 		selectData: (dataId: number) => void,
 		showPreviousStep: (stepIndex: number) => void,
+		backButtonClick: () => void,
 	}
 
 	state: {
@@ -88,10 +91,8 @@ export class VariableStep extends Component{
 						{this.filterVariables(this.props.subCategory, this.state.inputVariable)}
 					</List>
 					<div style={{display: 'flex', justifyContent: 'center'}}>
-					<RaisedButton secondary={true} disabled={this.props.dataSelected.length === 0} label="Import" onClick={() => this.handleOpen()} />
-				</div>
-				<div style={{display: 'flex', justifyContent: 'center', marginRight: 12}}>
-					<Subheader style={{display: 'flex', justifyContent: 'center'}}>or</Subheader>
+					<BackButton stepIndex={this.props.stepIndex} onClick={this.props.backButtonClick} />
+					<RaisedButton style={{marginLeft:12}} secondary={true} disabled={this.props.dataSelected.length === 0} label="Import" onClick={() => this.handleOpen()} />
 				</div>
 				{this.state.open &&
 					<ImportDialog open={this.state.open}
