@@ -1,0 +1,20 @@
+{
+  "launch_path": "index.html",
+  "default_locale": "en",
+  "activities": {
+    "dhis": {
+      "href": "*"
+    }
+  },
+  "appType": "APP",
+  "name": "LACK",
+  "version": "1.0.0",
+  "description": "Assignment D) Import, matching and visualization",
+  "developer": {
+    "name": "Long, Arsalan, Christopher, Kien"
+  },
+  "icons": {
+    "48": "public/favicon.png"
+  },
+  "manifest_generated_at": "Mon Nov 28 2016 21:31:22 GMT+0100 (CET)"
+}
