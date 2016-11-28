@@ -52,8 +52,25 @@ export class VariableStep extends Component{
 		this.setState({inputVariable: event.target.value})
 	}
 
-	render() {
+	filterVariables(subCategory: Array<Object>, input: string) {
+		return subCategory.filter(data => data.Label.toLowerCase().startsWith(input.toLowerCase()))
+											.map((data, index) =>
+												<div key={index}>
+													<ListItem key={data.DataId}
+																		style={{fontFamily: 'sans-serif'}}
+																		primaryText={data.Label}
+																		secondaryText={data.Definition}
+																		secondaryTextLines={2}
+																		leftCheckbox={<Checkbox key={data.DataId}
+																														style={{marginTop: 12}}
+																														checked={this.props.dataSelected.includes(data.DataId)}
+																														onCheck={(event: Object, isInputChecked: boolean) =>
+																														isInputChecked ? this.props.selectData(data.DataId) : this.props.deselectData(data.DataId)}/>}/>
+													<Divider/>
+												</div>)
+		}
 
+	render() {
 		const stepHeader = "Select data of " + this.props.dataCategory + " from " + this.props.countryName + " - " + this.props.year;
 		return (
 			<div>
@@ -68,21 +85,7 @@ export class VariableStep extends Component{
 				</div>
 				<Divider/>
 					<List>
-						{this.props.subCategory && this.props.subCategory
-							.filter(data => data.Label.toLowerCase().startsWith(this.state.inputVariable.toLowerCase()))
-							.map((data, index) =>
-							<div key={index}>
-								<ListItem key={data.DataId}
-												 	style={{fontFamily: 'sans-serif'}}
-													primaryText={data.Label}
-													secondaryText={data.Definition}
-													secondaryTextLines={2}
-													leftCheckbox={<Checkbox key={data.DataId}
-																									style={{marginTop: 12}}
-																									onCheck={(event: Object, isInputChecked: boolean) =>
-																									isInputChecked ? this.props.selectData(data.DataId) : this.props.deselectData(data.DataId)}/>}/>
-								<Divider/>
-							</div>)}
+						{this.filterVariables(this.props.subCategory, this.state.inputVariable)}
 					</List>
 					<div style={{display: 'flex', justifyContent: 'center'}}>
 					<RaisedButton secondary={true} disabled={this.props.dataSelected.length === 0} label="Import" onClick={() => this.handleOpen()} />
