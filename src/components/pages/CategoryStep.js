@@ -9,22 +9,19 @@ import Divider from 'material-ui/Divider';
 import BackButton from '../layout/BackButton';
 import styles from '../../styles/pagestyle';
 
-import type { Countries, Indicator, SubCategory } from '../../types'
+import type { Indicator, SubCategory } from '../../types'
 
-class CategoryStep extends Component{
+export class CategoryStep extends Component{
 	props: {
-		countries: Countries,
 		countryCode: string,
 		countryName: string,
     indicators: Array<Indicator>,
 		indicatorMap: Object,
     stepIndex: number,
-    surveyYears: Array<number>,
     variables: Array<Object>,
 		year: number,
-    categorySelected: (dataCategory: string, subCategory: Array<SubCategory>, stepIndex: number) => void,
+    categorySelected: (dataCategory: string, subCategory: any, stepIndex: number) => void,
 		showPreviousStep: (stepIndex: number) => void,
-		backButtonClick: () => void,
 	}
 
 	state: {
@@ -67,7 +64,7 @@ class CategoryStep extends Component{
 												label={category}
 												onClick={() => this.props.categorySelected(category, this.state.categories[category], this.props.stepIndex)} />)}
 		 		</List>
-				<BackButton stepIndex={this.props.stepIndex} onClick={this.props.backButtonClick} />
+				<BackButton stepIndex={this.props.stepIndex} onClick={() => this.props.showPreviousStep(this.props.stepIndex)} />
 		 	</div>
 		 );
   }
@@ -93,19 +90,17 @@ function generateCategories(data: Array<Object>, categories: Object, indicatorMa
 }
 
 const mapStateToProps = (state) => ({
-	countries: state.fetching.countries,
 	countryCode: state.survey.countryCode,
 	countryName: state.survey.countryName,
 	indicators: state.fetching.indicators,
 	indicatorMap: state.survey.indicatorMap,
-	surveyYears: state.survey.years,
 	stepIndex: state.routing.stepIndex,
 	variables: state.fetching.variables,
 	year: state.survey.year
 })
 
 const mapDispatchToProps = (dispatch) => ({
-	categorySelected: (dataCategory: number, subCategory: any, stepIndex: number) => {
+	categorySelected: (dataCategory: string, subCategory: Array<SubCategory>, stepIndex: number) => {
 		dispatch({ type: 'CATEGORY_SELECTED', dataCategory: dataCategory, subCategory: subCategory })
 		dispatch({ type: 'PAGE_REQUESTED', name: 'SelectData', stepIndex: stepIndex })
 	},
