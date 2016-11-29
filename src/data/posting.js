@@ -37,7 +37,7 @@ export function* postMetaData(data: DataElements, importData: ImportData): Gener
         .then(response => response.json())
         .catch(error => console.error(error))
 
-  return fetch(endpoint + dataValueSet,  {
+  return yield fetch(endpoint + dataValueSet,  {
             method: 'POST',
             headers: {
                   Authorization: basicAuth,
@@ -46,6 +46,7 @@ export function* postMetaData(data: DataElements, importData: ImportData): Gener
             body: JSON.stringify(importData)
         })
         .then(response => response.json())
+        .then(json => json.importCount)
         .catch(error => console.error(error))
 }
 

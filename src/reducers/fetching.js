@@ -6,17 +6,31 @@ export type Fetching = {
   countries: Array<Country>,
   variables: ?Array<Object>,
   years: ?Array<number>,
-  indicators: Array<Indicator>
+  indicators: Array<Indicator>,
+  importResponse: ?Object,
 }
 
 const initialFetching = {
   countries: [],
   variables: null,
   years: null,
-  indicators: []
+  indicators: [],
+  importResponse: null,
  };
 
 function fetching(state: Fetching = initialFetching, action: Action): Fetching {
+  if (action.type === 'RECEIPT_CONFIRMED') {
+    return {
+      ...state,
+      importResponse: initialFetching.importResponse
+    }
+  }
+  if (action.type === 'DATA_IMPORT_SUCCEEDED') {
+    return {
+      ...state,
+      importResponse: action.response
+    }
+  }
   if (action.type === 'COUNTRY_FETCH_SUCCEEDED') {
     return {
       ...state,

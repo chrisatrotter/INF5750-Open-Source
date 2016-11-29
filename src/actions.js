@@ -39,3 +39,4 @@ export type Action =  { type: 'PAGE_REQUESTED', name: PageName, stepIndex: numbe
                     | { type: 'DATA_IMPORT_REQUESTED', dataElements: DataElements, importData: ImportData }
                     | { type: 'DATA_IMPORT_SUCCEEDED', response: Object }
                     | { type: 'DATA_IMPORT_FAILED', message: string }
+                    | { type: 'RECEIPT_CONFIRMED' }
