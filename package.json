@@ -7,7 +7,9 @@
     "ci-flow": "flow check --json 2>ci/flow.stderr.log | tee ci/flow.json.log > /dev/null",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "start": "react-scripts start",
+    "prebuild": "rm -rf node_modules yarn.lock && yarn",
     "mocha": "mocha --compilers js:babel-core/register",
+    "postbuild": "npm install -g pushstate-server && pushstate-server build && open http://localhost:9000",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
@@ -18,7 +20,7 @@
     "Matching",
     "App",
     "React",
-    "Redux",
+    "Redux"
   ],
   "author": "Long, Arsalan, Christopher, Kien",
   "license": "BSD-3-Clause",
@@ -35,8 +37,8 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.7.0",
     "redux-saga": "^0.12.1"
-  },
-  "devDependencies": {
+},
+"devDependencies": {
     "babel-eslint": "^6.1.0",
     "babel-plugin-transform-flow-strip-types": "^6.14.0",
     "babel-preset-es2015": "^6.9.0",
@@ -53,21 +55,9 @@
     "remote-redux-devtools": "^0.3.3",
     "should": "^9.0.2"
   },
-  "pre-commit": [
-    "test",
-    "lint",
-    "validate"
-  ],
-  "directories": {
-    "test": "src/test"
-  },
-  "bugs": {
-    "url": "https://wiki.uio.no/mn/ifi/inf5750/index.php/LACK"
-  },
-  "homepage": "https://wiki.uio.no/mn/ifi/inf5750/index.php/LACK",
   "manifest.webapp": {
     "icons": {
-      "48": "public/favicon.ico"
+      "48": "public/favicon.png"
     }
   }
 }
