@@ -4,9 +4,9 @@ import { find } from 'lodash'
 
 const basicAuth = `Basic ${btoa('admin:district')}`;
 const endpoint = 'https://play.dhis2.org/test'
-const localhost = 'http://193.157.250.13:8082'
+//const localhost = 'http://193.157.250.13:8082'
 const existingOrgUnitWorldId = 'giKHD1cg3DQ'
-const localhostOrgUnitId = 'p73Pb84RyR8'
+//const localhostOrgUnitId = 'p73Pb84RyR8'
 const metadataField = '/api/metadata?importStrategy=CREATE_AND_UPDATE'
 const dataValueSet = '/api/dataValueSets?dataElementIdScheme=name&orgUnitIdScheme=name&dryRun=true&importStrategy=CREATE_AND_UPDATE'
 //https://play.dhis2.org/test/api/categoryCombos/p0KPaWEg3cf.json
@@ -54,7 +54,7 @@ export function generateJSONCountries(countries: Array<Country>) {
     "organisationUnits": []
   }
 
-  countries.map(country => {
+  countries.forEach(country => {
     const orgUnitElement = {
       "name": country.CountryName,
       "code": country.DHS_CountryCode,
@@ -74,7 +74,7 @@ export function generateJSONDataElements(subCategory: Array<Object>, dataSelecte
   const jsonDataValues = {
     "dataElements": []
   }
-  dataSelected.map(dataId => {
+  dataSelected.forEach(dataId => {
     const matchedDataObject = find(subCategory, subData => subData.DataId === dataId)
     const jsonDataElement = {
       "name": matchedDataObject.Label,
@@ -98,7 +98,7 @@ export function generateJSONImportData(countryName: string, subCategory: Array<O
   const jsonDataValues = {
     "dataValues": []
   }
-  dataSelected.map(dataId => {
+  dataSelected.forEach(dataId => {
     const matchedDataObject = find(subCategory, subData => subData.DataId === dataId)
     const jsonDataElement = {
       "dataElement": matchedDataObject.Label,

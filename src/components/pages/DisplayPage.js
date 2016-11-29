@@ -6,7 +6,6 @@ import CategoryStep from './CategoryStep';
 import CountryStep from './CountryStep';
 import YearStep from './YearStep';
 import VariableStep from './VariableStep';
-import RaisedButton from 'material-ui/RaisedButton';
 import styles from '../../styles/pagestyle';
 
 
