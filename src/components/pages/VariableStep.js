@@ -54,8 +54,10 @@ export class VariableStep extends Component{
 		this.setState({open: false});
 	}
 
-  handleClose() {
+  handleCloseAndImportData() {
     this.setState({open: false, receiptReceived: true});
+		this.props.submitData(generateJSONDataElements(this.props.subCategory, this.props.dataSelected),
+													generateJSONImportData(this.props.countryName, this.props.subCategory, this.props.dataSelected))
   };
 
 	handleReceiptClose() {
@@ -109,10 +111,8 @@ export class VariableStep extends Component{
 					<ImportDialog open={this.state.open}
 												countryName={this.props.countryName}
 												dataSelected={this.props.dataSelected}
-												handleClose={() => this.handleCanceled()}
-												importData={() =>
-													this.props.submitData(generateJSONDataElements(this.props.subCategory, this.props.dataSelected),
-																								generateJSONImportData(this.props.countryName, this.props.subCategory, this.props.dataSelected))}
+												handleCanceled={() => this.handleCanceled()}
+												handleCloseAndImportData={() => this.handleCloseAndImportData()}
 												subCategory={this.props.subCategory}
 												year={this.props.year}/>}
 
@@ -148,24 +148,24 @@ function createTitle(countryName: string, year: number) {
 	return "Data selected from " + countryName + " - " + year
 }
 
-const ImportDialog = ({open, handleClose, importData, dataSelected, subCategory, countryName, year}) => {
+const ImportDialog = ({open, handleCanceled, handleCloseAndImportData, dataSelected, subCategory, countryName, year}) => {
 	return (<Dialog
 		title={createTitle(countryName, year)}
 		actions={[
       <FlatButton
         label="Cancel"
         primary={true}
-        onClick={() => handleClose()}
+        onClick={() => handleCanceled()}
       />,
       <RaisedButton
         label="Submit"
         secondary={true}
-        onClick={() => importData()}
+        onClick={() => handleCloseAndImportData()}
       />,
     ]}
 		modal={false}
 		open={open}
-		onRequestClose={handleClose}
+		onRequestClose={handleCanceled}
 		autoScrollBodyContent={true}
 	>
 		{dataSelected.map((dataId, index) => {
