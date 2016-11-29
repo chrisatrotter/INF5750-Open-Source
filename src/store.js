@@ -1,26 +1,21 @@
 /*@flow*/
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
-import devTools from 'remote-redux-devtools'
+import { rootSaga } from './data/saga'
 import createLogger from 'redux-logger'
 import createSagaMiddleware from 'redux-saga'
-import routing from './reducers/routing'
+import devTools from 'remote-redux-devtools'
 import fetching from './reducers/fetching'
+import routing from './reducers/routing'
 import survey from './reducers/survey'
-import { routerReducer } from 'react-router-redux'
 
-
-import { rootSaga } from './data/saga'
-
-const reducers = combineReducers({survey, routing, fetching, router: routerReducer})
-
+const reducers = combineReducers({survey, routing, fetching})
 const sagaMiddleware = createSagaMiddleware()
-
 const middleware = compose(
   applyMiddleware(createLogger(), sagaMiddleware),
   devTools()
 )
-
 const store = createStore(reducers, middleware)
 
-export default store
+
 sagaMiddleware.run(rootSaga)
+export default store
