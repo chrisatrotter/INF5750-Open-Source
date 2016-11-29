@@ -10,7 +10,7 @@ import BackButton from '../layout/BackButton';
 
 import type { Year } from '../../types'
 
-class YearStep extends Component {
+export class YearStep extends Component {
 	props: {
 		countryCode: string,
 		countryName: string,

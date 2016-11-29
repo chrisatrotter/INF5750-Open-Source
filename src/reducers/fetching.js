@@ -19,55 +19,52 @@ const initialFetching = {
  };
 
 function fetching(state: Fetching = initialFetching, action: Action): Fetching {
-  if (action.type === 'RECEIPT_CONFIRMED') {
-    return {
-      ...state,
-      importResponse: initialFetching.importResponse
-    }
-  }
-  if (action.type === 'DATA_IMPORT_SUCCEEDED') {
-    return {
-      ...state,
-      importResponse: action.response
-    }
-  }
-  if (action.type === 'COUNTRY_FETCH_SUCCEEDED') {
-    return {
-      ...state,
-      countries: action.countries,
-    }
-  }
+  switch (action.type) {
+    case 'RECEIPT_CONFIRMED':
+      return {
+        ...state,
+        importResponse: initialFetching.importResponse
+      }
+    
+    case 'DATA_IMPORT_SUCCEEDED':
+      return {
+        ...state,
+        importResponse: action.response
+      }
+    case 'COUNTRY_FETCH_SUCCEEDED':
+      return {
+        ...state,
+        countries: action.countries,
+      };
 
-  if (action.type === 'META_DATA_FETCH_SUCCEEDED') {
-    return {
-      ...state,
-      variables: action.variables,
-    }
-  }
+    case 'META_DATA_FETCH_SUCCEEDED':
+      return {
+        ...state,
+        variables: action.variables,
+      };
 
-  if (action.type === 'YEAR_FETCH_SUCCEEDED') {
-    return {
-      ...state,
-      years: action.years,
-    }
-  }
+    case 'YEAR_FETCH_SUCCEEDED':
+      return {
+        ...state,
+        years: action.years,
+      };
 
-  if (action.type === 'INDICATOR_FETCH_SUCCEEDED') {
-    return {
-      ...state,
-      indicators: action.indicators,
-    }
-  }
+    case 'INDICATOR_FETCH_SUCCEEDED':
+      return {
+        ...state,
+        indicators: action.indicators,
+      };
 
-  if (action.type === 'PREVIOUS_PAGE_REQUESTED') {
-    return {
-      ...state,
-      years: action.stepIndex === 1 ? initialFetching.years : state.years,
-      variables: action.stepIndex === 2 ? initialFetching.variables : state.variables
-    };
+    case 'PREVIOUS_PAGE_REQUESTED':
+      return {
+        ...state,
+        years: action.stepIndex === 1 ? initialFetching.years : state.years,
+        variables: action.stepIndex === 2 ? initialFetching.variables : state.variables
+      };
+    default:
+      return state;
   }
-
-  return state;
 }
+
 
 export default fetching;
