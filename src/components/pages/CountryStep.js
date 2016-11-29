@@ -1,10 +1,10 @@
 //@flow
-import React, { Component } from 'react';
+import React, { Component } from 'react' 
 import { connect } from 'react-redux'
-import { List } from 'material-ui/List';
-import TextField from 'material-ui/TextField';
-import Loading from '../layout/Loading';
-import ListButton from '../layout/ListButton';
+import { List } from 'material-ui/List' 
+import TextField from 'material-ui/TextField' 
+import Loading from '../layout/Loading' 
+import ListButton from '../layout/ListButton' 
 import { generateJSONCountries } from '../../data/posting'
 
 import type { Country, OrgUnit } from '../../types'
@@ -24,10 +24,10 @@ export class CountryStep extends Component {
   }
 
   constructor() {
-    super();
+    super() 
     this.state = {
       input: ''
-    };
+    } 
   }
 
   getUserInput(event: any) {
@@ -42,7 +42,7 @@ export class CountryStep extends Component {
                                   onClick={() =>
                                     this.props.countrySelected(country.CountryName.toString(),
                                                                        country.DHS_CountryCode.toString(),
-                                                                       this.props.stepIndex)} />);
+                                                                       this.props.stepIndex)} />) 
   }
 
   render()  {
@@ -86,6 +86,6 @@ const mapDispatchToProps = (dispatch) => ({
 const ConnectedPage = connect(
   mapStateToProps,
   mapDispatchToProps
-)(CountryStep);
+)(CountryStep) 
 
-export default ConnectedPage;
+export default ConnectedPage 

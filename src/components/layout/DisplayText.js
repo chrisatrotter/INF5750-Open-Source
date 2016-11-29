@@ -1,6 +1,6 @@
 //@flow
-import React, { Component } from 'react';
-import styles from '../../styles/componentstyle';
+import React, { Component } from 'react' 
+import styles from '../../styles/componentstyle' 
 
 export default class DisplayText extends Component {
   render() {

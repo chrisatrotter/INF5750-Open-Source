@@ -9,63 +9,63 @@ import type { Action } from '../actions'
 // worker Saga: will be fired on COUNTRY_FETCH_REQUESTED actions
 function* saveCountrySaga(action: Action) {
    try {
-      const countries = yield call(fetchCountries);
-      yield put({type: "COUNTRY_FETCH_SUCCEEDED", countries: countries});
+      const countries = yield call(fetchCountries)
+      yield put({type: "COUNTRY_FETCH_SUCCEEDED", countries: countries})
    } catch (e) {
-      yield put({type: "COUNTRY_FETCH_FAILED", message: e.message});
+      yield put({type: "COUNTRY_FETCH_FAILED", message: e.message})
    }
 }
 
 function* postCountriesSaga(action: Action) {
   try {
     if (action.countries) {
-      const response = yield call(postCountriesAsOrgUnits, action.countries);
-      yield put({type: "POST_COUNTRIES_SUCCEEDED", response: response});
+      const response = yield call(postCountriesAsOrgUnits, action.countries)
+      yield put({type: "POST_COUNTRIES_SUCCEEDED", response: response})
     }
   } catch (e) {
-     yield put({type: "POST_COUNTRIES_FAILED", message: e.message});
+     yield put({type: "POST_COUNTRIES_FAILED", message: e.message})
   }
 }
 
 function* saveMetaDataSaga(action: Action) {
   try {
     if (action.countryCode && action.surveyYears) {
-      const variables = yield call(fetchMetaData, action.countryCode, action.surveyYears);
-      yield put({type: "META_DATA_FETCH_SUCCEEDED", variables: variables});
+      const variables = yield call(fetchMetaData, action.countryCode, action.surveyYears)
+      yield put({type: "META_DATA_FETCH_SUCCEEDED", variables: variables})
     }
   } catch (e) {
-    yield put({type: "META_DATA_FETCH_FAILED", message: e.message});
+    yield put({type: "META_DATA_FETCH_FAILED", message: e.message})
   }
 }
 
 function* importDataSaga(action: Action) {
   try {
     if (action.dataElements && action.importData) {
-      const response = yield call(postMetaData, action.dataElements, action.importData);
-      yield put({type: "DATA_IMPORT_SUCCEEDED", response: response});
+      const response = yield call(postMetaData, action.dataElements, action.importData) 
+      yield put({type: "DATA_IMPORT_SUCCEEDED", response: response})
     }
   } catch (e) {
-     yield put({type: "DATA_IMPORT_FAILED", message: e.message});
+     yield put({type: "DATA_IMPORT_FAILED", message: e.message})
   }
 }
 
 function* saveYearSaga(action: Action) {
    try {
       if (action.countryCode) {
-        const years = yield call(fetchYear, action.countryCode);
-        yield put({type: "YEAR_FETCH_SUCCEEDED", years: years});
+        const years = yield call(fetchYear, action.countryCode)
+        yield put({type: "YEAR_FETCH_SUCCEEDED", years: years})
       }
    } catch (e) {
-      yield put({type: "YEAR_FETCH_FAILED", message: e.message});
+      yield put({type: "YEAR_FETCH_FAILED", message: e.message})
    }
 }
 
 function* saveIndicatorSaga(action: Action) {
   try {
-     const indicators = yield call(fetchIndicator);
-     yield put({type: "INDICATOR_FETCH_SUCCEEDED", indicators: indicators});
+     const indicators = yield call(fetchIndicator)
+     yield put({type: "INDICATOR_FETCH_SUCCEEDED", indicators: indicators})
   } catch (e) {
-     yield put({type: "INDICATOR_FETCH_FAILED", message: e.message});
+     yield put({type: "INDICATOR_FETCH_FAILED", message: e.message})
   }
 }
 

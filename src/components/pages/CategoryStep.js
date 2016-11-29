@@ -1,13 +1,13 @@
 //@flow
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { List } from 'material-ui/List';
-import ListButton from '../layout/ListButton';
-import Loading from '../layout/Loading';
-import DisplayText from '../layout/DisplayText';
-import Divider from 'material-ui/Divider';
-import BackButton from '../layout/BackButton';
-import styles from '../../styles/pagestyle';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { List } from 'material-ui/List'
+import ListButton from '../layout/ListButton'
+import Loading from '../layout/Loading'
+import DisplayText from '../layout/DisplayText'
+import Divider from 'material-ui/Divider'
+import BackButton from '../layout/BackButton'
+import styles from '../../styles/pagestyle'
 
 import type { Indicator, SubCategory } from '../../types'
 
@@ -30,7 +30,7 @@ export class CategoryStep extends Component{
 	}
 
 	constructor() {
-		super();
+		super()
 		this.state = {
 			indicator: {},
 			categories: {},
@@ -66,7 +66,7 @@ export class CategoryStep extends Component{
 		 		</List>
 				<BackButton stepIndex={this.props.stepIndex} onClick={() => this.props.showPreviousStep(this.props.stepIndex)} />
 		 	</div>
-		 );
+		 )
   }
 }
 
@@ -110,6 +110,6 @@ const mapDispatchToProps = (dispatch) => ({
 const ConnectedPage = connect(
   mapStateToProps,
   mapDispatchToProps
-)(CategoryStep);
+)(CategoryStep)
 
-export default ConnectedPage;
+export default ConnectedPage

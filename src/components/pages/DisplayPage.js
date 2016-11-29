@@ -1,12 +1,12 @@
 //@flow
-import React, { Component } from 'react';
-import { connect } from "react-redux";
-import NavigationBar from "./../layout/NavigationBar";
-import CategoryStep from './CategoryStep';
-import CountryStep from './CountryStep';
-import YearStep from './YearStep';
-import VariableStep from './VariableStep';
-import styles from '../../styles/pagestyle';
+import React, { Component } from 'react'
+import { connect } from "react-redux"
+import NavigationBar from "./../layout/NavigationBar"
+import CategoryStep from './CategoryStep' 
+import CountryStep from './CountryStep'
+import YearStep from './YearStep'
+import VariableStep from './VariableStep'
+import styles from '../../styles/pagestyle'
 
 
 export default class DisplayPage extends Component {
@@ -49,4 +49,4 @@ const mapDispatchToProps = (dispatch) => ({
 const ConnectedPage = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Page);
+)(Page)

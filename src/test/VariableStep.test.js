@@ -1,7 +1,7 @@
-import React from 'react';
-import expect from 'expect';
-import { shallow } from 'enzyme';
-import { VariableStep } from '../components/pages/VariableStep';
+import React from 'react' 
+import expect from 'expect'
+import { shallow } from 'enzyme'
+import { VariableStep } from '../components/pages/VariableStep'
 
 function setup() {
 
@@ -43,13 +43,13 @@ function setup() {
 }
 
 describe('Component: VariableStep', () => {
-  const { wrapper, props } = setup();
+  const { wrapper, props } = setup()
 
   it('Renders a TextField with hintText: ', () => {
     expect(
       wrapper.find('TextField').prop('hintText')
     ).toEqual('Select data of ' + props.dataCategory + ' from ' + props.countryName + ' - ' + props.year)
-  });
+  })
 
   it('Renders list item with correct informations', () => {
     expect(
@@ -58,5 +58,5 @@ describe('Component: VariableStep', () => {
     expect(
       wrapper.find('ListItem').at(1).prop('primaryText')
     ).toEqual('Other health insurance')
-  });
-});
+  })
+})

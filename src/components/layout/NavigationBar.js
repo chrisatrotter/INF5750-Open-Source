@@ -1,7 +1,7 @@
 //@flow
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Step, Stepper , StepButton } from 'material-ui/Stepper';
+import React, { Component } from 'react' 
+import { connect } from 'react-redux' 
+import { Step, Stepper , StepButton } from 'material-ui/Stepper' 
 
 class NavigationBar extends Component {
   props: {
@@ -39,6 +39,6 @@ const ConnectedPage = connect(
   (state) => ({
     stepIndex: state.routing.stepIndex,
   }),
-)(NavigationBar);
+)(NavigationBar) 
 
-export default ConnectedPage;
+export default ConnectedPage 

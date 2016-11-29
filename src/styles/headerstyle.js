@@ -39,6 +39,6 @@ const styles = {
     fontWeight: 'normal',
     flex: 1,
   },
-};
+} 
 
 export default styles

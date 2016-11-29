@@ -1,8 +1,8 @@
 //@flow
-import React, { Component } from 'react';
-import Title from "./Header/Title";
-import Logo from "./Header/Logo";
-import styles from '../../styles/headerstyle';
+import React, { Component } from 'react' 
+import Title from "./Header/Title" 
+import Logo from "./Header/Logo" 
+import styles from '../../styles/headerstyle' 
 
 
 export default class Header extends Component {
@@ -16,6 +16,6 @@ export default class Header extends Component {
           </div>
         </div>
       </div>
-    );
+    ) 
   }
 }

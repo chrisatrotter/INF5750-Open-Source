@@ -1,18 +1,18 @@
 //@flow
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { find } from 'lodash'
-import { List, ListItem } from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List'
 import { generateJSONDataElements, generateJSONImportData } from '../../data/posting'
-import BackButton from '../layout/BackButton';
-import Checkbox from 'material-ui/Checkbox';
-import Divider from 'material-ui/Divider';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import styles from '../../styles/pagestyle';
-import TextField from 'material-ui/TextField';
-import Loading from '../layout/Loading';
+import BackButton from '../layout/BackButton'
+import Checkbox from 'material-ui/Checkbox'
+import Divider from 'material-ui/Divider'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
+import RaisedButton from 'material-ui/RaisedButton'
+import styles from '../../styles/pagestyle'
+import TextField from 'material-ui/TextField'
+import Loading from '../layout/Loading'
 
 import type { DataElements, ImportData } from '../../types'
 
@@ -40,7 +40,7 @@ export class VariableStep extends Component{
 	}
 
 	constructor() {
-		super();
+		super()
 		this.state = {
 			open: false,
 			receiptReceived: false,
@@ -48,21 +48,21 @@ export class VariableStep extends Component{
 		}
 	}
   handleOpen() {
-    this.setState({open: true});
-  };
+    this.setState({open: true})
+  }
 
 	handleCanceled() {
-		this.setState({open: false});
+		this.setState({open: false})
 	}
 
   handleCloseAndImportData() {
-    this.setState({open: false, receiptReceived: true});
+    this.setState({open: false, receiptReceived: true})
 		this.props.submitData(generateJSONDataElements(this.props.subCategory, this.props.dataSelected),
 													generateJSONImportData(this.props.countryName, this.props.subCategory, this.props.dataSelected))
-  };
+  }
 
 	handleReceiptClose() {
-		this.setState({receiptReceived: false});
+		this.setState({receiptReceived: false})
 		this.props.receiptConfirmed()
 	}
 
@@ -89,7 +89,7 @@ export class VariableStep extends Component{
 		}
 
 	render() {
-		const stepHeader = "Search data of " + this.props.dataCategory + " from " + this.props.countryName + " - " + this.props.year;
+		const stepHeader = "Search data of " + this.props.dataCategory + " from " + this.props.countryName + " - " + this.props.year
 		return (
 			<div>
 				<div style={styles.text}>
@@ -125,7 +125,7 @@ export class VariableStep extends Component{
 												 subCategory={this.props.subCategory}
 												 year={this.props.year}/>}
 			</div>
-		);
+		)
 	}
 }
 
@@ -198,6 +198,6 @@ const mapDispatchToProps = (dispatch) => ({
 const ConnectedPage = connect(
   mapStateToProps,
   mapDispatchToProps
-)(VariableStep);
+)(VariableStep)
 
-export default ConnectedPage;
+export default ConnectedPage

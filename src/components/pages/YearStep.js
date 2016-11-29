@@ -1,12 +1,12 @@
 //@flow
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { List } from 'material-ui/List';
-import Loading from '../layout/Loading';
-import DisplayText from '../layout/DisplayText';
-import Divider from 'material-ui/Divider';
-import ListButton from '../layout/ListButton';
-import BackButton from '../layout/BackButton';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { List } from 'material-ui/List'
+import Loading from '../layout/Loading'
+import DisplayText from '../layout/DisplayText'
+import Divider from 'material-ui/Divider'
+import ListButton from '../layout/ListButton'
+import BackButton from '../layout/BackButton'
 
 import type { Year } from '../../types'
 
@@ -27,7 +27,7 @@ export class YearStep extends Component {
 	}
 
 	constructor() {
-		super();
+		super()
 		this.state = {
 			selectAll: false,
 		}
@@ -57,7 +57,7 @@ export class YearStep extends Component {
 				</List>
 				<BackButton stepIndex={this.props.stepIndex} onClick={this.props.backButtonClick} />
 			</div>
-		);
+		)
 	}
 }
 
@@ -81,6 +81,6 @@ const mapDispatchToProps = (dispatch) => ({
 const ConnectedPage = connect(
   mapStateToProps,
   mapDispatchToProps
-)(YearStep);
+)(YearStep)
 
-export default ConnectedPage;
+export default ConnectedPage

@@ -1,7 +1,7 @@
 //@flow
-import React, { Component } from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
-import styles from '../../styles/componentstyle';
+import React, { Component } from 'react' 
+import RaisedButton from 'material-ui/RaisedButton' 
+import styles from '../../styles/componentstyle' 
 
 export default class ListButton extends Component {
   render() {

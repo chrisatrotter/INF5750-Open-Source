@@ -1,10 +1,10 @@
 /*
 */
-import React from 'react';
-import expect from 'expect';
-import { shallow } from 'enzyme';
-import { YearStep } from '../components/pages/YearStep';
-import type { Action } from '../actions';
+import React from 'react' 
+import expect from 'expect' 
+import { shallow } from 'enzyme' 
+import { YearStep } from '../components/pages/YearStep' 
+import type { Action } from '../actions' 
 
 describe('Component: YearStep', () => {
 
@@ -24,26 +24,26 @@ describe('Component: YearStep', () => {
         <YearStep {...minProps} />
       ).length
     ).toEqual(1)
-  });
+  }) 
 
   it('Check the length of the Year list', () => {
     const wrapper = shallow(<YearStep {...minProps} />)
     expect(
       wrapper.find('ListButton').length
-    ).toEqual(2);
+    ).toEqual(2) 
   })
 
   it('renders a ListButton with label: Years', () => {
     const wrapper = shallow(<YearStep {...minProps} />)
     expect(
       wrapper.find('ListButton').at(0).prop('label')
-    ).toEqual(2006);
+    ).toEqual(2006) 
 
     expect(
       wrapper.find('ListButton').at(1).prop('label')
-    ).toEqual(2011);
-  });
+    ).toEqual(2011) 
+  }) 
 
 
 
-});
+}) 

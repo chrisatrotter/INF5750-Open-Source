@@ -1,5 +1,5 @@
 //@flow
-import React, { Component } from 'react';
+import React, { Component } from 'react' 
 
 export default class Title extends Component {
   render() {
@@ -7,6 +7,6 @@ export default class Title extends Component {
       <div style={this.props.subTitleStyle}>
       The District Health Information Software
       </div>
-    );
+    ) 
   }
 }

@@ -19,6 +19,6 @@ const styles = {
     justifyContent: 'center',
     fontFamily: 'sans-serif'
   }
-};
+} 
 
 export default styles

@@ -46,7 +46,7 @@ type ImportElement = {
 export type PageName = 'SelectCountry'
                      | 'SelectSurveys'
                      | 'SelectData'
-;
+ 
 
 export type OrgUnit = {
   organisationUnits: Array<OrgUnitElement>

@@ -1,6 +1,6 @@
 //@flow
-import React, { Component } from 'react';
-import SubTitle from "./SubTitle";
+import React, { Component } from 'react' 
+import SubTitle from "./SubTitle" 
 
 export default class Title extends Component {
   render() {
@@ -9,6 +9,6 @@ export default class Title extends Component {
         DHIS
         <SubTitle subTitleStyle={this.props.subtitleStyle}/>
       </div>
-    );
+    ) 
   }
 }

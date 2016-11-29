@@ -1,8 +1,8 @@
 //@flow
-import React, { Component } from "react";
-import { connect } from 'react-redux';
-import Header from "./../layout/Header";
-import DisplayPage from './DisplayPage';
+import React, { Component } from "react" 
+import { connect } from 'react-redux' 
+import Header from "./../layout/Header" 
+import DisplayPage from './DisplayPage' 
 
 import type { Indicator } from '../../types'
 
@@ -57,6 +57,6 @@ const mapDispatchToProps = (dispatch) => ({
 const ConnectedPage = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Layout);
+)(Layout) 
 
-export default ConnectedPage;
+export default ConnectedPage 

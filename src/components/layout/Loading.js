@@ -1,7 +1,7 @@
 //@flow
-import React, { Component } from 'react';
-import CircularProgress from 'material-ui/CircularProgress';
-import styles from '../../styles/componentstyle';
+import React, { Component } from 'react' 
+import CircularProgress from 'material-ui/CircularProgress' 
+import styles from '../../styles/componentstyle' 
 
 export default class Loading extends Component {
   render() {

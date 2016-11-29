@@ -1,6 +1,6 @@
 //@flow
-import type { Action } from '../actions';
-import type { SubCategory } from '../types';
+import type { Action } from '../actions'
+import type { SubCategory } from '../types'
 
 export type Survey = {
   countryName: string,
@@ -20,7 +20,7 @@ const initialSurvey = {
   subCategory: null,
   data: [],
   year: null
-};
+}
 
 function survey(state: Survey = initialSurvey, action: Action): Survey {
   switch (action.type) {
@@ -28,40 +28,40 @@ function survey(state: Survey = initialSurvey, action: Action): Survey {
       return {
         ...state,
         year: action.year
-      };
+      }
 
     case 'DATA_SELECTED':
       return {
         ...state,
         data: [...state.data, action.dataId]
-      };
+      }
 
     case 'DATA_DESELECTED':
       const {dataId} = action
       return {
         ...state,
         data: state.data.filter(value => value !== dataId)
-      };
+      }
 
     case 'CATEGORY_SELECTED':
       return {
         ...state,
         dataCategory: action.dataCategory,
         subCategory: action.subCategory
-      };
+      }
 
     case 'INDICATOR_MAP_CREATED':
       return {
         ...state,
         indicatorMap: action.indicatorMap
-      };
+      }
 
     case 'COUNTRY_SELECTED':
       return {
         ...state,
         countryName: action.countryName,
         countryCode: action.countryCode
-      };
+      }
 
     case 'PREVIOUS_PAGE_REQUESTED':
       return {
@@ -71,10 +71,10 @@ function survey(state: Survey = initialSurvey, action: Action): Survey {
         subCategory: action.stepIndex === 3 ? initialSurvey.subCategory : state.subCategory,
         data: action.stepIndex === 3 ? initialSurvey.data : state.data,
         year: action.stepIndex === 2 ? initialSurvey.year : state.year,
-      };
+      }
     default:
-      return state;
+      return state
   }
 }
 
-export default survey;
+export default survey
