@@ -4,7 +4,6 @@ import { shallow } from 'enzyme';
 import { VariableStep } from '../components/pages/VariableStep';
 
 function setup() {
-
   const props = {
     countryName: "Albania",
     dataCategory: "Adult Health",
@@ -45,6 +44,12 @@ function setup() {
 describe('Component: VariableStep', () => {
   const { wrapper, props } = setup()
 
+  it('Renders without exploding', () => {
+    expect(
+      wrapper.length
+    ).toEqual(1)
+  });
+  
   it('Renders a TextField with hintText: ', () => {
     expect(
       wrapper.find('TextField').prop('hintText')
