@@ -1,3 +1,5 @@
+//@flow
+import 'babel-polyfill';
 import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
@@ -16,6 +18,7 @@ function setup() {
       }
     ],
     selectedCountry: "",
+    postCountriesAsOrgUnits: () => {},
     fetchCountries: () => {},
     countrySelected: () => {},
     stepIndex: 1,
@@ -38,10 +41,10 @@ describe('Component: CountryStep', () => {
     ).toEqual(1)
   });
 
-  it('Renders a TextField with hintText: Country', () => {
+  it('Renders a TextField with hintText: Search country', () => {
     expect(
       wrapper.find('TextField').prop('hintText')
-    ).toEqual('Country')
+    ).toEqual('Search country')
   });
 
   it('Renders a ListButton with Albania and Bangladesh', () => {

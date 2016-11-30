@@ -41,7 +41,7 @@ describe('Component: YearStep', () => {
   it('Check the length of the Year list', () => {
     expect(
       wrapper.find('ListButton').length
-    ).toEqual(2)
+    ).toEqual(3)
   })
 
   it('Renders a ListButton with label: Years', () => {
