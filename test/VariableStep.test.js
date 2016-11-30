@@ -1,10 +1,9 @@
-//@flow
 import 'babel-polyfill'
 import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
-import { VariableStep } from '../components/pages/VariableStep';
-import type { DataElements, ImportData } from '../types'
+import { VariableStep } from '../src/components/pages/VariableStep';
+import type { DataElements, ImportData } from '../src/types';
 
 function setup() {
   const props = {

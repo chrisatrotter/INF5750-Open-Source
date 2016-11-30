@@ -1,7 +1,7 @@
 import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
-import { YearStep } from '../components/pages/YearStep';
+import { YearStep } from '../src/components/pages/YearStep';
 
 function setup() {
   const props = {

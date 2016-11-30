@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
@@ -97,4 +98,4 @@ describe('Component: CategoryStep', () => {
       wrapper.find('ListButton').at(1).prop('label')
     ).toEqual('Malaria')
   });
-});
+})

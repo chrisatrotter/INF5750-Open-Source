@@ -3,7 +3,7 @@ import 'babel-polyfill';
 import React from 'react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
-import { CountryStep } from '../components/pages/CountryStep';
+import { CountryStep } from '../src/components/pages/CountryStep';
 
 function setup() {
   const props = {
