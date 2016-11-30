@@ -49,8 +49,8 @@ describe('Component: VariableStep', () => {
       wrapper.length
     ).toEqual(1)
   });
-  
-  it('Renders a TextField with hintText: ', () => {
+
+  it('Renders a TextField with hintText: Select data of Adult Health from Albania - 2008', () => {
     expect(
       wrapper.find('TextField').prop('hintText')
     ).toEqual('Select data of ' + props.dataCategory + ' from ' + props.countryName + ' - ' + props.year)
