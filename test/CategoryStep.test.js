@@ -1,8 +1,8 @@
-import 'babel-polyfill';
-import React from 'react';
-import expect from 'expect';
-import { shallow } from 'enzyme';
-import { CategoryStep } from '../src/components/pages/CategoryStep';
+import 'babel-polyfill' 
+import React from 'react'
+import expect from 'expect'
+import { shallow } from 'enzyme'
+import { CategoryStep } from '../src/components/pages/CategoryStep'
 
 function setup() {
   const props = {
@@ -66,7 +66,7 @@ function setup() {
     showPreviousStep: (stepIndex: number) => {},
   }
 
-  const wrapper = shallow(<CategoryStep {...props} />);
+  const wrapper = shallow(<CategoryStep {...props} />)
 
   return {
     props,
@@ -75,27 +75,27 @@ function setup() {
 }
 
 describe('Component: CategoryStep', () => {
-  const { wrapper } = setup();
+  const { wrapper } = setup()
 
   it('Renders without exploding', () => {
     expect(
       wrapper.length
     ).toEqual(1)
-  });
+  })
 
   it('Render the amount of ListButton for each of the categories: ', () => {
     expect(
       wrapper.find('ListButton').length
-    ).toEqual(3);
-  });
+    ).toEqual(3)
+  })
 
 
   it('Render the label of ListButton', () => {
     expect(
       wrapper.find('ListButton').at(0).prop('label')
-    ).toEqual('Fertility');
+    ).toEqual('Fertility')
     expect(
       wrapper.find('ListButton').at(1).prop('label')
     ).toEqual('Malaria')
-  });
+  })
 })

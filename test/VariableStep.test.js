@@ -1,9 +1,9 @@
 import 'babel-polyfill'
-import React from 'react';
-import expect from 'expect';
-import { shallow } from 'enzyme';
-import { VariableStep } from '../src/components/pages/VariableStep';
-import type { DataElements, ImportData } from '../src/types';
+import React from 'react'
+import expect from 'expect'
+import { shallow } from 'enzyme'
+import { VariableStep } from '../src/components/pages/VariableStep'
+import type { DataElements, ImportData } from '../src/types'
 
 function setup() {
   const props = {
@@ -54,13 +54,13 @@ describe('Component: VariableStep', () => {
     expect(
       wrapper.length
     ).toEqual(1)
-  });
+  })
 
   it('Renders a TextField with hintText: Search data of Adult Health from Albania - 2008', () => {
     expect(
       wrapper.find('TextField').prop('hintText')
     ).toEqual('Search data of ' + props.dataCategory + ' from ' + props.countryName + ' - ' + props.year)
-  });
+  })
 
   it('Renders list item with correct informations', () => {
     expect(
@@ -69,5 +69,5 @@ describe('Component: VariableStep', () => {
     expect(
       wrapper.find('ListItem').at(1).prop('primaryText')
     ).toEqual('Other health insurance')
-  });
+  })
 })

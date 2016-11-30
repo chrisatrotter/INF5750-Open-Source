@@ -1,7 +1,7 @@
-import React from 'react';
-import expect from 'expect';
-import { shallow } from 'enzyme';
-import { YearStep } from '../src/components/pages/YearStep';
+import React from 'react'
+import expect from 'expect'
+import { shallow } from 'enzyme'
+import { YearStep } from '../src/components/pages/YearStep'
 
 function setup() {
   const props = {
@@ -51,5 +51,5 @@ describe('Component: YearStep', () => {
     expect(
       wrapper.find('ListButton').at(1).prop('label')
     ).toEqual(2011)
-  });
+  })
 })

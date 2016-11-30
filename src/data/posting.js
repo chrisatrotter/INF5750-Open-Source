@@ -2,7 +2,7 @@
 import type { Country, DataElements, ImportData, OrgUnit } from '../types'
 import { find } from 'lodash'
 
-const userpassword = new Buffer('admin:district').toString('base64');
+const userpassword = new Buffer('admin:district').toString('base64') 
 const basicAuth = `Basic ${userpassword}`
 const endpoint = 'https://play.dhis2.org/test'
 //const localhost = 'http://193.157.250.13:8082'
