@@ -1,14 +1,18 @@
-import React from 'react' 
-import expect from 'expect'
-import { shallow } from 'enzyme'
-import { VariableStep } from '../components/pages/VariableStep'
+//@flow
+import 'babel-polyfill'
+import React from 'react';
+import expect from 'expect';
+import { shallow } from 'enzyme';
+import { VariableStep } from '../components/pages/VariableStep';
+import type { DataElements, ImportData } from '../types'
 
 function setup() {
-
   const props = {
     countryName: "Albania",
+    countryCode: "AL",
     dataCategory: "Adult Health",
     dataSelected: [137027, 136992],
+    importResponse: null,
     stepIndex: 2,
     subCategory: [
       {
@@ -29,8 +33,10 @@ function setup() {
       }
     ],
     year: 2008,
-    selectData: (dataId: number) => {},
     deselectData: (dataId: number) => {},
+    receiptConfirmed: () => {},
+    submitData: (dataElements: DataElements, importData: ImportData) => {},
+    selectData: (dataId: number) => {},
     showPreviousStep: (stepIndex: number) => {},
   }
 
@@ -45,11 +51,17 @@ function setup() {
 describe('Component: VariableStep', () => {
   const { wrapper, props } = setup()
 
-  it('Renders a TextField with hintText: ', () => {
+  it('Renders without exploding', () => {
+    expect(
+      wrapper.length
+    ).toEqual(1)
+  });
+
+  it('Renders a TextField with hintText: Search data of Adult Health from Albania - 2008', () => {
     expect(
       wrapper.find('TextField').prop('hintText')
-    ).toEqual('Select data of ' + props.dataCategory + ' from ' + props.countryName + ' - ' + props.year)
-  })
+    ).toEqual('Search data of ' + props.dataCategory + ' from ' + props.countryName + ' - ' + props.year)
+  });
 
   it('Renders list item with correct informations', () => {
     expect(
@@ -58,5 +70,5 @@ describe('Component: VariableStep', () => {
     expect(
       wrapper.find('ListItem').at(1).prop('primaryText')
     ).toEqual('Other health insurance')
-  })
+  });
 })

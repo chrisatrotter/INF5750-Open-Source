@@ -1,10 +1,11 @@
-import React from 'react' 
-import expect from 'expect' 
-import { shallow } from 'enzyme' 
-import { CountryStep } from '../components/pages/CountryStep' 
+//@flow
+import 'babel-polyfill';
+import React from 'react';
+import expect from 'expect';
+import { shallow } from 'enzyme';
+import { CountryStep } from '../components/pages/CountryStep';
 
 function setup() {
-
   const props = {
     countries: [
       {
@@ -17,6 +18,7 @@ function setup() {
       }
     ],
     selectedCountry: "",
+    postCountriesAsOrgUnits: () => {},
     fetchCountries: () => {},
     countrySelected: () => {},
     stepIndex: 1,
@@ -31,13 +33,19 @@ function setup() {
 }
 
 describe('Component: CountryStep', () => {
-  const { wrapper } = setup() 
+  const { wrapper } = setup()
 
-  it('Renders a TextField with hintText: Country', () => {
+  it('Renders without exploding', () => {
+    expect(
+      wrapper.length
+    ).toEqual(1)
+  });
+
+  it('Renders a TextField with hintText: Search country', () => {
     expect(
       wrapper.find('TextField').prop('hintText')
-    ).toEqual('Country')
-  }) 
+    ).toEqual('Search country')
+  });
 
   it('Renders a ListButton with Albania and Bangladesh', () => {
     expect(
@@ -46,14 +54,12 @@ describe('Component: CountryStep', () => {
     expect(
       wrapper.find('ListButton').at(1).prop('label')
     ).toEqual('Bangladesh')
-  }) 
+  });
 
   it('Setting state from TextField', () => {
     wrapper.setState({ input: 'Albania' })
     expect(
       wrapper.find('TextField').props().value
     ).toEqual('Albania')
-  }) 
-
-  
-}) 
+  });
+})
