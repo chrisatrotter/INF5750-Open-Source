@@ -21,7 +21,7 @@ Import, matching and visualizing
 React project from the create-react-app template: https://github.com/facebookincubator/create-react-app
 
 
-#Instructions to start app in dev mode:
+# Instructions to start app in dev mode:
 
 ```
 git clone https://github.com/puffmonkey/INF5750-Open-Source.git
