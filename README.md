@@ -24,7 +24,7 @@ React project from the create-react-app template: https://github.com/facebookinc
 #Instructions to start app in dev mode:
 
 ```
-git clone https://github.uio.no/kienvu/LACK.git
+git clone https://github.com/puffmonkey/INF5750-Open-Source.git
 cd LACK
 (require that yarn is globally installed on your device ie. "npm install yarn --global"
 yarn install
