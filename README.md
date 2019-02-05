@@ -14,7 +14,7 @@ After you have completed this course you:
 - Will have experience with developing software in a team.
 
 
-# Project: LACK (@long11, @ArselanSultan, @puffmonkey, @kievu)
+# Project: LACK (Long Ho, Arselan Sultan, Christopher Trotter, Kien Vu)
 Import, matching and visualizing
 
 
