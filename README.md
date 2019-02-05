@@ -18,10 +18,10 @@ After you have completed this course you:
 Import, matching and visualizing
 
 
-React basert på create-react-app template: https://github.com/facebookincubator/create-react-app
+React project from the create-react-app template: https://github.com/facebookincubator/create-react-app
 
 
-#Instruksjoner for å starte app i dev mode:
+#Instructions to start app in dev mode:
 
 ```
 git clone https://github.uio.no/kienvu/LACK.git
